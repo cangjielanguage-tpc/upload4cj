@@ -1,0 +1,13 @@
+{
+    "cjc_version": "0.38.2",
+    "organization": "cangjie",
+    "name": "upload4cj",
+    "description": "cj version common_fileupload",
+    "version": "0.0.1",
+    "requires": {},
+    "package_requires": {},
+    "foreign_requires": {},
+    "output_type": "dynamic",
+    "command_option": "",
+    "cross_compile_configuration": {}
+  }

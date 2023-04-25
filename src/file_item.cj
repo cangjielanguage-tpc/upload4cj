@@ -1,0 +1,38 @@
+package upload4cj
+
+from std import fs.*
+from std import io.*
+
+public interface FileItem <: FileItemHeadersSupport{
+
+    func getInputStream():InputStream
+
+    func getContentType():String
+
+    func getName():String
+
+    func isInMemory():Bool
+
+    func getSize():Int64
+
+    func get():Array<UInt8>
+
+    func getString(encoding:String):String
+
+    func getString():String
+
+    func write(file:File):Unit
+
+    func delete():Unit
+
+    func getFieldName():String
+
+    func setFieldName(name:String):Unit
+
+    func isFormField():Bool
+
+    func setFormField(state:Bool):Unit
+
+    func getOutputStream():OutputStream
+
+}
