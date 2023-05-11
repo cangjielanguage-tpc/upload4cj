@@ -6,16 +6,72 @@ from std import io.*
 
 public class DiskFileItem <: FileItem {
 
-    init(){
+    private static let DEFAULT_CHARSET: String = "ISO-8859-1"
 
+    private static let UID: String = "uuid"
+
+    private static var COUNTER: Int64 = 0
+
+    private var fieldName: String
+
+    private var contentType: String
+
+    private var isFormField: Bool
+    private var fileName: String
+
+    private var size: Int64 = -1 
+
+    private var sizeThreshold: Int32
+
+    private var repository: File
+
+    private var cachedContent = Option<Array<UInt8>>.None
+
+    private var dfos: DeferredFileOutputStream = DeferredFileOutputStream(0)
+
+    private var tempFile: File = File("33", OpenOption.Open(true, true))
+
+    private var headers: FileItemHeaders = FileItemHeadersImpl()
+
+    private var defaultCharset: String = "ISO-8859-1"
+
+    init(fieldName: String, contentType: String, isFormField: Bool, fileName: String, sizeThreshold: Int32, repository: File) {
+        this.fieldName = fieldName
+        this.contentType = contentType
+        this.isFormField = isFormField
+        this.fileName = fileName
+        this.sizeThreshold = sizeThreshold
+        this.repository = repository
     }
 
     public override func getInputStream(): InputStream{
-        return ByteArrayStream()
+        if (!this.isInMemory()) {
+            var c = ByteArrayStream()
+            c.write(this.cachedContent.getOrThrow())
+            return c
+        } else {
+            cachedContent = match (cachedContent) {
+                case Some(v) => cachedContent
+                case None => this.dfos.getData()
+            }
+            var b = ByteArrayStream()
+            b.write(this.cachedContent.getOrThrow())
+            return b
+
+        }
     }
 
     public override func getContentType(): String {
-        return ""
+        return this.contentType
+    }
+
+    public func getCharSet(): String {
+        var parse: ParameterParser = ParameterParser()
+        parse.setLowerCaseNames(true)
+        parse.parse(this.getContentType(), ';')
+
+
+        return this.contentType
     }
 
     public override func getName(): String {
@@ -58,8 +114,8 @@ public class DiskFileItem <: FileItem {
         return 
     }
 
-    public override func isFormField(): Bool {
-        return true
+    public func isGetFormField(): Bool {
+        return this.isFormField
     }
 
     public override func setFormField(state: Bool){
@@ -73,8 +129,6 @@ public class DiskFileItem <: FileItem {
     public override func getHeaders(): FileItemHeaders{
         return FileItemHeadersImpl()
     }
-
-    // func setHeaders(headers:FileItemHeaders):Unit
 
     public override func setHeaders(headers: FileItemHeaders) {
         return 

@@ -3,7 +3,7 @@ package upload4cj
 from std import fs.*
 from std import io.*
 
-public interface FileItem <: FileItemHeadersSupport{
+public interface FileItem <: FileItemHeadersSupport {
 
     func getInputStream():InputStream
 
@@ -29,7 +29,7 @@ public interface FileItem <: FileItemHeadersSupport{
 
     func setFieldName(name:String):Unit
 
-    func isFormField():Bool
+    func isGetFormField():Bool
 
     func setFormField(state:Bool):Unit
 
