@@ -1,11 +1,6 @@
-package upload4cj.disk
-
-from std import collection.*
-
+package upload4cj
 
 public class FileItemHeadersImpl <: FileItemHeaders {
-
-    init(){}
 
     public override func getHeader(name:String): String{
         return ""
