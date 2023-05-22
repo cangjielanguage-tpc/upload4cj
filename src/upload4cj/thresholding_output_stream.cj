@@ -1,4 +1,4 @@
-package upload4cj.disk
+package upload4cj
 
 public abstract class ThresholdingOutputStream <: OutputStream {
 

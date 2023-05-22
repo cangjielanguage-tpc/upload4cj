@@ -1,8 +1,5 @@
 package upload4cj
 
-from std import fs.*
-from std import io.*
-
 public interface FileItem <: FileItemHeadersSupport {
 
     func getInputStream():InputStream
@@ -15,9 +12,7 @@ public interface FileItem <: FileItemHeadersSupport {
 
     func getSize():Int64
 
-    func get():Array<UInt8>
-
-    func getString(encoding:String):String
+    func get():Option<Array<UInt8>>
 
     func getString():String
 

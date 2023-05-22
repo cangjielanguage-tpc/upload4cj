@@ -1,4 +1,4 @@
-package upload4cj.disk
+package upload4cj
 
 public class DiskFileItemFactory <: FileItemFactory {
 
