@@ -132,7 +132,7 @@ public class ParameterParser {
 
             if (isParamName && (paramName.getOrThrow().size > 0)) {
                 if (lowerCaseNames) {
-                    paramName = paramName
+                    paramName = paramName.getOrThrow().toAsciiLower()
                 }
                 params.put(paramName.getOrThrow(), paramValue)
             }
@@ -188,6 +188,10 @@ public class ParameterParser {
             }
         }
         return result
+    }
+
+    public func isLowerCaseNames(): Bool {
+        return lowerCaseNames
     }
 
     public func setLowerCaseNames(b: Bool) {

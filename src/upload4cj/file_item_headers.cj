@@ -2,7 +2,7 @@ package upload4cj
 
 public interface FileItemHeaders{
 
-    func getHeader(name:String):String
+    func getHeader(name:String): Option<String>
 
     func getHeaders(name:String):Iterator<String>
 
