@@ -154,7 +154,7 @@ public class DiskFileItem <: FileItem {
             try {
                 file.write(get().getOrThrow())
             } catch (ie: FSException) {
-                throw FSException("fail to write")
+                throw FileWriteException("fail to write")
             }
 
         } else {
@@ -269,7 +269,7 @@ public class DiskFileItem <: FileItem {
 
             let tempDir: Option<File> = match (repository) {
                 case Some(v) => repository
-                case None => File("/tempDir", OpenOption.Create(true))
+                case None => File("/cangjie_io_dir", OpenOption.Create(true))
             }
             let path: Path = tempDir.getOrThrow().info.path.directoryName.getOrThrow().join("a.temp")
 

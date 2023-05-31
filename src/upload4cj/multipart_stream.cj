@@ -1,7 +1,10 @@
+/*
+ * @Copyright (c) Huawei Technologies Co., Ltd. 2023-2023. All rights reserved.
+ */
+
 package upload4cj
 
 from std import math.*
-
 
 public class MultipartStream {
 
@@ -23,38 +26,32 @@ public class MultipartStream {
 
     protected let BOUNDARY_PREFIX: Array<UInt8> = [CR, LF, DASH, DASH]
 
-    private let input: InputStream
+    var input: InputStream
 
     private var boundaryLength: Int64
 
-    private let keepRegion: Int64
- 
+    let keepRegion: Int64
+
     private let boundary: Array<UInt8>
 
     private let boundaryTable: Array<Int64>
 
-    private let bufSize: Int64
+    var bufSize: Int64
 
-    private let buffer: Array<UInt8>
+    var buffer: Array<UInt8>
 
-    private var head: Int64 = 0
+    var head: Int64 = 0
 
-    private var tail: Int64 = 0
+    var tail: Int64 = 0
 
     private var headerEncoding = Option<String>.None
 
-    private let notifier: Option<ProgressNotifier>
+    var notifier: Option<ProgressNotifier>
 
     public init(input: InputStream, boundary: Option<Array<UInt8>>, bufSize: Int64, pNotifier: Option<ProgressNotifier>) {
 
-        let isBoundary = match (boundary) {
-            case Some(v) => true
-            case None => false
-        }
-
-        if (!isBoundary) {
+        if (boundary == Option<Array<UInt8>>.None) {
             throw IllegalArgumentException("boundary may not be null")
-
         }
 
         this.boundaryLength = boundary.getOrThrow().size + BOUNDARY_PREFIX.size
@@ -63,7 +60,6 @@ public class MultipartStream {
             throw IllegalArgumentException(
                     "The buffer size specified for the MultipartStream is too small")
         }
-
         this.input = input
         this.bufSize = max(bufSize, boundaryLength * 2)
 
@@ -75,14 +71,14 @@ public class MultipartStream {
         this.keepRegion = this.boundary.size
 
         BOUNDARY_PREFIX.copyTo(this.boundary, 0, 0, BOUNDARY_PREFIX.size)
-        boundary.getOrThrow().copyTo(this.boundary, 0, 0, boundary.getOrThrow().size)
-
+        boundary.getOrThrow().copyTo(this.boundary, 0, BOUNDARY_PREFIX.size, boundary.getOrThrow().size)
+        computeBoundaryTable()
         head = 0
         tail = 0
 
     }
 
-    public init(input: InputStream, boundary: Option<Array<UInt8>>, pNotifier: ProgressNotifier) {
+    public init(input: InputStream, boundary: Option<Array<UInt8>>, pNotifier: Option<ProgressNotifier>) {
         this(input, boundary, DEFAULT_BUFSIZE, pNotifier)
     }
 
@@ -99,23 +95,22 @@ public class MultipartStream {
         if (head == tail) {
             head = 0
             // Refill.
-            tail = input.read(buffer)
-            if (tail == -1) {
+            var bufferTemp = buffer[head..head + bufSize]
+            tail = input.read(bufferTemp)
+            bufferTemp.copyTo(buffer, 0, head, bufSize)
+
+            if (tail <= 0) {
                 // No more data available.
-                throw IOException("No more data is available")
+                throw FileUploadException("No more data is available")
             }
 
-            let isNotifier = match (notifier) {
-                case Some(v) => true
-                case None => false
-            } 
-
-            if (!isNotifier) {
-                notifier.getOrThrow().noteBytesRead(tail)
+            if(let Some(i) = notifier){
+                i.noteBytesRead(tail)
             }
         }
+        var retCode = buffer[head]
         head++
-        return buffer[head-1]
+        return retCode
     }
 
     public func readBoundary(): Bool {
@@ -141,13 +136,13 @@ public class MultipartStream {
             } else if (arrayequals(marker, FIELD_SEPARATOR, 2)) {
                 nextChunk = true
             } else {
-                throw IOException("Unexpected characters follow a boundary")
+                throw MalformedStreamException("Unexpected characters follow a boundary")
             }
         } catch (e: FileUploadIOException) {
             // wraps a SizeException, re-throw as it will be unwrapped later
             throw e
         } catch (e: IOException) {
-            throw IOException("Stream ended unexpectedly")
+            throw MalformedStreamException("Stream ended unexpectedly")
         }
         return nextChunk
     }
@@ -158,8 +153,8 @@ public class MultipartStream {
             "The length of a boundary token cannot be changed");
         }
 
-        boundary.copyTo(this.boundary, 0, 0, boundary.size)
-        computeBoundaryTable();
+        boundary.copyTo(this.boundary, 0, BOUNDARY_PREFIX.size, boundary.size)
+        computeBoundaryTable()
     }
 
     private func computeBoundaryTable() {
@@ -189,6 +184,7 @@ public class MultipartStream {
         // to support multi-byte characters
         var baos = ByteArrayStream()
         var size: Int64 = 0
+        let arrayUint = ArrayList<UInt8>()
         while (i < HEADER_SEPARATOR.size) {
             try {
                 b = readByte()
@@ -196,23 +192,22 @@ public class MultipartStream {
                 // wraps a SizeException, re-throw as it will be unwrapped later
                 throw e
             } catch (e: IOException) {
-                throw IOException("Stream ended unexpectedly")
+                throw MalformedStreamException("Stream ended unexpectedly")
             }
             size ++
             if (size > HEADER_PART_SIZE_MAX) {
-                throw IOException("Header section has more than %s bytes (maybe it is not properly terminated)")
+                throw MalformedStreamException("Header section has more than %s bytes (maybe it is not properly terminated)")
             }
             if (b == HEADER_SEPARATOR[i]) {
                 i++
             } else {
                 i = 0
             }
-            var array: Array<UInt8> = Array<UInt8>(1, item: b)
-            baos.write(b)
-            baos.write(array)
+            arrayUint.append(b)
         }
+        baos.write(arrayUint.toArray())
 
-        var headers: String
+        var headers: String = ""
 
         let isHeaderEncoding = match (headerEncoding) {
             case Some(v) => true
@@ -222,20 +217,46 @@ public class MultipartStream {
         if (isHeaderEncoding) {
             try {
                 // bytes -> String
-                var headersArray = baos.bytes()
-                headers = ""
+                 headers = String.fromUtf8(baos.readToEnd())
             } catch (e: IOException) {
                 // Fall back to platform default if specified encoding is not
                 // supported.
-                var headersArray = baos.bytes()
-                headers = ""
+                 headers = String.fromUtf8(baos.readToEnd())
             }
         } else {
-            var headersArray = baos.bytes()
-            headers = ""
+                 headers = String.fromUtf8(baos.readToEnd())
         }
-
         return headers
+    }
+
+    public func readBodyData(output:Option<OutputStream>):Int64{
+        return Streams.copy(newInputStream(), output, false)
+    }
+
+    func newInputStream():ItemInputStream{
+        return ItemInputStream(this)
+    }
+
+    public func discardBodyData():Int64{
+        return readBodyData(Option<OutputStream>.None)
+    }
+
+    public func skipPreamble():Bool{
+        boundary.copyTo(boundary, 2, 0, boundary.size - 2)
+        boundaryLength = boundary.size - 2
+        computeBoundaryTable()
+        try{
+            discardBodyData()
+            return readBoundary()
+        }catch(e:MalformedStreamException){
+            return false
+        }finally{
+            boundary.copyTo(boundary,0,2,boundary.size - 2)
+            boundaryLength = boundary.size
+            boundary[0] = CR
+            boundary[1] = LF
+            computeBoundaryTable()
+        }
     }
 
     public static func arrayequals(a: Array<UInt8>, b: Array<UInt8>, count: Int64): Bool {
@@ -246,6 +267,40 @@ public class MultipartStream {
         }
         return true
     }
+
+    protected func findByte(value: UInt8, pos: Int64): Int64 {
+        for (i in pos..tail) {
+            if (buffer[i] == value) {
+                return i
+            }
+        }
+
+        return -1
+    }
+
+    protected func findSeparator():Int64{
+        var bufferPos:Int64 = this.head
+        var tablePos:Int64 = 0
+        while(bufferPos < this.tail){
+            while(tablePos>=0 && buffer[bufferPos] != boundary[tablePos]) {
+                tablePos = boundaryTable[tablePos]
+            }
+            bufferPos++
+            tablePos++
+            if (tablePos == boundaryLength) {
+                return bufferPos - boundaryLength
+            }
+        }
+        return -1
+    }
+
+    
+    
+
+
+    
+
+    
 
 
 }
