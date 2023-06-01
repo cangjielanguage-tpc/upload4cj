@@ -1,4 +1,5 @@
 package upload4cj
+from std import core.*
 
 public class FileUploadIOException <: Exception {
 
@@ -33,6 +34,24 @@ public class IllegalBoundaryException <: Exception {
 }
 
 public class MalformedStreamException <: Exception {
+    public init() {
+        super()
+    }
+    public init(messages: String) {
+        super(messages)
+    }
+}
+
+public class ItemSkippedException <: Exception {
+    public init() {
+        super()
+    }
+    public init(messages: String) {
+        super(messages)
+    }
+}
+
+public class FileWriteException <: Exception {
     public init() {
         super()
     }
