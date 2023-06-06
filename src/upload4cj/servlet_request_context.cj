@@ -10,16 +10,16 @@ public class ServletRequestContext <: UploadContext {
         this.request = request
     }
 
-    public override func getCharacterEncoding(): String {
-        return ""
+    public override func getCharacterEncoding():Option<String> {
+        return Option<String>.None
     }
 
-    public override func getContentType(): String {
-        return ""
+    public override func getContentType():Option<String>{
+       return request.header.get(FileUploadBase.CONTENT_TYPE)
     }
 
     public override func getContentLength(): Int64 {
-        return 0
+        return request.contentLength
     }
 
     public override func contentLength(): Int64 {

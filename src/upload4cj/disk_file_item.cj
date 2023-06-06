@@ -1,10 +1,11 @@
 package upload4cj
 
 from std import io.*
+from std import random.*
 
 public class DiskFileItem <: FileItem {
 
-    private static let DEFAULT_CHARSET: String = "ISO-8859-1"
+    public static let DEFAULT_CHARSET: String = "ISO-8859-1"
 
     private static let UID: String = "uuid"
 
@@ -15,13 +16,14 @@ public class DiskFileItem <: FileItem {
     private var contentType: String
 
     private var isFormField: Bool
+
     private var fileName: String
 
-    private var size: Int64 = -1 
+    private var size: Int64 = -1
 
-    private var sizeThreshold: Int64
+    public var sizeThreshold: Int64
 
-    private var repository = Option<File>.None
+    private var repository = Option<Directory>.None
 
     private var cachedContent = Option<Array<UInt8>>.None
 
@@ -31,9 +33,9 @@ public class DiskFileItem <: FileItem {
 
     private var headers: FileItemHeaders = FileItemHeadersImpl()
 
-    private var defaultCharset: String = "ISO-8859-1"
+    private var defaultCharset:String = DEFAULT_CHARSET
 
-    init(fieldName: String, contentType: String, isFormField: Bool, fileName: String, sizeThreshold: Int64, repository: Option<File>) {
+    init(fieldName: String, contentType: String, isFormField: Bool, fileName: String, sizeThreshold: Int64, repository: Option<Directory>) {
         this.fieldName = fieldName
         this.contentType = contentType
         this.isFormField = isFormField
@@ -55,7 +57,6 @@ public class DiskFileItem <: FileItem {
             var b = ByteArrayStream()
             b.write(this.cachedContent.getOrThrow())
             return b
-
         }
     }
 
@@ -67,8 +68,6 @@ public class DiskFileItem <: FileItem {
         var parse: ParameterParser = ParameterParser()
         parse.setLowerCaseNames(true)
         parse.parse(this.getContentType(), ';')
-
-
         return this.contentType
     }
 
@@ -77,12 +76,10 @@ public class DiskFileItem <: FileItem {
     }
 
     public override func isInMemory(): Bool {
-
-        let InMemory = match (cachedContent) {
-            case Some(v) => true
-            case None => this.dfos.getOrThrow().isInMemory()
+        if(let Some(i) = cachedContent){
+            return true
         }
-        return InMemory
+        return this.dfos.getOrThrow().isInMemory()
     }
 
     public override func getSize(): Int64 {
@@ -97,17 +94,16 @@ public class DiskFileItem <: FileItem {
 
         if (InMemory != 0) {
             return InMemory
-        } 
-        
+        }
+
         if (this.dfos.getOrThrow().isInMemory()) {
             return this.dfos.getOrThrow().getData().getOrThrow().size
-        } 
+        }
 
         return this.dfos.getOrThrow().getFile().length
     }
 
     public override func get(): Option<Array<UInt8>> {
-
         if (this.isInMemory()) {
             let isCachedContent = match (cachedContent) {
                 case Some(v) => true
@@ -122,9 +118,7 @@ public class DiskFileItem <: FileItem {
             if (!isCachedContent && isDfos) {
                 this.cachedContent = this.dfos.getOrThrow().getData()
             }
-
             return this.cachedContent
-            
         }
 
         var fileData: Option<Array<UInt8>> = Array<UInt8>(this.getSize(), item: 0)
@@ -145,7 +139,6 @@ public class DiskFileItem <: FileItem {
             // uint8 -> char
            charArray[i] = Char(s[i])
         }
-
         return String(charArray)
     }
 
@@ -186,7 +179,7 @@ public class DiskFileItem <: FileItem {
 
         }
 
-        return 
+        return
     }
 
     public override func delete() {
@@ -216,7 +209,7 @@ public class DiskFileItem <: FileItem {
     }
 
     public override func setFormField(state: Bool){
-        isFormField = state 
+        isFormField = state
     }
 
     public override func getOutputStream(): OutputStream{
@@ -234,11 +227,11 @@ public class DiskFileItem <: FileItem {
     }
 
     public override func getHeaders(): FileItemHeaders{
-        return FileItemHeadersImpl()
+        return headers
     }
 
-    public override func setHeaders(headers: FileItemHeaders) {
-        return 
+    public override func setHeaders(pHeaders: FileItemHeaders) {
+        this.headers = pHeaders
     }
 
     public func getStoreLocation(): Option<File> {
@@ -259,23 +252,49 @@ public class DiskFileItem <: FileItem {
     }
 
     protected func getTempFile(): File {
-
-        let isTempFile = match (tempFile) {
-            case Some(v) => true
-            case None => false
-        }
-
-        if (!isTempFile) {
-
-            let tempDir: Option<File> = match (repository) {
-                case Some(v) => repository
-                case None => File("/cangjie_io_dir", OpenOption.Create(true))
+        if(let Some(i) = tempFile){
+            return i
+        }else{
+            var tempDir:Option<Directory> = repository
+            let tempFileName:String = "upload_"+generateId()+".tmp"
+            if(let Some(j) = tempDir){
+            }else{
+                let dirName = "tempDir"+generateId()
+                if(!Directory.exists(dirName)){
+                    tempDir =  Directory.create(dirName)
+                }
             }
-            let path: Path = tempDir.getOrThrow().info.path.directoryName.getOrThrow().join("a.temp")
-
+            let path: Path = tempDir.getOrThrow().info.path.join(tempFileName)
             tempFile = File(path, OpenOption.Create(true))
         }
         return tempFile.getOrThrow()
+
     }
+
+       private func generateId():String{
+        var array: Array<String> = ["0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]
+        var strbuilder = StringBuilder()
+        let size = array.size
+        let sizeDouble = Float64(size)
+        var m: Random = Random()
+        for(i in 0..16){
+           let doubleValue = m.nextFloat64()
+           let value = doubleValue * sizeDouble
+           let IntValue = Int64(value)
+           let chooseStr = array[IntValue]
+           strbuilder.append(chooseStr)
+        }
+        return strbuilder.toString()
+    }
+
+
+    public func getDefaultCharset():String{
+        return defaultCharset
+    }
+
+    public func setDefaultCharset(charset:String):Unit{
+        defaultCharset = charset
+    }
+
 
 }

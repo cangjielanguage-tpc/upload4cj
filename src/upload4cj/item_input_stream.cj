@@ -25,6 +25,7 @@ public class ItemInputStream <: InputStream{
 
     private var mMultiPartStream:Option<MultipartStream>
 
+
     init(multiPartStream: Option<MultipartStream>){
         this.mMultiPartStream = multiPartStream
         findSeparator()
@@ -52,10 +53,16 @@ public class ItemInputStream <: InputStream{
         return pos - mMultiPartStream.getOrThrow().head
     }
 
-    public override func read(b: Array<UInt8>): Int64{
+    public override func read(buffer: Array<Byte>): Int64{
+
         if (closed) {
             throw ItemSkippedException()
         }
+
+        if(buffer.size == 0){
+             return 0
+        }
+
         var res = available()
         if (res == 0) {
             res = makeAvailable()
@@ -64,8 +71,55 @@ public class ItemInputStream <: InputStream{
             }
         }
 
+        res = min(res, buffer.size)
+
+        mMultiPartStream.getOrThrow().buffer.copyTo(buffer, mMultiPartStream.getOrThrow().head, 0, res)
         mMultiPartStream.getOrThrow().head += res
-        total = total + res
+        total += res
+        return res
+
+    }
+
+    public func close():Unit{
+        close(false)
+    }
+
+    public func close(pCloseUnderlying:Bool):Unit{
+        if(closed){
+            return
+        }
+
+        if(pCloseUnderlying){
+            closed = true
+        }else{
+            while(true){
+                var av = available()
+                if(av == 0){
+                    av = makeAvailable()
+                    if (av == 0) {
+                        break
+                    }
+                }
+                skip(av)
+            }
+        }
+          closed = true
+    }
+
+
+    public func skip(bytes:Int64):Int64{
+        if(closed){
+            throw ItemSkippedException()
+        }
+        var av = available()
+        if (av == 0) {
+            av = makeAvailable()
+            if (av == 0) {
+                return 0
+            }
+        }
+        let res:Int64 = min(av, bytes)
+        mMultiPartStream.getOrThrow().head += res
         return res
     }
 
@@ -79,10 +133,11 @@ public class ItemInputStream <: InputStream{
         mMultiPartStream.getOrThrow().tail = pad
 
         while (true) {
+
             var bufferTemp = mMultiPartStream.getOrThrow().buffer[mMultiPartStream.getOrThrow().tail..mMultiPartStream.getOrThrow().bufSize]
             var bytesRead: Int64 = mMultiPartStream.getOrThrow().input.read(bufferTemp)
             bufferTemp.copyTo(mMultiPartStream.getOrThrow().buffer, 0, mMultiPartStream.getOrThrow().tail, mMultiPartStream.getOrThrow().bufSize - mMultiPartStream.getOrThrow().tail)
-            if (bytesRead <= 0) {
+            if (bytesRead == -1) {
                 throw MalformedStreamException("Stream ended unexpectedly");
             }
 
@@ -100,11 +155,13 @@ public class ItemInputStream <: InputStream{
 
         }
         return 0
+
     }
 
     public func isClosed(): Bool {
         return closed
     }
+
 
     public func Close() {
         closed = true

@@ -37,7 +37,6 @@ public class ParameterParser {
         }
 
         var separator: Char = separators.getOrThrow()[0]
-        println(1)
         let isStr = match(str) {
             case None =>
                 false
@@ -46,12 +45,8 @@ public class ParameterParser {
         }
 
         if (isStr) {
-            println(2)
             var idx: Int64 = str.getOrThrow().size
-            println(idx)
             for (separatorChar in separators.getOrThrow()) {
-                println(separatorChar)
-                println(str)
                 var tmp: Option<Int64> = str.getOrThrow().indexOf(separatorChar)
                 let isTmp = match(tmp) {
                     case None =>
@@ -116,7 +111,7 @@ public class ParameterParser {
                     // let's keep the original value in this case
                 }
 
-                
+
             }
 
             if (hasChar() && (charArray.getOrThrow()[pos] == separator)) {
@@ -139,7 +134,7 @@ public class ParameterParser {
 
         }
         return params
-        
+
     }
 
     private func parseToken(terminators: Array<Char>): Option<String> {

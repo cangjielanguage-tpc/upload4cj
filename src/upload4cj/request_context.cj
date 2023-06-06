@@ -3,9 +3,9 @@ package upload4cj
 
 public interface RequestContext {
 
-    func getCharacterEncoding():String
+    func getCharacterEncoding():Option<String>
 
-    func getContentType():String
+    func getContentType():Option<String>
 
     func getContentLength():Int64
 

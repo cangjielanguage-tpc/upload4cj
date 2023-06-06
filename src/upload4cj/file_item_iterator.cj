@@ -4,4 +4,6 @@ public interface FileItemIterator{
 
     func hasNext():Bool
 
+    func next():FileItemStream
+
 }

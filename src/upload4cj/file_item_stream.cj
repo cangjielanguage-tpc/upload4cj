@@ -7,7 +7,7 @@ public interface FileItemStream <: FileItemHeadersSupport{
 
     func getContentType():String
 
-    func getName():String
+    func getName():Option<String>
 
     func getFieldName():String
 
