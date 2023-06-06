@@ -4,7 +4,6 @@ from std import unicode.*
 from std import collection.*
 
 public class ParameterParser {
-
     private var chars: Array<Char> = []
 
     private var pos: Int64 = 0
@@ -17,7 +16,7 @@ public class ParameterParser {
 
     private var lowerCaseNames: Bool = false
 
-    public init () {
+    public init() {
         super()
     }
 
@@ -25,11 +24,9 @@ public class ParameterParser {
         return this.pos < this.len
     }
 
-    public func parse(str: Option<String>, separators: Option<Array<Char>>):  Map<String, Option<String>> {
-
-        match(separators) {
-            case None =>
-                return HashMap<String, Option<String>>()
+    public func parse(str: Option<String>, separators: Option<Array<Char>>): Map<String, Option<String>> {
+        match (separators) {
+            case None => return HashMap<String, Option<String>>()
             case Some(v) =>
                 if (separators.getOrThrow().size == 0) {
                     return HashMap<String, Option<String>>()
@@ -37,22 +34,18 @@ public class ParameterParser {
         }
 
         var separator: Char = separators.getOrThrow()[0]
-        let isStr = match(str) {
-            case None =>
-                false
-            case Some(v) =>
-                true
+        let isStr = match (str) {
+            case None => false
+            case Some(v) => true
         }
 
         if (isStr) {
             var idx: Int64 = str.getOrThrow().size
             for (separatorChar in separators.getOrThrow()) {
                 var tmp: Option<Int64> = str.getOrThrow().indexOf(separatorChar)
-                let isTmp = match(tmp) {
-                    case None =>
-                        false
-                    case Some(v) =>
-                        true
+                let isTmp = match (tmp) {
+                    case None => false
+                    case Some(v) => true
                 }
                 if (isTmp && tmp.getOrThrow() < idx) {
                     idx = tmp.getOrThrow()
@@ -64,9 +57,8 @@ public class ParameterParser {
     }
 
     public func parse(str: Option<String>, separator: Char): Map<String, Option<String>> {
-        match(str) {
-            case None =>
-                return HashMap<String, Option<String>>()
+        match (str) {
+            case None => return HashMap<String, Option<String>>()
             case Some(v) =>
                 let charArray: Option<Array<Char>> = str.getOrThrow().toCharArray()
                 return this.parse(charArray, separator)
@@ -74,20 +66,17 @@ public class ParameterParser {
     }
 
     public func parse(charArray: Option<Array<Char>>, separator: Char): Map<String, Option<String>> {
-        match(charArray) {
-            case None =>
-                return HashMap<String, Option<String>>()
-            case Some(v) =>
-                return this.parse(charArray, 0, charArray.getOrThrow().size, separator)
+        match (charArray) {
+            case None => return HashMap<String, Option<String>>()
+            case Some(v) => return this.parse(charArray, 0, charArray.getOrThrow().size, separator)
         }
     }
 
-    public func parse(charArray: Option<Array<Char>>, offset: Int64, length: Int64, separator: Char): Map<String, Option<String>> {
-        match(charArray) {
-            case None =>
-                return HashMap<String, Option<String>>()
-            case Some(v) =>
-                this.chars = charArray.getOrThrow()
+    public func parse(charArray: Option<Array<Char>>, offset: Int64, length: Int64, separator: Char): Map<String,
+        Option<String>> {
+        match (charArray) {
+            case None => return HashMap<String, Option<String>>()
+            case Some(v) => this.chars = charArray.getOrThrow()
         }
         var params: HashMap<String, Option<String>> = HashMap<String, Option<String>>()
 
@@ -101,7 +90,7 @@ public class ParameterParser {
             paramName = parseToken(s)
             paramValue = Option<String>.None
             if (hasChar() && charArray.getOrThrow()[pos] == '=') {
-                pos ++
+                pos++
                 var s: Array<Char> = [separator]
                 paramValue = this.parseQuotedToken(s)
 
@@ -110,19 +99,15 @@ public class ParameterParser {
                 } catch (e: Exception) {
                     // let's keep the original value in this case
                 }
-
-
             }
 
             if (hasChar() && (charArray.getOrThrow()[pos] == separator)) {
                 pos++ // skip separator
             }
 
-            let isParamName = match(paramName) {
-                case None =>
-                    false
-                case Some(v) =>
-                    true
+            let isParamName = match (paramName) {
+                case None => false
+                case Some(v) => true
             }
 
             if (isParamName && (paramName.getOrThrow().size > 0)) {
@@ -131,14 +116,11 @@ public class ParameterParser {
                 }
                 params.put(paramName.getOrThrow(), paramValue)
             }
-
         }
         return params
-
     }
 
     private func parseToken(terminators: Array<Char>): Option<String> {
-
         this.i1 = this.pos
         this.i2 = this.pos
         while (hasChar()) {
@@ -146,11 +128,10 @@ public class ParameterParser {
             if (isOneOf(ch, terminators)) {
                 break
             }
-            this.i2 ++
-            this.pos ++
+            this.i2++
+            this.pos++
         }
         return getToken(false)
-
     }
 
     private func getToken(quoted: Bool): Option<String> {
@@ -158,12 +139,14 @@ public class ParameterParser {
         while ((i1 < i2) && (chars[i1].isAsciiWhiteSpace())) {
             i1++
         }
+
         // Trim trailing white spaces
         while ((i2 > i1) && (chars[i2 - 1].isAsciiWhiteSpace())) {
             i2--
         }
+
         // Strip away quotation marks if necessary
-        if (quoted && ((i2 - i1) >= 2) && (chars[i1] == '"') && (chars[i2 - 1] == '"')) {
+        if (quoted && ((i2 - i1) >= 2) && (chars[i1] == '\"') && (chars[i2 - 1] == '\"')) {
             i1++
             i2--
         }
@@ -176,7 +159,7 @@ public class ParameterParser {
 
     private func isOneOf(ch: Char, charray: Array<Char>): Bool {
         var result: Bool = false
-        for(i in 0..charray.size) {
+        for (i in 0..charray.size) {
             if (ch == charray[i]) {
                 result = true
                 break
@@ -193,7 +176,7 @@ public class ParameterParser {
         this.lowerCaseNames = b
     }
 
-    private  func parseQuotedToken(terminators: Array<Char>): Option<String> {
+    private func parseQuotedToken(terminators: Array<Char>): Option<String> {
         i1 = pos
         i2 = pos
         var quoted: Bool = false
@@ -205,16 +188,15 @@ public class ParameterParser {
                 break
             }
 
-            if (!charEscaped && ch == '"') {
+            if (!charEscaped && ch == '\"') {
                 quoted = !quoted
             }
 
             charEscaped = (!charEscaped && ch == '\\')
-            i2 ++
-            pos ++
+            i2++
+            pos++
         }
 
         return this.getToken(true)
     }
 }
-

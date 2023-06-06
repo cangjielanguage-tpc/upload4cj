@@ -7,13 +7,11 @@ package upload4cj
 public class ItemInputStream <: InputStream{
 
     private var total:Int64 = 0
-
     /**
      * The number of bytes, which must be hold, because
      * they might be a part of the boundary.
      */
     private var pad:Int64 = 0
-
     /**
      * The current offset in the buffer.
      */
@@ -24,7 +22,6 @@ public class ItemInputStream <: InputStream{
     private let BYTE_POSITIVE_OFFSET: Int64 = 256
 
     private var mMultiPartStream:Option<MultipartStream>
-
 
     init(multiPartStream: Option<MultipartStream>){
         this.mMultiPartStream = multiPartStream
@@ -161,7 +158,6 @@ public class ItemInputStream <: InputStream{
     public func isClosed(): Bool {
         return closed
     }
-
 
     public func Close() {
         closed = true

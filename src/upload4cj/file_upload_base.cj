@@ -1,8 +1,7 @@
 package upload4cj
 
 public abstract class FileUploadBase {
-
-       /**
+    /**
      * HTTP content type header name.
      */
     public static let CONTENT_TYPE:String = "Content-type"
@@ -27,19 +26,16 @@ public abstract class FileUploadBase {
      */
     public static let ATTACHMENT:String = "attachment"
 
-
     /**
      * HTTP content type header for multipart forms.
      */
     public static let MULTIPART_FORM_DATA:String = "multipart/form-data"
-
 
     /**
      * The maximum permitted number of files that may be uploaded in a single
      * request. A value of -1 indicates no maximum.
      */
     private var fileCountMax:Int64 = -1
-
 
     /**
      * The maximum size permitted for a single uploaded file, as opposed
@@ -109,7 +105,6 @@ public abstract class FileUploadBase {
         }
     }
 
-
     public func getItemIterator(ctx: RequestContext): FileItemIterator {
         try {
             return FileItemIteratorImpl(ctx,this)
@@ -117,7 +112,6 @@ public abstract class FileUploadBase {
             throw e.getCause()
         }
     }
-
 
     public func parseParameterMap(ctx:RequestContext):Map<String,ArrayList<FileItem>>{
         let items:ArrayList<FileItem> = parseRequest(ctx).getOrThrow()
@@ -135,7 +129,6 @@ public abstract class FileUploadBase {
         }
          return itemsMap
     }
-
 
     protected func getFieldName(headers:FileItemHeaders):Option<String>{
         return getFieldName(headers.getHeader(CONTENT_DISPOSITION))
@@ -157,7 +150,6 @@ public abstract class FileUploadBase {
         }
         return fieldName
     }
-
 
     protected func getFileName(headers:FileItemHeaders):Option<String>{
         return getFileName(headers.getHeader(CONTENT_DISPOSITION))
@@ -183,7 +175,6 @@ public abstract class FileUploadBase {
         }
         return fileName
     }
-
 
     protected func getParsedHeaders(headerPart:String):FileItemHeaders{
         let len:Int64 = headerPart.size
@@ -248,7 +239,6 @@ public abstract class FileUploadBase {
             return
         }
     }
-
 
     protected func newFileItemHeaders():FileItemHeadersImpl{
         return FileItemHeadersImpl()

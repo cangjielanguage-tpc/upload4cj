@@ -1,9 +1,7 @@
 package upload4cj
 
-public interface FileItemHeadersSupport{
+public interface FileItemHeadersSupport {
+    func getHeaders(): FileItemHeaders
 
-    func getHeaders():FileItemHeaders
-
-    func setHeaders(headers:FileItemHeaders):Unit
-
+    func setHeaders(headers: FileItemHeaders): Unit
 }

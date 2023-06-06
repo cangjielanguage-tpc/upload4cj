@@ -3,19 +3,16 @@ package upload4cj
 from std import fs.*
 
 public class DeferredFileOutputStream <: ThresholdingOutputStream {
-
     private var memoryOutputStream: ?ByteArrayStream = Option<ByteArrayStream>.None
     private var currentOutputStream: OutputStream
     private var outputFile: File
-    private var prefix: ?String =  Option<String>.None
-    private var suffix: ?String =  Option<String>.None
-    private var directory: ?File =  Option<File>.None
+    private var prefix: ?String = Option<String>.None
+    private var suffix: ?String = Option<String>.None
+    private var directory: ?File = Option<File>.None
     private var closed: Bool
-
 
     init(threshold: Int64, outputFile: File) {
         this(threshold, outputFile, Option<String>.None, Option<String>.None, Option<File>.None)
-
     }
 
     init(threshold: Int64, outputFile: File, prefix: Option<String>, suffix: Option<String>, directory: Option<File>) {
@@ -29,7 +26,7 @@ public class DeferredFileOutputStream <: ThresholdingOutputStream {
         this.directory = directory
     }
 
-    public func close():Unit{
+    public func close(): Unit {
         this.closed = true
     }
 
@@ -49,7 +46,6 @@ public class DeferredFileOutputStream <: ThresholdingOutputStream {
         return this.currentOutputStream
     }
 
-
     public func isInMemory(): Bool {
         return !this.isThresholdExceeded()
     }
@@ -57,6 +53,4 @@ public class DeferredFileOutputStream <: ThresholdingOutputStream {
     public override func thresholdReached(): Unit {
         return
     }
-
-
 }

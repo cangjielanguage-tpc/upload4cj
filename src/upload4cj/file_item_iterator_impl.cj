@@ -96,7 +96,6 @@ public class FileItemIteratorImpl <: FileItemIterator {
 
     private let mfileuploadBase:Option<FileUploadBase>
 
-
     init (ctx: Option<RequestContext>,fileupLoadBase:FileUploadBase) {
         this.mfileuploadBase = fileupLoadBase
         if(let Some(i) = ctx){
@@ -110,7 +109,6 @@ public class FileItemIteratorImpl <: FileItemIterator {
                     //这个先遗留
                     let requestSize:Int64 = contentLengthInt
                     var input:Option<InputStream>  = Option<InputStream>.None
-
                     if (sizeMax >= 0) {
                         //表示request内容长度有限制
                             if (requestSize != -1 && requestSize > sizeMax) {
@@ -121,13 +119,11 @@ public class FileItemIteratorImpl <: FileItemIterator {
                     } else {
                         input = i.getInputStream()
                     }
-
                     var charEncoding:Option<String> = headerEncoding
                     if(let Some(k) = charEncoding){
                     }else{
                         charEncoding = i.getCharacterEncoding()
                     }
-
                     boundary = getBoundary(j)
                     if(let Some(l) = boundary){
                         notifier = ProgressNotifier(listener, requestSize)
@@ -136,17 +132,12 @@ public class FileItemIteratorImpl <: FileItemIterator {
                         }catch(iae:IllegalArgumentException){
                             throw InvalidContentTypeException("The boundary specified in the "+CONTENT_TYPE+" header is too long"+iae.toString())
                         }
-
                         multi.getOrThrow().setHeaderEncoding(charEncoding)
                         skipPreamble = true
                         findNextItem()
-
-
                     }else{
                         throw FileUploadException("the request was rejected because no multipart boundary was found")
                     }
-
-
                 }
             }else{
                 throw InvalidContentTypeException("the request doesn't contain a "+ MULTIPART_FORM_DATA +" or "+ MULTIPART_MIXED +" stream, content type header is "+j)
@@ -156,8 +147,6 @@ public class FileItemIteratorImpl <: FileItemIterator {
         }
     }
 
-
-
     private func findNextItem():Bool{
         if (eof) {
             return false
@@ -165,7 +154,6 @@ public class FileItemIteratorImpl <: FileItemIterator {
         if(let Some(i) = currentItem){
             currentItem = Option<FileItemStreamImpl>.None
         }
-
         while(true){
             var nextPart:Bool
             if (skipPreamble) {
@@ -224,11 +212,8 @@ public class FileItemIteratorImpl <: FileItemIterator {
             }
             multi.getOrThrow().discardBodyData()
         }
-
         return false
     }
-
-
 
     protected func getBoundary(contentType:String):Option<Array<UInt8>>{
         let parser:ParameterParser = ParameterParser()
@@ -250,7 +235,6 @@ public class FileItemIteratorImpl <: FileItemIterator {
         }
     }
 
-
     private func getContentLength(pHeaders:FileItemHeaders):Int64{
         try{
             let contentLength:String = pHeaders.getHeader(CONTENT_LENGTH).getOrThrow()
@@ -260,8 +244,6 @@ public class FileItemIteratorImpl <: FileItemIterator {
             return -1
         }
     }
-
-
 
     public override func hasNext (): Bool {
         if(eof){
