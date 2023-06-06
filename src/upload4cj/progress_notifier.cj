@@ -20,15 +20,14 @@ public class ProgressNotifier {
         notifyListener()
     }
 
+    func noteItem():Unit{
+        items++
+        notifyListener()
+    }
+
     private func notifyListener() {
-        
-        let islistener = match (listener) {
-            case Some(v) => true
-            case None => false
-        }
-        
-        if (!islistener) {
-            listener.getOrThrow().update(bytesRead, contentLength, items);
+        if(let Some(i) = listener){
+            i.update(bytesRead, contentLength, items)
         }
     }
 

@@ -20,13 +20,14 @@ public class Streams {
             var total = 0
             while(true){
                 let res = input.getOrThrow().read(buffer)
-                if(res <= 0){
+                if(res == -1){
                     break
                 }
                 if(res > 0){
-                    total = total + res
+                    total += res
                     if(let Some(i) = output){
-                        i.write(buffer.slice(0,res))
+                        let bytesRes = buffer.slice(0,res)
+                        i.write(bytesRes)
                     }
                 }
             }
@@ -35,13 +36,35 @@ public class Streams {
                 if (!closeOutputStream) {
                     j.flush()
                 }
-                output = Option<OutputStream>.None
             }
-            input = Option<InputStream>.None
+
+            let conInput = input as ItemInputStream
+            if(let Some(k) = conInput){
+                k.close()
+            }
             return total
         }finally{
             input = Option<InputStream>.None
             output = Option<OutputStream>.None
         }
+    }
+
+    public static func checkFileName(fileName:Option<String>):Option<String>{
+        if(let Some(i) = fileName){
+           let index:Option<Int64> = i.indexOf('\0')
+           if(let Some(j) = index){
+                let sb:StringBuilder = StringBuilder()
+                for(k in 0..i.size){
+                   let c:Char = i.charAt(k)
+                   if(c == '\0'){
+                        sb.append("\\0")
+                   }else{
+                        sb.append(c)
+                   }
+                }
+                throw InvalidFileNameException(i+" Invalid file name: " + sb.toString())
+           }
+        }
+        return fileName
     }
 }

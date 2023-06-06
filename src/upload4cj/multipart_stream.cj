@@ -26,7 +26,7 @@ public class MultipartStream {
 
     protected let BOUNDARY_PREFIX: Array<UInt8> = [CR, LF, DASH, DASH]
 
-    var input: InputStream
+    let input: InputStream
 
     private var boundaryLength: Int64
 
@@ -38,7 +38,7 @@ public class MultipartStream {
 
     var bufSize: Int64
 
-    var buffer: Array<UInt8>
+    let buffer: Array<UInt8>
 
     var head: Int64 = 0
 
@@ -46,7 +46,7 @@ public class MultipartStream {
 
     private var headerEncoding = Option<String>.None
 
-    var notifier: Option<ProgressNotifier>
+    let notifier: Option<ProgressNotifier>
 
     public init(input: InputStream, boundary: Option<Array<UInt8>>, bufSize: Int64, pNotifier: Option<ProgressNotifier>) {
 
@@ -71,11 +71,11 @@ public class MultipartStream {
         this.keepRegion = this.boundary.size
 
         BOUNDARY_PREFIX.copyTo(this.boundary, 0, 0, BOUNDARY_PREFIX.size)
+
         boundary.getOrThrow().copyTo(this.boundary, 0, BOUNDARY_PREFIX.size, boundary.getOrThrow().size)
         computeBoundaryTable()
         head = 0
         tail = 0
-
     }
 
     public init(input: InputStream, boundary: Option<Array<UInt8>>, pNotifier: Option<ProgressNotifier>) {
@@ -129,7 +129,6 @@ public class MultipartStream {
                 // boundary.
                 return true
             }
-
             marker[1] = readByte()
             if (arrayequals(marker, STREAM_TERMINATOR, 2)) {
                 nextChunk = false
@@ -229,9 +228,6 @@ public class MultipartStream {
         return headers
     }
 
-    public func readBodyData(output:Option<OutputStream>):Int64{
-        return Streams.copy(newInputStream(), output, false)
-    }
 
     func newInputStream():ItemInputStream{
         return ItemInputStream(this)
@@ -278,7 +274,11 @@ public class MultipartStream {
         return -1
     }
 
-    protected func findSeparator():Int64{
+
+
+
+
+  protected func findSeparator():Int64{
         var bufferPos:Int64 = this.head
         var tablePos:Int64 = 0
         while(bufferPos < this.tail){
@@ -294,13 +294,15 @@ public class MultipartStream {
         return -1
     }
 
-    
-    
 
 
-    
+    public func readBodyData(output:Option<OutputStream>):Int64{
+        return Streams.copy(newInputStream(), output, false)
+    }
 
-    
+
+
+
 
 
 }

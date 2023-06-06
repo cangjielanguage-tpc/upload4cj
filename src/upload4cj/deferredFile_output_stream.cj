@@ -29,12 +29,8 @@ public class DeferredFileOutputStream <: ThresholdingOutputStream {
         this.directory = directory
     }
 
-    public override func getStream(): OutputStream {
-        return ByteArrayStream()
-    }
-
-    public override func thresholdReached(): Unit {
-        return
+    public func close():Unit{
+        this.closed = true
     }
 
     public func getData(): Option<Array<UInt8>> {
@@ -49,8 +45,17 @@ public class DeferredFileOutputStream <: ThresholdingOutputStream {
         return this.outputFile
     }
 
+    public override func getStream(): OutputStream {
+        return this.currentOutputStream
+    }
+
+
     public func isInMemory(): Bool {
         return !this.isThresholdExceeded()
+    }
+
+    public override func thresholdReached(): Unit {
+        return
     }
 
 

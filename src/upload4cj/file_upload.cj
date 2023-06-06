@@ -1,6 +1,6 @@
 package upload4cj
 
-public class FileUpload <: FileUploadBase {
+public open class FileUpload <: FileUploadBase {
 
     private var fileItemFactory = Option<FileItemFactory>.None
 
