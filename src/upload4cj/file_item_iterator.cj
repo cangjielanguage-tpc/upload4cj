@@ -1,9 +1,7 @@
 package upload4cj
 
-public interface FileItemIterator{
+public interface FileItemIterator {
+    func hasNext(): Bool
 
-    func hasNext():Bool
-
-    func next():FileItemStream
-
+    func next(): FileItemStream
 }

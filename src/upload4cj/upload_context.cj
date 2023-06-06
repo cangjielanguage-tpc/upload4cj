@@ -1,8 +1,5 @@
 package upload4cj
 
 public interface UploadContext <: RequestContext {
-
-    func contentLength():Int64
-
-
+    func contentLength(): Int64
 }

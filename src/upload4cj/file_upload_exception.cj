@@ -1,18 +1,17 @@
 package upload4cj
+
 from std import core.*
 
 public class FileUploadIOException <: Exception {
-
     private var cause: FileUploadException
 
     public init(pCause: FileUploadException) {
         cause = pCause
     }
 
-    public func getCause(): FileUploadException{
+    public func getCause(): FileUploadException {
         return cause
     }
-
 }
 
 public class FileUploadException <: Exception {
@@ -97,23 +96,21 @@ public class NoSuchElementException <: Exception {
 }
 
 public class FileCountLimitExceededException <: Exception {
+    private let mLimit: Int64
 
-    private let mLimit:Int64
-
-    public init(limit:Int64) {
+    public init(limit: Int64) {
         super()
         this.mLimit = limit
     }
-    public init(messages:String,limit:Int64) {
+    public init(messages: String, limit: Int64) {
         super(messages)
         this.mLimit = limit
     }
 
-    public func getLimit():Int64{
+    public func getLimit(): Int64 {
         return mLimit
     }
 }
-
 
 public class FileSizeLimitExceededException <: Exception {
     public init() {
@@ -125,7 +122,7 @@ public class FileSizeLimitExceededException <: Exception {
 }
 
 public class InvalidFileNameException <: Exception {
-      public init() {
+    public init() {
         super()
     }
     public init(messages: String) {
@@ -150,4 +147,3 @@ public class FileWriteException <: Exception {
         super(messages)
     }
 }
-

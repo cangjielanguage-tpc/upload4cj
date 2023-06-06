@@ -1,7 +1,6 @@
 package upload4cj
 
 public abstract class ThresholdingOutputStream <: OutputStream {
-
     private var threshold: Int64
     private var written: Int64 = 0
     private var thresholdExceeded: Bool = false
@@ -27,7 +26,6 @@ public abstract class ThresholdingOutputStream <: OutputStream {
 
     public func getStream(): OutputStream
 
-
     public func getThreshold(): Int64 {
         return this.threshold
     }
@@ -48,5 +46,4 @@ public abstract class ThresholdingOutputStream <: OutputStream {
         this.getStream().write(b)
         this.written = this.written + b.size
     }
-
 }

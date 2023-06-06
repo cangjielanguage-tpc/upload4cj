@@ -2,7 +2,6 @@ package upload4cj
 
 public interface FileItemStream <: FileItemHeadersSupport{
 
-
     func openStream():InputStream
 
     func getContentType():String

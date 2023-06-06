@@ -228,7 +228,6 @@ public class MultipartStream {
         return headers
     }
 
-
     func newInputStream():ItemInputStream{
         return ItemInputStream(this)
     }
@@ -274,11 +273,7 @@ public class MultipartStream {
         return -1
     }
 
-
-
-
-
-  protected func findSeparator():Int64{
+    protected func findSeparator():Int64{
         var bufferPos:Int64 = this.head
         var tablePos:Int64 = 0
         while(bufferPos < this.tail){
@@ -294,15 +289,8 @@ public class MultipartStream {
         return -1
     }
 
-
-
     public func readBodyData(output:Option<OutputStream>):Int64{
         return Streams.copy(newInputStream(), output, false)
     }
-
-
-
-
-
 
 }

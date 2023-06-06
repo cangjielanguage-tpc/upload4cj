@@ -18,7 +18,6 @@ public class FileItemHeadersImpl <: FileItemHeaders {
         return headerNameToValueListMap.keys().iterator()
     }
 
-
     public override func getHeaders(name:String): Iterator<String>{
         let nameLower:String =  name.toAsciiLower()
         var headerValueList:Option<ArrayList<String>> = headerNameToValueListMap.get(nameLower)
@@ -30,7 +29,6 @@ public class FileItemHeadersImpl <: FileItemHeaders {
         }
     }
 
-
     public func addHeader(name:String,value:String):Unit{
         let nameLower:String =  name.toAsciiLower()
         var headerValueList:Option<ArrayList<String>> = headerNameToValueListMap.get(nameLower)
@@ -41,7 +39,5 @@ public class FileItemHeadersImpl <: FileItemHeaders {
         }
         headerValueList.getOrThrow().append(value)
     }
-
-
 
 }

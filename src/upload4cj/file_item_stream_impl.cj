@@ -18,8 +18,6 @@ public class FileItemStreamImpl <: FileItemStream {
     * Whether the file item is a form field.
     */
     private let formField:Bool
-
-
     /**
     * The file items input stream.
     */
@@ -59,7 +57,6 @@ public class FileItemStreamImpl <: FileItemStream {
           stream = istream
     }
 
-
     public override func getContentType():String{
         if(let Some(i) = contentType){
             return i
@@ -71,7 +68,6 @@ public class FileItemStreamImpl <: FileItemStream {
     public override func getFieldName():String{
         return fieldName.getOrThrow()
     }
-
 
     public override func getName():Option<String>{
         return Streams.checkFileName(name)

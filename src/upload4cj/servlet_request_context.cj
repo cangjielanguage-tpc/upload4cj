@@ -3,19 +3,18 @@ package upload4cj
 from net import http.*
 
 public class ServletRequestContext <: UploadContext {
-
     private var request: Request
 
-    public init(request: Request){
+    public init(request: Request) {
         this.request = request
     }
 
-    public override func getCharacterEncoding():Option<String> {
+    public override func getCharacterEncoding(): Option<String> {
         return Option<String>.None
     }
 
-    public override func getContentType():Option<String>{
-       return request.header.get(FileUploadBase.CONTENT_TYPE)
+    public override func getContentType(): Option<String> {
+        return request.header.get(FileUploadBase.CONTENT_TYPE)
     }
 
     public override func getContentLength(): Int64 {
@@ -39,5 +38,4 @@ public class ServletRequestContext <: UploadContext {
     public func toString(): String {
         return ""
     }
-
 }
