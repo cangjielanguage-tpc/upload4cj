@@ -380,6 +380,8 @@ public class ServletFileUploadTest {
 
         @Assert(String.fromUtf8(item0.get().getOrThrow()),"Joe Blow")
 
+        @Assert(item0.getSize(),8)
+
         let item1:FileItem = fileItems.get(1).getOrThrow()
 
         @Assert(item1.getFieldName(),"pics")
