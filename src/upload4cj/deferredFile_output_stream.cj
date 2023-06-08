@@ -31,11 +31,11 @@ public class DeferredFileOutputStream <: ThresholdingOutputStream {
     }
 
     public func getData(): Option<Array<UInt8>> {
-        let data = match (this.memoryOutputStream) {
-            case Some(v) => this.memoryOutputStream.getOrThrow().bytes()
-            case None => Option<Array<UInt8>>.None
+        if(let Some(i) = this.memoryOutputStream){
+            return this.memoryOutputStream.getOrThrow().bytes()
+        }else{
+            return Option<Array<UInt8>>.None
         }
-        return data
     }
 
     public func getFile(): File {
@@ -51,6 +51,9 @@ public class DeferredFileOutputStream <: ThresholdingOutputStream {
     }
 
     public override func thresholdReached(): Unit {
+        this.outputFile.write(this.memoryOutputStream.getOrThrow().bytes())
+        this.currentOutputStream = outputFile
+        this.memoryOutputStream = Option<ByteArrayStream>.None
         return
     }
 }

@@ -69,6 +69,8 @@ public class ServletFileUploadTest {
         var req1: Request = Request(RequestMethod.POST, "http://127.0.0.1/", output)
         req1.header.add("Content-Type",CONTENT_TYPE)
         let upload:ServletFileUpload = ServletFileUpload(DiskFileItemFactory())
+        let isMulti:Bool = ServletFileUpload.isMultipartContent(req1)
+        @Assert(isMulti,true)
         let mappedParameters: Map<String, ArrayList<FileItem>> = upload.parseParameterMap(req1)
 
         @Assert(mappedParameters.contains("file"),true)

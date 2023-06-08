@@ -23,14 +23,6 @@ public class FileItemIteratorImpl <: FileItemIterator {
      */
     public static let CONTENT_LENGTH:String = "Content-length"
 
-
-     /**
-     * The maximum size permitted for the complete request, as opposed to
-     * {@link #fileSizeMax}. A value of -1 indicates no maximum.
-     */
-    private var sizeMax:Int64 = -1
-
-
     /**
      * The content encoding to use when reading part headers.
      */
@@ -109,13 +101,13 @@ public class FileItemIteratorImpl <: FileItemIterator {
                     //这个先遗留
                     let requestSize:Int64 = contentLengthInt
                     var input:Option<InputStream>  = Option<InputStream>.None
-                    if (sizeMax >= 0) {
+                    if (this.mfileuploadBase.getOrThrow().sizeMax >= 0) {
                         //表示request内容长度有限制
-                            if (requestSize != -1 && requestSize > sizeMax) {
-                                throw SizeLimitExceededException("the request was rejected because its size ("+requestSize.toString()+") exceeds the configured maximum ("+sizeMax.toString()+")")
+                            if (requestSize != -1 && requestSize > this.mfileuploadBase.getOrThrow().sizeMax) {
+                                throw SizeLimitExceededException("the request was rejected because its size ("+requestSize.toString()+") exceeds the configured maximum ("+this.mfileuploadBase.getOrThrow().sizeMax.toString()+")")
                             }
                             // N.B. this is eventually closed in MultipartStream processing
-                            input = LimitedInputStreamImpl(ctx.getOrThrow().getInputStream(), sizeMax)
+                            input = LimitedInputStreamImpl(ctx.getOrThrow().getInputStream(), this.mfileuploadBase.getOrThrow().sizeMax)
                     } else {
                         input = i.getInputStream()
                     }
@@ -220,16 +212,20 @@ public class FileItemIteratorImpl <: FileItemIterator {
         parser.setLowerCaseNames(true)
         let charArray = Array<Char>([';',','])
         let params:Map<String,Option<String>> = parser.parse(contentType,charArray)
-        let boundaryStr:Option<String> = params.get("boundary").getOrThrow()
-        if(let Some(i) = boundaryStr){
-            var boundary:Array<UInt8>
-            try{
-                //仓颉目前只支持utf-8
-                boundary = boundaryStr.getOrThrow().toUtf8Array()
-            }catch(e:UnsupportedEncodingException){
-                throw UnsupportedEncodingException("encoding exception")
+        let boundaryStr:Option<Option<String>> = params.get("boundary")
+        if(let Some(k) = boundaryStr){
+            if(let Some(i) = k){
+                var boundary:Array<UInt8>
+                try{
+                    //仓颉目前只支持utf-8
+                    boundary = k.getOrThrow().toUtf8Array()
+                }catch(e:UnsupportedEncodingException){
+                    throw UnsupportedEncodingException("encoding exception")
+                }
+                return boundary
+            }else{
+                return Option<Array<UInt8>>.None
             }
-            return boundary
         }else{
             return Option<Array<UInt8>>.None
         }
