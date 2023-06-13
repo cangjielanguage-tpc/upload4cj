@@ -147,3 +147,12 @@ public class FileWriteException <: Exception {
         super(messages)
     }
 }
+
+public class ParseException <: Exception {
+    public init() {
+        super()
+    }
+    public init(messages: String) {
+        super(messages)
+    }
+}

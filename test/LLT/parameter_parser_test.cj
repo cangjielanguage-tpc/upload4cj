@@ -19,6 +19,7 @@ main(){
     parameterTest.test8()
     parameterTest.test9()
     parameterTest.test10()
+    parameterTest.test11()
     return 0
 }
 
@@ -155,9 +156,10 @@ public class parameterTest {
         let s: String = "text/plain; Charset=UTF-8"
         var parser: ParameterParser = ParameterParser()
         parser.setLowerCaseNames(true)
+        let isLowerCaseNames: Bool = parser.isLowerCaseNames()
         let s1: Option<String> = s
         var map: Map<String, Option<String>> = parser.parse(s1, ';')
-
+        @Assert(isLowerCaseNames, true)
         @Assert(map.get("charset").getOrThrow().getOrThrow(), "UTF-8")
         println("Pass7")
     }
@@ -222,5 +224,19 @@ public class parameterTest {
         @Assert(map2.get("boundary").getOrThrow().getOrThrow(), "BbC04y")
 
         println("Pass10")
+    }
+
+    @TestCase
+    public func test11(): Unit {
+        let parser: ParameterParser = ParameterParser()
+
+        let s: Option<String> = "Content-Disposition: form-data; name=\"file\"; filename=\"=?UTF-8?B?SWYgeW91IGNhbiByZWFkIHRoaXMgeW8=?= =?UTF-8?B?dSB1bmRlcnN0YW5kIHRoZSBleGFtcGxlLg==?=\"\r\n";
+
+        var arrayChar: Option<Array<Char>> = [',', ';']
+
+        var map: Map<String, Option<String>> = parser.parse(s, arrayChar)
+
+        @Assert(map.get("filename").getOrThrow().getOrThrow(), "If you can read this you understand the example.")
+        println("Pass11")
     }
 }

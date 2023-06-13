@@ -95,7 +95,7 @@ public class ParameterParser {
                 paramValue = this.parseQuotedToken(s)
 
                 try {
-                    paramValue = paramValue
+                    paramValue = MimeUtility.decodeText(paramValue.getOrThrow())
                 } catch (e: Exception) {
                     // let's keep the original value in this case
                 }
