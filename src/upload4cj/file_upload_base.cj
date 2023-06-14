@@ -5,54 +5,51 @@ public abstract class FileUploadBase {
      * HTTP content type header name.
      */
     public static let CONTENT_TYPE:String = "Content-type"
-
     /**
      * HTTP content disposition header name.
      */
     public static let CONTENT_DISPOSITION:String = "Content-disposition"
-
      /**
      * HTTP content type header name.
      */
     public static let CONTENT_LENGTH:String = "Content-length"
-
     /**
      * Content-disposition value for form data.
      */
     public static let FORM_DATA:String = "form-data"
-
      /**
      * Content-disposition value for file attachment.
      */
     public static let ATTACHMENT:String = "attachment"
-
      /**
      * Part of HTTP content type header.
      */
     public static let MULTIPART:String = "multipart/"
-
     /**
      * HTTP content type header for multipart forms.
      */
     public static let MULTIPART_FORM_DATA:String = "multipart/form-data"
-
     /**
      * The maximum permitted number of files that may be uploaded in a single
      * request. A value of -1 indicates no maximum.
      */
     private var fileCountMax:Int64 = -1
-
     /**
      * The maximum size permitted for a single uploaded file, as opposed
      * to {@link #sizeMax}. A value of -1 indicates no maximum.
      */
     var fileSizeMax:Int64 = -1
-
     /**
      * The maximum size permitted for the complete request, as opposed to
      * {@link #fileSizeMax}. A value of -1 indicates no maximum.
      */
     public var sizeMax:Int64 = -1
+     /**
+     * The content encoding to use when reading part headers.
+     */
+    private var headerEncoding:Option<String> = Option<String>.None
+
+    private var listener:Option<ProgressListener> = Option<ProgressListener>.None
 
     public func getFileItemFactory(): Option<FileItemFactory>
 
@@ -89,7 +86,6 @@ public abstract class FileUploadBase {
     }
 
     public func parseRequest(ctx: RequestContext): Option<ArrayList<FileItem>> {
-
         let items:ArrayList<FileItem> = ArrayList<FileItem>()
         var successful:Bool = false
         try{
@@ -100,13 +96,11 @@ public abstract class FileUploadBase {
             }else{
                 throw NullPointerException("No FileItemFactory has been set.")
             }
-
            while(iter.hasNext()){
                 if(items.size == fileCountMax){
                     throw FileCountLimitExceededException(ATTACHMENT,getFileCountMax())
                 }
                 let item:FileItemStream =  iter.next()
-
                 let asItem = item as FileItemStreamImpl
                 var fileName:Option<String> = Option<String>.None
                 if(let Some(j) = asItem){
@@ -272,7 +266,6 @@ public abstract class FileUploadBase {
     private func parseHeaderLine(headers:FileItemHeadersImpl,header:String):Unit{
         let colonOffset:Option<Int64> = header.indexOf(':')
         if(let Some(i) = colonOffset){
-
             var headerName:String = header.substring(0, i).trimAscii()
             let headerValue:String = header.substring(i + 1).trimAscii()
             headers.addHeader(headerName, headerValue)
@@ -289,4 +282,23 @@ public abstract class FileUploadBase {
         return fileCountMax
     }
 
+    public func setFileCountMax(tempFileCountMax:Int64):Unit{
+        this.fileCountMax = tempFileCountMax
+    }
+
+    public func getHeaderEncoding():Option<String>{
+        return headerEncoding
+    }
+
+    public func setHeaderEncoding(encoding:Option<String>):Unit{
+        this.headerEncoding = encoding
+    }
+
+    public func getProgressListener():Option<ProgressListener>{
+        return this.listener
+    }
+
+    public func setProgressListener(pListener:Option<ProgressListener>):Unit{
+        this.listener = pListener
+    }
 }
