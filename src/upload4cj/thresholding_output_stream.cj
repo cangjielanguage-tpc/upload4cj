@@ -43,6 +43,7 @@ public abstract class ThresholdingOutputStream <: OutputStream {
 
     public func write(b: Array<UInt8>) {
         this.checkThreshold(b.size)
+        //这个getStream 可能是memoryOutputStream  这是内存情况 ; 也可能是outputFile  这是非内存情况
         this.getStream().write(b)
         this.written = this.written + b.size
     }

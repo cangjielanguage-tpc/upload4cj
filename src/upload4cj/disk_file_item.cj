@@ -5,7 +5,7 @@ from std import random.*
 
 public class DiskFileItem <: FileItem {
 
-    public static let DEFAULT_CHARSET: String = "ISO-8859-1"
+    public static let DEFAULT_CHARSET: String = "UTF-8"
 
     private static let UID: String = "uuid"
 
@@ -35,7 +35,7 @@ public class DiskFileItem <: FileItem {
 
     private var defaultCharset:String = DEFAULT_CHARSET
 
-    init(fieldName: String, contentType: String, isFormField: Bool, fileName: String, sizeThreshold: Int64, repository: Option<Directory>) {
+    public init(fieldName: String, contentType: String, isFormField: Bool, fileName: String, sizeThreshold: Int64, repository: Option<Directory>) {
         this.fieldName = fieldName
         this.contentType = contentType
         this.isFormField = isFormField
@@ -46,13 +46,11 @@ public class DiskFileItem <: FileItem {
 
     public override func getInputStream(): InputStream{
         if (!this.isInMemory()) {
-            var c = ByteArrayStream()
-            c.write(this.cachedContent.getOrThrow())
-            return c
+           return this.dfos.getOrThrow().getFile()
         } else {
-            cachedContent = match (cachedContent) {
-                case Some(v) => cachedContent
-                case None => this.dfos.getOrThrow().getData()
+            if(let Some(i) = cachedContent){
+            }else{
+                cachedContent = this.dfos.getOrThrow().getData()
             }
             var b = ByteArrayStream()
             b.write(this.cachedContent.getOrThrow())
@@ -67,8 +65,8 @@ public class DiskFileItem <: FileItem {
     public func getCharSet(): String {
         var parse: ParameterParser = ParameterParser()
         parse.setLowerCaseNames(true)
-        parse.parse(this.getContentType(), ';')
-        return this.contentType
+        let params:Map<String,Option<String>> = parse.parse(this.getContentType(), ';')
+        return params.get("charset").getOrThrow().getOrThrow()
     }
 
     public override func getName(): String {
@@ -99,8 +97,7 @@ public class DiskFileItem <: FileItem {
         if (this.dfos.getOrThrow().isInMemory()) {
             return this.dfos.getOrThrow().getData().getOrThrow().size
         }
-
-        return this.dfos.getOrThrow().getFile().length
+        return this.dfos.getOrThrow().getFile().info.length
     }
 
     public override func get(): Option<Array<UInt8>> {
@@ -124,6 +121,7 @@ public class DiskFileItem <: FileItem {
         var fileData: Option<Array<UInt8>> = Array<UInt8>(this.getSize(), item: 0)
         // read file to Array<Unit8>
         try {
+            this.dfos.getOrThrow().getFile().seek(SeekPosition.Begin(0))
             this.dfos.getOrThrow().getFile().read(fileData.getOrThrow())
         } catch (ie: Exception) {
             return  Option<Array<UInt8>>.None
@@ -134,12 +132,7 @@ public class DiskFileItem <: FileItem {
 
     public override func getString(): String {
         let s = get().getOrThrow()
-        var charArray: Array<Char> = Array<Char>(s.size, item: Char(0))
-        for( i in 0..s.size) {
-            // uint8 -> char
-           charArray[i] = Char(s[i])
-        }
-        return String(charArray)
+        return String.fromUtf8(s)
     }
 
     public override func write(file:File) {
@@ -161,7 +154,8 @@ public class DiskFileItem <: FileItem {
 
             if (isOutputFile) {
                 // Save the length of the file
-                size = outputFile.getOrThrow().length
+                size = outputFile.getOrThrow().info.length
+                file.write(get().getOrThrow())
                 /*
                  * The uploaded file is being stored on disk
                  * in a temporary location so move it to the
@@ -226,14 +220,6 @@ public class DiskFileItem <: FileItem {
         return dfos.getOrThrow()
     }
 
-    public override func getHeaders(): FileItemHeaders{
-        return headers
-    }
-
-    public override func setHeaders(pHeaders: FileItemHeaders) {
-        this.headers = pHeaders
-    }
-
     public func getStoreLocation(): Option<File> {
         let isDfos = match (dfos) {
             case Some(v) => true
@@ -251,7 +237,8 @@ public class DiskFileItem <: FileItem {
         return fileName
     }
 
-    protected func getTempFile(): File {
+
+     protected func getTempFile(): File {
         if(let Some(i) = tempFile){
             return i
         }else{
@@ -288,6 +275,22 @@ public class DiskFileItem <: FileItem {
     }
 
 
+    public func toString():String{
+        if(let Some(i) = getStoreLocation()){
+            return "name="+getName()+" StoreLocation="+getStoreLocation().getOrThrow().info.path.toString()+" size="+getSize().toString()+" bytes isFormField="+isGetFormField().toString()+" FieldName="+getFieldName()
+        }else{
+            return "name="+getName()+" size="+getSize().toString()+" bytes isFormField="+isGetFormField().toString()+" FieldName="+getFieldName()
+        }
+    }
+
+    public override func getHeaders(): FileItemHeaders{
+        return headers
+    }
+
+    public override func setHeaders(pHeaders: FileItemHeaders) {
+        this.headers = pHeaders
+    }
+
     public func getDefaultCharset():String{
         return defaultCharset
     }
@@ -295,6 +298,5 @@ public class DiskFileItem <: FileItem {
     public func setDefaultCharset(charset:String):Unit{
         defaultCharset = charset
     }
-
 
 }

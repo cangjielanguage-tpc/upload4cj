@@ -18,6 +18,22 @@ public class DiskFileItemFactory <: FileItemFactory {
         this.repository = repository
     }
 
+    public func getRepository():Option<Directory>{
+        return repository
+    }
+
+    public func setRepository(tempRepository:Option<Directory>):Unit{
+        this.repository = tempRepository
+    }
+
+    public func getSizeThreshold():Int64{
+        return sizeThreshold
+    }
+
+    public func setSizeThreshold(tempSizeThreshold:Int64):Unit{
+        this.sizeThreshold = tempSizeThreshold
+    }
+
     public override func createItem(fieldName: String, contentType: String, isFormField: Bool, fileName: String):
     FileItem {
         return DiskFileItem(fieldName, contentType, isFormField, fileName, sizeThreshold, repository)

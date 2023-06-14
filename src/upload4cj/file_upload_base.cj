@@ -26,6 +26,11 @@ public abstract class FileUploadBase {
      */
     public static let ATTACHMENT:String = "attachment"
 
+     /**
+     * Part of HTTP content type header.
+     */
+    public static let MULTIPART:String = "multipart/"
+
     /**
      * HTTP content type header for multipart forms.
      */
@@ -43,9 +48,45 @@ public abstract class FileUploadBase {
      */
     var fileSizeMax:Int64 = -1
 
+    /**
+     * The maximum size permitted for the complete request, as opposed to
+     * {@link #fileSizeMax}. A value of -1 indicates no maximum.
+     */
+    public var sizeMax:Int64 = -1
+
     public func getFileItemFactory(): Option<FileItemFactory>
 
     public func setFileItemFactory(factory: Option<FileItemFactory>): Unit
+
+    public func setFileSizeMax(parafileSizeMax:Int64):Unit{
+        this.fileSizeMax = parafileSizeMax
+    }
+
+    public func getFileSizeMax():Int64{
+        return fileSizeMax
+    }
+
+    public func setSizeMax(sizeMax:Int64){
+        this.sizeMax = sizeMax
+    }
+
+    public func getSizeMax():Int64{
+        return sizeMax
+    }
+
+    public static func isMultipartContent(ctx:RequestContext):Bool{
+        let contentType:Option<String> = ctx.getContentType()
+        if(let Some(i) = contentType){
+             let lowerStr:String =  i.toAsciiLower()
+             if(lowerStr.startsWith(MULTIPART)){
+                return true
+             }else{
+                return false
+             }
+        }else{
+            return false
+        }
+    }
 
     public func parseRequest(ctx: RequestContext): Option<ArrayList<FileItem>> {
 
