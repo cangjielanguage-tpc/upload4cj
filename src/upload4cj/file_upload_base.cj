@@ -12,7 +12,7 @@ public abstract class FileUploadBase {
      /**
      * HTTP content type header name.
      */
-    public static let CONTENT_LENGTH:String = "Content-length"
+    public static let CONTENT_LENGTH:String = "Content-Length"
     /**
      * Content-disposition value for form data.
      */

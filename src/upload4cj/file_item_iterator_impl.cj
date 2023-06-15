@@ -21,7 +21,7 @@ public class FileItemIteratorImpl <: FileItemIterator {
     /**
      * HTTP content length header name.
      */
-    public static let CONTENT_LENGTH:String = "Content-length"
+    public static let CONTENT_LENGTH:String = "Content-Length"
 
     /**
      * The content encoding to use when reading part headers.
@@ -97,17 +97,17 @@ public class FileItemIteratorImpl <: FileItemIterator {
                     throw InvalidContentTypeException("the request doesn't contain a "+ MULTIPART_FORM_DATA +" or "+ MULTIPART_MIXED +" stream, content type header is "+j)
                 }else{
                     //正常逻辑
-                    let contentLengthInt:Int64 = i.getContentLength()
+                    let contentLengthInt:Int64 = i.contentLength()
                     //这个先遗留
                     let requestSize:Int64 = contentLengthInt
                     var input:Option<InputStream>  = Option<InputStream>.None
                     if (this.mfileuploadBase.getOrThrow().sizeMax >= 0) {
                         //表示request内容长度有限制
-                            if (requestSize != -1 && requestSize > this.mfileuploadBase.getOrThrow().sizeMax) {
-                                throw SizeLimitExceededException("the request was rejected because its size ("+requestSize.toString()+") exceeds the configured maximum ("+this.mfileuploadBase.getOrThrow().sizeMax.toString()+")")
-                            }
-                            // N.B. this is eventually closed in MultipartStream processing
-                            input = LimitedInputStreamImpl(ctx.getOrThrow().getInputStream(), this.mfileuploadBase.getOrThrow().sizeMax)
+                        if (requestSize != -1 && requestSize > this.mfileuploadBase.getOrThrow().sizeMax) {
+                            throw SizeLimitExceededException("the request was rejected because its size ("+requestSize.toString()+") exceeds the configured maximum ("+this.mfileuploadBase.getOrThrow().sizeMax.toString()+")")
+                        }
+                        // N.B. this is eventually closed in MultipartStream processing
+                        input = LimitedInputStreamImpl(ctx.getOrThrow().getInputStream(), this.mfileuploadBase.getOrThrow().sizeMax)
                     } else {
                         input = i.getInputStream()
                     }
@@ -118,7 +118,7 @@ public class FileItemIteratorImpl <: FileItemIterator {
                     }
                     boundary = getBoundary(j)
                     if(let Some(l) = boundary){
-                        notifier = ProgressNotifier(listener, requestSize)
+                        notifier = ProgressNotifier(mfileuploadBase.getOrThrow().getProgressListener(), requestSize)
                         try{
                             multi = MultipartStream(input.getOrThrow(), boundary, notifier.getOrThrow())
                         }catch(iae:IllegalArgumentException){

@@ -5,7 +5,7 @@ public interface RequestContext {
 
     func getContentType(): Option<String>
 
-    func getContentLength(): Int64
+    func contentLength(): Int64
 
     func getInputStream(): InputStream
 }

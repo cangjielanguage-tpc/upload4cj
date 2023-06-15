@@ -17,14 +17,10 @@ public class ServletRequestContext <: UploadContext {
         return request.header.get(FileUploadBase.CONTENT_TYPE)
     }
 
-    public override func getContentLength(): Int64 {
-        return request.contentLength
-    }
-
     public override func contentLength(): Int64 {
         var size: Int64
         try {
-            size = Int64.parse(request.header.get(FileUploadBase.CONTENT_LENGTH).getOrThrow())
+            size = request.contentLength
         } catch (e: IllegalArgumentException) {
             size = request.contentLength
         }
