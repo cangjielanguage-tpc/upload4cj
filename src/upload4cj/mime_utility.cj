@@ -89,7 +89,7 @@ public class MimeUtility {
         return decodedText.toString()
     }
 
-    public static func decodeWord(word: String): String{
+    private static func decodeWord(word: String): String{
 
         if (!word.startsWith(ENCODED_TOKEN_MARKER)) {
             throw ParseException("Invalid RFC 2047 encoded-word: " + word)
