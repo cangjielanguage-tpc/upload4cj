@@ -12,7 +12,6 @@ public class ServletFileUpload <: FileUpload {
         return FileUploadBase.isMultipartContent(ServletRequestContext(request))
     }
 
-
     public init() {
         super()
     }
@@ -27,5 +26,9 @@ public class ServletFileUpload <: FileUpload {
 
     public func parseParameterMap(request: Request): Map<String, ArrayList<FileItem>> {
         return parseParameterMap(ServletRequestContext(request))
+    }
+
+    public func getItemIterator(request:Request):FileItemIterator{
+        return getItemIterator(ServletRequestContext(request))
     }
 }

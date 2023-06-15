@@ -10,12 +10,12 @@ public class ProgressNotifier {
 
     private var items: Int64 = -1
 
-    public init(pListener: Option<ProgressListener>, pContentLength: Int64) {
+    init(pListener: Option<ProgressListener>, pContentLength: Int64) {
         listener = pListener
         contentLength = pContentLength
     }
 
-    public func noteBytesRead(pBytes: Int64) {
+    func noteBytesRead(pBytes: Int64) {
         bytesRead = bytesRead + pBytes
         notifyListener()
     }
