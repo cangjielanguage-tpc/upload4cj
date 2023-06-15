@@ -114,25 +114,19 @@ public class MultipartStream {
     }
 
     public func readBoundary(): Bool {
-        var marker: Array<UInt8> = Array<UInt8>(2, item: 0)
+        var BoundaryMarker: Array<UInt8> = Array<UInt8>(2, item: 0)
         var nextChunk: Bool = false
 
         head = head + boundaryLength
         try {
-            marker[0] = readByte()
-            if (marker[0] == LF) {
-                // Work around IE5 Mac bug with input type=image.
-                // Because the boundary delimiter, not including the trailing
-                // CRLF, must not appear within any file (RFC 2046, section
-                // 5.1.1), we know the missing CR is due to a buggy browser
-                // rather than a file containing something similar to a
-                // boundary.
+            BoundaryMarker[0] = readByte()
+            if (BoundaryMarker[0] == LF) {
                 return true
             }
-            marker[1] = readByte()
-            if (arrayequals(marker, STREAM_TERMINATOR, 2)) {
+            BoundaryMarker[1] = readByte()
+            if (arrayequals(BoundaryMarker, STREAM_TERMINATOR, 2)) {
                 nextChunk = false
-            } else if (arrayequals(marker, FIELD_SEPARATOR, 2)) {
+            } else if (arrayequals(BoundaryMarker, FIELD_SEPARATOR, 2)) {
                 nextChunk = true
             } else {
                 throw MalformedStreamException("Unexpected characters follow a boundary")
@@ -157,22 +151,22 @@ public class MultipartStream {
     }
 
     private func computeBoundaryTable() {
-        var position: Int64 = 2
+        var cjPosition: Int64 = 2
         var candidate: Int64 = 0
 
         boundaryTable[0] = -1
         boundaryTable[1] = 0
 
-        while (position <= boundaryLength) {
-            if (boundary[position - 1] == boundary[candidate]) {
-                boundaryTable[position] = candidate + 1
+        while (cjPosition <= boundaryLength) {
+            if (boundary[cjPosition - 1] == boundary[candidate]) {
+                boundaryTable[cjPosition] = candidate + 1
                 candidate++
-                position++
+                cjPosition++
             } else if (candidate > 0) {
                 candidate = boundaryTable[candidate]
             } else {
-                boundaryTable[position] = 0
-                position++
+                boundaryTable[cjPosition] = 0
+                cjPosition++
             }
         }
     }
@@ -229,6 +223,7 @@ public class MultipartStream {
     }
 
     func newInputStream():ItemInputStream{
+
         return ItemInputStream(this)
     }
 
@@ -275,22 +270,23 @@ public class MultipartStream {
 
     protected func findSeparator():Int64{
         var bufferPos:Int64 = this.head
-        var tablePos:Int64 = 0
+        var tableP:Int64 = 0
         while(bufferPos < this.tail){
-            while(tablePos>=0 && buffer[bufferPos] != boundary[tablePos]) {
-                tablePos = boundaryTable[tablePos]
+            while(tableP>=0 && buffer[bufferPos] != boundary[tableP]) {
+                tableP = boundaryTable[tableP]
             }
             bufferPos++
-            tablePos++
-            if (tablePos == boundaryLength) {
-                return bufferPos - boundaryLength
+            tableP++
+            if (tableP == boundaryLength) {
+                let separator: Int64 = bufferPos - boundaryLength
+                return separator
             }
         }
         return -1
     }
 
-    public func readBodyData(output:Option<OutputStream>):Int64{
-        return Streams.copy(newInputStream(), output, false)
+    public func readBodyData(outputStream:Option<OutputStream>):Int64{
+        return Streams.copy(newInputStream(), outputStream, false)
     }
 
 }

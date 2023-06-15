@@ -6,9 +6,9 @@ public class ProgressNotifier {
 
     private let contentLength: Int64
 
-    private var bytesRead: Int64 = -1
+    private var bytesRead: Int64 = 0
 
-    private var items: Int64 = -1
+    private var items: Int64 = 0
 
     init(pListener: Option<ProgressListener>, pContentLength: Int64) {
         listener = pListener
