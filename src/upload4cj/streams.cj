@@ -2,9 +2,6 @@ package upload4cj
 
 public class Streams {
 
-    public static func checkFileName(fileName: String): String {
-        return fileName;
-    }
 
     public static let  DEFAULT_BUFFER_SIZE:Int64 = 8192
 
@@ -19,7 +16,7 @@ public class Streams {
             var total = 0
             while(true){
                 let res = input.getOrThrow().read(buffer)
-                if(res == -1){
+                if(res <= 0){ //原来-1 兼容其他流改<=0
                     break
                 }
                 if(res > 0){
@@ -50,12 +47,12 @@ public class Streams {
 
     public static func checkFileName(fileName:Option<String>):Option<String>{
         if(let Some(i) = fileName){
-           let index:Option<Int64> = i.indexOf('\0')
+           let index:Option<Int64> = i.indexOf('\u{0}')
            if(let Some(j) = index){
                 let sb:StringBuilder = StringBuilder()
                 for(k in 0..i.size){
                    let c:Char = i.charAt(k)
-                   if(c == '\0'){
+                   if(c == '\u{0}'){
                         sb.append("\\0")
                    }else{
                         sb.append(c)

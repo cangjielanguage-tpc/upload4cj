@@ -5,11 +5,11 @@ public abstract class ThresholdingOutputStream <: OutputStream {
     private var written: Int64 = 0
     private var thresholdExceeded: Bool = false
 
-    init(threshold: Int64) {
+    public init(threshold: Int64) {
         this.threshold = threshold
     }
 
-    public func checkThreshold(count: Int64) {
+    protected func checkThreshold(count: Int64) {
         if (!this.thresholdExceeded && (this.written + count > this.threshold)) {
             this.thresholdExceeded = true
             this.thresholdReached()
@@ -24,7 +24,7 @@ public abstract class ThresholdingOutputStream <: OutputStream {
         return this.written
     }
 
-    public func getStream(): OutputStream
+    protected func getStream(): OutputStream
 
     public func getThreshold(): Int64 {
         return this.threshold
@@ -34,12 +34,12 @@ public abstract class ThresholdingOutputStream <: OutputStream {
         return this.written > this.threshold
     }
 
-    public func resetByteCount() {
+    protected func resetByteCount() {
         this.thresholdExceeded = false
         this.written = 0
     }
 
-    public func thresholdReached(): Unit
+    protected func thresholdReached(): Unit
 
     public func write(b: Array<UInt8>) {
         this.checkThreshold(b.size)

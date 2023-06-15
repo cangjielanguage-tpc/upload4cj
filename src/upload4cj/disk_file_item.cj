@@ -70,7 +70,7 @@ public class DiskFileItem <: FileItem {
     }
 
     public override func getName(): String {
-        return Streams.checkFileName(this.fileName)
+        return Streams.checkFileName(this.fileName).getOrThrow()
     }
 
     public override func isInMemory(): Bool {

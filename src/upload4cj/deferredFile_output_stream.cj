@@ -11,7 +11,7 @@ public class DeferredFileOutputStream <: ThresholdingOutputStream {
     private var directory: ?File = Option<File>.None
     private var closed: Bool
 
-    init(threshold: Int64, outputFile: File) {
+    public init(threshold: Int64, outputFile: File) {
         this(threshold, outputFile, Option<String>.None, Option<String>.None, Option<File>.None)
     }
 
@@ -42,7 +42,7 @@ public class DeferredFileOutputStream <: ThresholdingOutputStream {
         return this.outputFile
     }
 
-    public override func getStream(): OutputStream {
+    protected override func getStream(): OutputStream {
         return this.currentOutputStream
     }
 
@@ -50,7 +50,7 @@ public class DeferredFileOutputStream <: ThresholdingOutputStream {
         return !this.isThresholdExceeded()
     }
 
-    public override func thresholdReached(): Unit {
+    protected override func thresholdReached(): Unit {
         this.outputFile.write(this.memoryOutputStream.getOrThrow().bytes())
         this.currentOutputStream = outputFile
         this.memoryOutputStream = Option<ByteArrayStream>.None
