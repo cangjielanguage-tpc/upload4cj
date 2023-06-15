@@ -2,7 +2,7 @@ package upload4cj
 
 from net import http.*
 
-public class ServletRequestContext <: UploadContext {
+public class ServletRequestContext <: RequestContext {
     private var request: Request
 
     public init(request: Request) {

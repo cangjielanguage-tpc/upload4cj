@@ -1,132 +1,181 @@
 <div align="center">
-<h1>库名</h1>
+<h1>upload4Cj</h1>
 </div>
 
 <p align="center">
 <img alt="" src="https://img.shields.io/badge/release-v0.0.1-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/build-pass-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/cjc-v0.38.2-brightgreen" style="display: inline-block;" />
-<img alt="" src="https://img.shields.io/badge/cjcov-50%25-red" style="display: inline-block;" />
+<img alt="" src="https://img.shields.io/badge/cjcov-81.6%25-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/project-open-brightgreen" style="display: inline-block;" />
 </p>
 
-## 介绍
+## <img alt="" src="./doc/assets/readme-icon-introduction.png" style="display: inline-block;" width=3%/> 介绍
 
-介绍库或者框架符合的标准，应用领域，解决什么问题。有哪些主要的特点，与同类库相比有哪些优点。
+commons-fileupload为apache出品的文件上传组件，用来接收浏览器上传的组件
 
-### 特性
+参考地址：https://github.com/apache/commons-fileupload 版本 1.5
 
-- 🚀 特性1
+**特性**：
 
-- 🚀 特性2
+- 🚀 解析参数内容的消息头
+- 💪 文件上传请求解析器
 
-- 💪 特性3
+- 🌍 解析后的文件条目对象的封装
 
-- 🛠️ 特性4
+## <img alt="" src="./doc/assets/readme-icon-framework.png" style="display: inline-block;" width=3%/> 架构
 
-- 🌍 特性5
-
-- 💡  特性6
-
-### 路线
-
-<p align="center">
-<img src="./doc/assets/milestone.png" width="100%" >
-</p>
-路线图roadmap在 doc/framework-roadmap-logo.pptx 中有源文件。
-
-
-## 软件架构
-
-### 架构图
-
-<p align="center">
-<img src="./doc/assets/framework.png" width="60%" >
-</p>
-
-架构图文字说明，包括模块说明、架构层次等详细说明。
+图片
 
 ### 源码目录
 
 ```shell
 .
-├── README.md
 ├── doc
-│   ├── assets
-│   ├── cjcov
-│   ├── design.md
-│   ├── proposal.md
-│   └── xxx_lib.md
 ├── src
-│   └── Template.cj
+│   ├── upload4cj
 └── test
-    ├── HLT
-    ├── LLT
-    └── UT
+│   ├── HLT
+│   ├── LLT
+│   └── UT
+├── CHANGELOG.md
+├── gitee_gate.cfg
+├── LICENSE.txt
+├── module.json
+├── README.md
+├── README.OpenSource
 ```
 
-- `doc`  文档目录，用于存放设计、API接口等文档
-- `src`  源码目录
-- `test` 测试目录
+- `doc` 存放库的设计文档、使用文档、LLT 用例覆盖报告
+- `src` 是库源码目录
+- `test` 存放 HLT 测试用例、LLT 自测用例和 UT 单元测试用例
 
 ### 接口说明
 
-主要类和函数接口说明详见 [API](./doc/api.md)
+主要核心类和全局函数说明,详情见 [API](./doc/feature_api.md)
 
+## <img alt="" src="./doc/assets/readme-icon-compile.png" style="display: inline-block;" width=3%/> 使用说明
 
-## 使用说明
+### 编译
 
-### 编译构建
-
-描述具体的编译过程：
-
-```shell
-cpm update
-cpm build
+```
+cpm build 
 ```
 
 ### 功能示例
-#### xxx 功能示例
 
-功能示例描述:
-
-示例代码如下：
+#### 解析参数内容的消息头
 
 ```cangjie
-import xxx.*
-main() {
- xxxx
+from upload4cj import upload4cj.*
+from std import collection.*
+
+main(){
+    let s: String = "test; test1 =  stuff   ; test2 =  \"stuff; stuff\"; test3=\"stuff"
+    var parser: ParameterParser = ParameterParser()
+    let s1: Option<String> = s
+    var map: Map<String, Option<String>> = parser.parse(s1, ';')
+    let isTest: Bool = match(map.get("test").getOrThrow()) {
+        case None =>
+            false
+        case Some(v) =>
+            true
+    }
+    if (isTest) {
+        return -1
+    }
+    if (map.get("test1").getOrThrow().getOrThrow() != "stuff") {
+        return -2
+    }
+    if (map.get("test2").getOrThrow().getOrThrow() != "stuff; stuff") {
+        return -3
+    }
+    if (map.get("test3").getOrThrow().getOrThrow() != "\"stuff") {
+        return -4
+    }
+    println("pass")
+    return 0
 }
 ```
-
 执行结果如下：
 
-```shell
-xxx
+```
+pass
 ```
 
-#### xxxx 功能示例
-
-功能示例描述:
-
-示例代码如下：
+#### 文件上传请求解析器
 
 ```cangjie
-import xxx.*
-main() {
- xxxx
+from upload4cj import upload4cj.*
+from net import http.*
+from std import io.*
+from std import collection.*
+
+main(){
+    
+    let text = "-----1234\r\n" +
+                    "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
+                    "Content-Type: text/whatever\r\n" +
+                    "\r\n" +
+                    "This is the content of the file\n" +
+                    "\r\n" +
+                    "-----1234\r\n" +
+                    "Content-Disposition: form-data; name=\"field\"\r\n" +
+                    "\r\n" +
+                    "fieldValue\r\n" +
+                    "-----1234\r\n" +
+                    "Content-Disposition: form-data; name=\"multi\"\r\n" +
+                    "\r\n" +
+                    "value1\r\n" +
+                    "-----1234\r\n" +
+                    "Content-Disposition: form-data; name=\"multi\"\r\n" +
+                    "\r\n" +
+                    "value2\r\n" +
+                    "-----1234--\r\n"
+
+    let bytes:Array<UInt8> = text.toUtf8Array()
+    var output = ByteArrayStream()
+    output.write(bytes)
+    var req1: Request = Request(RequestMethod.POST, "http://127.0.0.1/", output)
+    req1.header.add("Content-Type","multipart/form-data; boundary=---1234")
+    let upload:ServletFileUpload = ServletFileUpload(DiskFileItemFactory())
+    let mappedParameters: Map<String, ArrayList<FileItem>> = upload.parseParameterMap(req1)
+
+    if (!mappedParameters.contains("file")) {
+        return -1
+    }
+    if (mappedParameters.get("file").getOrThrow().size != 1) {
+        return -2
+    }
+    if (!mappedParameters.contains("field")) {
+        return -3
+    }
+    if (mappedParameters.get("field").getOrThrow().size != 1) {
+        return -4
+    }
+    if (!mappedParameters.contains("multi")) {
+        return -5
+    }
+    if (mappedParameters.get("multi").getOrThrow().size != 2) {
+        return -6
+    }
+
+    println("pass")
+    return 0
 }
 ```
-
 执行结果如下：
 
-```shell
-xxx
+```
+pass
 ```
 
 ## 开源协议
-xx License
 
-## 参与贡献
+```
+This code is under the Apache Licence v2. https://www.apache.org/licenses/LICENSE-2.0
+```
 
-欢迎给我们提交PR，欢迎给我们提交Issue，欢迎参与任何形式的贡献。
+## <img alt="" src="./doc/assets/readme-icon-contribute.png" style="display: inline-block;" width=3%/>参与贡献
+
+欢迎给我们提交 PR，欢迎给我们提交 issue，欢迎参与任何形式的贡献。
