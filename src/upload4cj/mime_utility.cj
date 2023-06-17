@@ -7,7 +7,6 @@ package upload4cj
 from encoding import base64.*
 
 public class MimeUtility {
-
     private static let BASE64_ENCODING_MARKER: String = "B"
 
     private static let QUOTEDPRINTABLE_ENCODING_MARKER: String = "Q"
@@ -18,8 +17,7 @@ public class MimeUtility {
 
     private static let LINEAR_WHITESPACE: String = " \t\r\n"
 
-    public static func decodeText(text: String): Option<String>{
-
+    public static func decodeText(text: String): Option<String> {
         if (text.indexOf(ENCODED_TOKEN_MARKER) == Option<Int64>.None) {
             return text
         }
@@ -50,7 +48,6 @@ public class MimeUtility {
                 var wordStart: Int64 = offset
 
                 while (offset < endOffset) {
-
                     ch = text.charAt(offset)
                     if (LINEAR_WHITESPACE.indexOf(ch) == Option<Int64>.None) { // not white space
                         offset++
@@ -61,7 +58,6 @@ public class MimeUtility {
                 let word: String = text.substring(wordStart, offset - wordStart)
                 if (word.startsWith(ENCODED_TOKEN_MARKER)) {
                     try {
-
                         let decodedWord: String = decodeWord(word)
 
                         if (!previousTokenEncoded && startWhiteSpace != -1) {
@@ -73,8 +69,8 @@ public class MimeUtility {
 
                         decodedText.append(decodedWord)
                         continue
-
                     } catch (e: ParseException) {
+                        throw ParseException("Decode This Text Fail")
                     }
                 }
                 if (startWhiteSpace != -1) {
@@ -84,13 +80,11 @@ public class MimeUtility {
                 previousTokenEncoded = false
                 decodedText.append(word)
             }
-
         }
         return decodedText.toString()
     }
 
-    private static func decodeWord(word: String): String{
-
+    private static func decodeWord(word: String): String {
         if (!word.startsWith(ENCODED_TOKEN_MARKER)) {
             throw ParseException("Invalid RFC 2047 encoded-word: " + word)
         }
@@ -99,21 +93,21 @@ public class MimeUtility {
             throw ParseException("Missing charset in RFC 2047 encoded-word: " + word)
         }
         var charsetPos: Int64 = word.indexOf('?', 2).getOrThrow()
-        
+
         let charset: String = word.substring(2, charsetPos - 2).toAsciiLower() // diff java, cj -> substring(beginIndex, length)
 
         if (word.indexOf('?', charsetPos + 1) == Option<Int64>.None) {
             throw ParseException("Missing encoding in RFC 2047 encoded-word: " + word);
         }
         var encodingPos: Int64 = word.indexOf('?', charsetPos + 1).getOrThrow()
-        
+
         let encoding: String = word.substring(charsetPos + 1, encodingPos - charsetPos - 1)
 
         if (word.indexOf(ENCODED_TOKEN_FINISHER, encodingPos + 1) == Option<Int64>.None) {
             throw ParseException("Missing encoded text in RFC 2047 encoded-word: " + word)
         }
         var encodedTextPos: Int64 = word.indexOf(ENCODED_TOKEN_FINISHER, encodingPos + 1).getOrThrow()
-        
+
         let encodedText: String = word.substring(encodingPos + 1, encodedTextPos - encodingPos - 1)
         if (encodedText.size == 0) {
             return ""
@@ -132,5 +126,4 @@ public class MimeUtility {
             throw UnsupportedEncodingException("Invalid RFC 2047 encoding")
         }
     }
-
 }

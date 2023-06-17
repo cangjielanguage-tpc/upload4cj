@@ -1,6 +1,6 @@
 package upload4cj
 
-public abstract class LimitedInputStream <: InputStream {
+public abstract class LimitedInputStream <: InterInputStream {
     /**
      * The input stream to be filtered.
      */
@@ -37,4 +37,6 @@ public abstract class LimitedInputStream <: InputStream {
         }
         return res
     }
+
+    public override func close(): Unit {}
 }

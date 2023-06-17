@@ -32,6 +32,6 @@ public class ServletRequestContext <: RequestContext {
     }
 
     public func toString(): String {
-        return ""
+        return "ContentLength = ${this.contentLength()}, ContentType = ${this.getContentType()}"
     }
 }

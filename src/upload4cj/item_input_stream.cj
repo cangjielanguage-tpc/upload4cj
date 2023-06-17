@@ -4,7 +4,7 @@
 
 package upload4cj
 
-public class ItemInputStream <: InputStream{
+public class ItemInputStream <: InterInputStream{
 
     private var total:Int64 = 0
     /**
@@ -53,11 +53,11 @@ public class ItemInputStream <: InputStream{
     public override func read(buffer: Array<Byte>): Int64{
 
         if (closed) {
-            throw ItemSkippedException()
+            throw ItemSkippedException("Read Fail")
         }
 
         if(buffer.size == 0){
-             return 0
+            return 0
         }
 
         var res = available()
@@ -77,7 +77,7 @@ public class ItemInputStream <: InputStream{
 
     }
 
-    public func close():Unit{
+    public override func close():Unit{
         close(false)
     }
 
@@ -106,7 +106,7 @@ public class ItemInputStream <: InputStream{
 
     public func skip(bytes:Int64):Int64{
         if(closed){
-            throw ItemSkippedException()
+            throw ItemSkippedException("Skip Fail")
         }
         var av = available()
         if (av == 0) {
@@ -153,13 +153,5 @@ public class ItemInputStream <: InputStream{
         }
         return 0
 
-    }
-
-    public func isClosed(): Bool {
-        return closed
-    }
-
-    public func Close() {
-        closed = true
     }
 }
