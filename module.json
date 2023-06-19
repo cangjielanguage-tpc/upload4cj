@@ -5,7 +5,10 @@
     "description": "cj version common_fileupload",
     "version": "0.0.1",
     "requires": {},
-    "package_requires": {},
+    "package_requires": {
+      "package_option": {},
+      "path_option": []
+    },
     "foreign_requires": {},
     "output_type": "dynamic",
     "command_option": "-O2",

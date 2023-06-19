@@ -7,7 +7,6 @@ package upload4cj
 from std import math.*
 
 public class MultipartStream {
-
     let CR: UInt8 = 0x0D
 
     let LF: UInt8 = 0x0A
@@ -49,7 +48,6 @@ public class MultipartStream {
     let notifier: Option<ProgressNotifier>
 
     public init(input: InputStream, boundary: Option<Array<UInt8>>, bufSize: Int64, pNotifier: Option<ProgressNotifier>) {
-
         if (boundary == Option<Array<UInt8>>.None) {
             throw IllegalArgumentException("boundary may not be null")
         }
@@ -57,8 +55,7 @@ public class MultipartStream {
         this.boundaryLength = boundary.getOrThrow().size + BOUNDARY_PREFIX.size
 
         if (bufSize < this.boundaryLength + 1) {
-            throw IllegalArgumentException(
-                    "The buffer size specified for the MultipartStream is too small")
+            throw IllegalArgumentException("The buffer size specified for the MultipartStream is too small")
         }
         this.input = input
         this.bufSize = max(bufSize, boundaryLength * 2)
@@ -94,6 +91,7 @@ public class MultipartStream {
         // Buffer depleted ?
         if (head == tail) {
             head = 0
+
             // Refill.
             var bufferTemp = buffer[head..head + bufSize]
             tail = input.read(bufferTemp)
@@ -104,7 +102,7 @@ public class MultipartStream {
                 throw FileUploadException("No more data is available")
             }
 
-            if(let Some(i) = notifier){
+            if (let Some(i) = notifier) {
                 i.noteBytesRead(tail)
             }
         }
@@ -131,7 +129,7 @@ public class MultipartStream {
             } else {
                 throw MalformedStreamException("Unexpected characters follow a boundary")
             }
-        } catch (e: FileUploadIOException) {
+        } catch (e: FileUploadException) {
             // wraps a SizeException, re-throw as it will be unwrapped later
             throw e
         } catch (e: IOException) {
@@ -142,8 +140,7 @@ public class MultipartStream {
 
     public func setBoundary(boundary: Array<UInt8>) {
         if (boundary.size != boundaryLength - BOUNDARY_PREFIX.size) {
-            throw IllegalBoundaryException(
-            "The length of a boundary token cannot be changed");
+            throw IllegalBoundaryException("The length of a boundary token cannot be changed");
         }
 
         boundary.copyTo(this.boundary, 0, BOUNDARY_PREFIX.size, boundary.size)
@@ -174,6 +171,7 @@ public class MultipartStream {
     public func readHeaders(): String {
         var i: Int64 = 0
         var b: UInt8
+
         // to support multi-byte characters
         var baos = ByteArrayStream()
         var size: Int64 = 0
@@ -181,15 +179,15 @@ public class MultipartStream {
         while (i < HEADER_SEPARATOR.size) {
             try {
                 b = readByte()
-            } catch (e: FileUploadIOException) {
-                // wraps a SizeException, re-throw as it will be unwrapped later
-                throw e
+            } catch (e: FileUploadException) {
+                throw FileUploadException("Headers Get Fail")
             } catch (e: IOException) {
                 throw MalformedStreamException("Stream ended unexpectedly")
             }
-            size ++
+            size++
             if (size > HEADER_PART_SIZE_MAX) {
-                throw MalformedStreamException("Header section has more than %s bytes (maybe it is not properly terminated)")
+                throw MalformedStreamException(
+                    "Header section has more than %s bytes (maybe it is not properly terminated)")
             }
             if (b == HEADER_SEPARATOR[i]) {
                 i++
@@ -210,38 +208,37 @@ public class MultipartStream {
         if (isHeaderEncoding) {
             try {
                 // bytes -> String
-                 headers = String.fromUtf8(baos.readToEnd())
+                headers = String.fromUtf8(baos.readToEnd())
             } catch (e: IOException) {
                 // Fall back to platform default if specified encoding is not
                 // supported.
-                 headers = String.fromUtf8(baos.readToEnd())
+                headers = String.fromUtf8(baos.readToEnd())
             }
         } else {
-                 headers = String.fromUtf8(baos.readToEnd())
+            headers = String.fromUtf8(baos.readToEnd())
         }
         return headers
     }
 
-    func newInputStream():ItemInputStream{
-
+    func newInputStream(): ItemInputStream {
         return ItemInputStream(this)
     }
 
-    public func discardBodyData():Int64{
+    public func discardBodyData(): Int64 {
         return readBodyData(Option<OutputStream>.None)
     }
 
-    public func skipPreamble():Bool{
+    public func skipPreamble(): Bool {
         boundary.copyTo(boundary, 2, 0, boundary.size - 2)
         boundaryLength = boundary.size - 2
         computeBoundaryTable()
-        try{
+        try {
             discardBodyData()
             return readBoundary()
-        }catch(e:MalformedStreamException){
+        } catch (e: MalformedStreamException) {
             return false
-        }finally{
-            boundary.copyTo(boundary,0,2,boundary.size - 2)
+        } finally {
+            boundary.copyTo(boundary, 0, 2, boundary.size - 2)
             boundaryLength = boundary.size
             boundary[0] = CR
             boundary[1] = LF
@@ -268,11 +265,11 @@ public class MultipartStream {
         return -1
     }
 
-    protected func findSeparator():Int64{
-        var bufferPos:Int64 = this.head
-        var tableP:Int64 = 0
-        while(bufferPos < this.tail){
-            while(tableP>=0 && buffer[bufferPos] != boundary[tableP]) {
+    protected func findSeparator(): Int64 {
+        var bufferPos: Int64 = this.head
+        var tableP: Int64 = 0
+        while (bufferPos < this.tail) {
+            while (tableP >= 0 && buffer[bufferPos] != boundary[tableP]) {
                 tableP = boundaryTable[tableP]
             }
             bufferPos++
@@ -285,8 +282,7 @@ public class MultipartStream {
         return -1
     }
 
-    public func readBodyData(outputStream:Option<OutputStream>):Int64{
+    public func readBodyData(outputStream: Option<OutputStream>): Int64 {
         return Streams.copy(newInputStream(), outputStream, false)
     }
-
 }
