@@ -13,6 +13,7 @@ main(){
     let diskFileUploadTest = DiskFileUploadTest()
     diskFileUploadTest.test1()
     diskFileUploadTest.test2()
+    diskFileUploadTest.test3()
     return 0
 }
 
@@ -54,6 +55,25 @@ public class DiskFileUploadTest{
         }
         @Assert(expected,true)
         println("Pass2")
+    }
+
+    @TestCase
+    public func test3(): Unit {
+        var expected:Bool = false
+        let bytes:Array<UInt8> = "foobar".toUtf8Array()
+        var output = ByteArrayStream()
+        output.write(bytes)
+        var req1: Request = Request(RequestMethod.POST, "http://127.0.0.1/", output)
+        req1.header.add("Content-Type",FileUploadBase.MULTIPART_FORM_DATA)
+        let upload:ServletFileUpload = ServletFileUpload()
+        upload.setFileItemFactory(DiskFileItemFactory())
+        try{
+            upload.parseRequest(req1)
+        }catch(e:FileUploadException){
+            expected = true
+        }
+        @Assert(expected,true)
+        println("Pass3")
     }
 
 }
