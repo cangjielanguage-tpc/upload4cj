@@ -40,29 +40,36 @@ public class FileItemStreamImpl <: FileItemStream {
 
     private let mFileItemIteratorImpl: FileItemIteratorImpl
 
-    init(pName: Option<String>, pFieldName: Option<String>, pContentType: Option<String>, pFormField: Bool,
-        pContentLength: Int64, fileupLoadBase: Option<FileUploadBase>, fileItemIteratorImpl: FileItemIteratorImpl) {
+    init(
+        pName: Option<String>,
+        pFieldName: Option<String>,
+        pContentType: Option<String>,
+        pFormField: Bool,
+        pContentLength: Int64,
+        fileupLoadBase: Option<FileUploadBase>,
+        fileItemIteratorImpl: FileItemIteratorImpl
+    ) {
         this.mfileuploadBase = fileupLoadBase
         this.mFileItemIteratorImpl = fileItemIteratorImpl
         this.name = pName
         this.fieldName = pFieldName
         this.contentType = pContentType
         this.formField = pFormField
-        let itemStream: ItemInputStream = mFileItemIteratorImpl.multi.getOrThrow().newInputStream()
-        var istream: InterInputStream = itemStream
         if (mfileuploadBase.getOrThrow().fileSizeMax != -1) {
             if (pContentLength != -1 && pContentLength > mfileuploadBase.getOrThrow().fileSizeMax) {
-                itemStream.close(true)
                 throw FileSizeLimitExceededException(
                     "The field " + fieldName.getOrThrow() + " exceeds its maximum permitted size of " +
                         mfileuploadBase.getOrThrow().fileSizeMax.toString() + " bytes. actual" +
                         pContentLength.toString() + " filename " + pName.getOrThrow() + " field name " +
-                        pFieldName.getOrThrow())
+                        pFieldName.getOrThrow()
+                )
             }
         }
 
+        let itemStream: ItemInputStream = mFileItemIteratorImpl.multi.getOrThrow().newInputStream()
+        var istream: InterInputStream = itemStream
         if (mfileuploadBase.getOrThrow().fileSizeMax != -1) {
-            istream = LimitedInputStreamImpl2(istream, mfileuploadBase.getOrThrow().fileSizeMax)
+            istream = LimitedInputStreamImpl2(istream, mfileuploadBase.getOrThrow().fileSizeMax, itemStream)
         }
         stream = istream
     }
