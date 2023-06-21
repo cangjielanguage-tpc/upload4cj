@@ -87,7 +87,8 @@ public class FileItemIteratorImpl <: FileItemIterator {
                 if (!j.toAsciiLower().startsWith(MULTIPART)) {
                     throw InvalidContentTypeException(
                         "the request doesn't contain a " + MULTIPART_FORM_DATA + " or " + MULTIPART_MIXED +
-                            " stream, content type header is " + j)
+                            " stream, content type header is " + j
+                    )
                 } else {
                     //正常逻辑
                     let contentLengthInt: Int64 = i.contentLength()
@@ -101,12 +102,16 @@ public class FileItemIteratorImpl <: FileItemIterator {
                             throw SizeLimitExceededException(
                                 "the request was rejected because its size (" + requestSize.toString() +
                                     ") exceeds the configured maximum (" +
-                                    this.mfileuploadBase.getOrThrow().sizeMax.toString() + ")")
+                                    this.mfileuploadBase.getOrThrow().sizeMax.toString() + ")"
+                            )
                         }
 
                         // N.B. this is eventually closed in MultipartStream processing
-                        input = LimitedInputStreamImpl(ctx.getOrThrow().getInputStream(),
-                            this.mfileuploadBase.getOrThrow().sizeMax)
+                        input = LimitedInputStreamImpl(
+                            ctx.getOrThrow().getInputStream(),
+                            this.mfileuploadBase.getOrThrow().sizeMax,
+                            Option<ItemInputStream>.None
+                        )
                     } else {
                         input = i.getInputStream()
                     }
@@ -135,7 +140,8 @@ public class FileItemIteratorImpl <: FileItemIterator {
             } else {
                 throw InvalidContentTypeException(
                     "the request doesn't contain a " + MULTIPART_FORM_DATA + " or " + MULTIPART_MIXED +
-                        " stream, content type header is " + j)
+                        " stream, content type header is " + j
+                )
             }
         } else {
             throw NullPointerException("ctx parameter")
@@ -172,8 +178,15 @@ public class FileItemIteratorImpl <: FileItemIterator {
             if (let Some(j) = currentFieldName) {
                 let fileName: Option<String> = mfileuploadBase.getOrThrow().getFileName(headers)
                 if (let Some(n) = fileName) {
-                    currentItem = FileItemStreamImpl(n, j, headers.getHeader(CONTENT_TYPE), false,
-                        getContentLength(headers), mfileuploadBase, this)
+                    currentItem = FileItemStreamImpl(
+                        n,
+                        j,
+                        headers.getHeader(CONTENT_TYPE),
+                        false,
+                        getContentLength(headers),
+                        mfileuploadBase,
+                        this
+                    )
                     currentItem.getOrThrow().setHeaders(headers)
                     notifier.getOrThrow().noteItem()
                     itemValid = true
@@ -202,8 +215,15 @@ public class FileItemIteratorImpl <: FileItemIterator {
                     } else {
                         isfileNameNull = true
                     }
-                    currentItem = FileItemStreamImpl(fileName, k, headers.getHeader(CONTENT_TYPE), isfileNameNull,
-                        getContentLength(headers), mfileuploadBase, this)
+                    currentItem = FileItemStreamImpl(
+                        fileName,
+                        k,
+                        headers.getHeader(CONTENT_TYPE),
+                        isfileNameNull,
+                        getContentLength(headers),
+                        mfileuploadBase,
+                        this
+                    )
                     currentItem.getOrThrow().setHeaders(headers)
                     notifier.getOrThrow().noteItem()
                     itemValid = true

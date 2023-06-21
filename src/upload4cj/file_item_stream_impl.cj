@@ -69,7 +69,7 @@ public class FileItemStreamImpl <: FileItemStream {
         let itemStream: ItemInputStream = mFileItemIteratorImpl.multi.getOrThrow().newInputStream()
         var istream: InterInputStream = itemStream
         if (mfileuploadBase.getOrThrow().fileSizeMax != -1) {
-            istream = LimitedInputStreamImpl2(istream, mfileuploadBase.getOrThrow().fileSizeMax, itemStream)
+            istream = LimitedInputStreamImpl(istream, mfileuploadBase.getOrThrow().fileSizeMax, itemStream)
         }
         stream = istream
     }

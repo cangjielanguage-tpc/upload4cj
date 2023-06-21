@@ -34,11 +34,6 @@ public abstract class ThresholdingOutputStream <: OutputStream {
         return this.written > this.threshold
     }
 
-    protected func resetByteCount() {
-        this.thresholdExceeded = false
-        this.written = 0
-    }
-
     protected func thresholdReached(): Unit
 
     public func write(b: Array<UInt8>) {
