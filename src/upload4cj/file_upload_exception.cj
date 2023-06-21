@@ -92,3 +92,9 @@ public class ParseException <: Exception {
         super(messages)
     }
 }
+
+public class QDecoderException <: Exception {
+    public init(messages: String) {
+        super(messages)
+    }
+}

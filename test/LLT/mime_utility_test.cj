@@ -1,6 +1,12 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 from upload4cj import upload4cj.*
+from std import io.*
+from encoding import base64.*
+from encoding import hex.*
+from std import sync.*
+from std import collection.*
+from std import convert.*
 from std import unittest.*
 from std import unittest.testmacro.*
 
@@ -11,6 +17,7 @@ main() {
     mimeUtilityTest.test3()
     mimeUtilityTest.test4()
     mimeUtilityTest.test5()
+    mimeUtilityTest.test6()
     return 0
 }
 
@@ -65,6 +72,18 @@ public class MimeUtilityTest {
             if (e.toString().contains("Decode This Text Fail")) {
                 println("Pass5")
             }
+        }
+    }
+
+    @TestCase
+    public func test6(): Unit {
+        let encoded: Option<String> = MimeUtility.decodeText("=?UTF-8?Q?_h=C3=A9!_=C3=A0=C3=A8=C3=B4u_!!!?=")
+
+        let expected: Option<String> = " h\\u00e9! \\u00e0\\u00e8\\u00f4u !!!"
+
+        // @Assert(expected.getOrThrow(), encoded.getOrThrow())
+        if (encoded.getOrThrow() == expected.getOrThrow()) {
+            println("Pass6")
         }
     }
 }

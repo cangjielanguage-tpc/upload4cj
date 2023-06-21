@@ -114,10 +114,13 @@ public class MimeUtility {
         }
 
         try {
-            var encodedData: Array<UInt8> = fromBase64String(encodedText).getOrThrow()
             var str: String = ""
             if (encoding.equals(BASE64_ENCODING_MARKER)) {
+                var encodedData: Array<UInt8> = fromBase64String(encodedText).getOrThrow()
                 str = String.fromUtf8(encodedData)
+            } else if (encoding.equals(QUOTEDPRINTABLE_ENCODING_MARKER)) {
+                let encodedData: Array<UInt8> = encodedText.toUtf8Array()
+                str = QuotedPrintableDecoder.decode(encodedData)
             } else {
                 throw UnsupportedEncodingException("Unknown RFC 2047 encoding: " + encoding)
             }
