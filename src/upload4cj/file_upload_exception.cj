@@ -98,3 +98,10 @@ public class QDecoderException <: Exception {
         super(messages)
     }
 }
+
+public class ReadWriteException <: Exception {
+    public init(messages: String) {
+        super(messages)
+    }
+}
+

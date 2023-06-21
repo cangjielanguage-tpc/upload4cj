@@ -128,8 +128,8 @@ public abstract class FileUploadBase {
                     Streams.copy(item.openStream(), fileItem.getOutputStream(), true, buffer)
                 } catch (e: FileUploadException) {
                     throw FileUploadException("ParseRequest Fail")
-                } catch (e: IOException) {
-                    throw IOException("Processing of " + MULTIPART_FORM_DATA + " request failed. " + e.message)
+                } catch (e: ReadWriteException) {
+                    throw ReadWriteException("Processing of " + MULTIPART_FORM_DATA + " request failed. " + e.message)
                 }
                 let fih: FileItemHeaders = item.getHeaders()
                 fileItem.setHeaders(fih)
@@ -138,8 +138,8 @@ public abstract class FileUploadBase {
             return items
         } catch (e: FileUploadException) {
             throw FileUploadException("ParseRequest Fail!")
-        } catch (e: IOException) {
-            throw IOException(e.message)
+        } catch (e: ReadWriteException) {
+            throw ReadWriteException(e.message)
         } finally {
             if (!successful) {
                 for (fileItem in items) {

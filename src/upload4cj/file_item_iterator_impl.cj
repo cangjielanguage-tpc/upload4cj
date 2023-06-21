@@ -286,7 +286,8 @@ public class FileItemIteratorImpl <: FileItemIterator {
     }
 
     public override func next(): FileItemStream {
-        if (eof || (!itemValid && !hasNext())) {
+        let hsNext:Bool = hasNext()
+        if (eof || (!itemValid && !hsNext)) {
             throw NoSuchElementException("No Such Element")
         }
         itemValid = false
