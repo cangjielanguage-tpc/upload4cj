@@ -6,7 +6,7 @@
 <img alt="" src="https://img.shields.io/badge/release-v0.0.1-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/build-pass-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/cjc-v0.38.2-brightgreen" style="display: inline-block;" />
-<img alt="" src="https://img.shields.io/badge/cjcov-81.6%25-brightgreen" style="display: inline-block;" />
+<img alt="" src="https://img.shields.io/badge/cjcov-90.7%25-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/project-open-brightgreen" style="display: inline-block;" />
 </p>
 
@@ -59,7 +59,7 @@ commons-fileupload为apache出品的文件上传组件，用来接收浏览器�
 ### 编译
 
 ```
-cpm build 
+cjpm build
 ```
 
 ### 功能示例
@@ -112,7 +112,7 @@ from std import io.*
 from std import collection.*
 
 main(){
-    
+
     let text = "-----1234\r\n" +
                     "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
                     "Content-Type: text/whatever\r\n" +
