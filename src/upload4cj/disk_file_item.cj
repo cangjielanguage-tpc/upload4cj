@@ -2,13 +2,15 @@ package upload4cj
 
 from std import io.*
 from std import random.*
+from uuid import uuid.*
+from std import sync.*
 
 public class DiskFileItem <: FileItem {
     public static let DEFAULT_CHARSET: String = "UTF-8"
 
-    private static let UID: String = "uuid"
+    private static let UID: String = Generators.randomBasedGenerator().generate().toString().replace('-', '_')
 
-    private static var COUNTER: Int64 = 0
+    private static let COUNTER = AtomicInt64(0)
 
     private var fieldName: String
 
@@ -34,8 +36,14 @@ public class DiskFileItem <: FileItem {
 
     private var defaultCharset: String = DEFAULT_CHARSET
 
-    public init(fieldName: String, contentType: String, isFormField: Bool, fileName: String, sizeThreshold: Int64,
-        repository: Option<Directory>) {
+    public init(
+        fieldName: String,
+        contentType: String,
+        isFormField: Bool,
+        fileName: String,
+        sizeThreshold: Int64,
+        repository: Option<Directory>
+    ) {
         this.fieldName = fieldName
         this.contentType = contentType
         this.isFormField = isFormField
@@ -177,11 +185,13 @@ public class DiskFileItem <: FileItem {
         var outputFile: Option<File> = getStoreLocation()
 
         let isOutputFile = match (outputFile) {
-            case Some(v) => true
+            case Some(v) =>
+                v.close()
+                true
             case None => false
         }
 
-        if (isOutputFile && !isInMemory() && File.exists(outputFile.getOrThrow().info.path)) {
+        if (isOutputFile && File.exists(outputFile.getOrThrow().info.path)) {
             File.delete(outputFile.getOrThrow().info.path)
         }
     }
@@ -224,9 +234,6 @@ public class DiskFileItem <: FileItem {
         if (!isDfos) {
             return Option<File>.None
         }
-        if (isInMemory()) {
-            return Option<File>.None
-        }
 
         let fileName: Option<File> = dfos.getOrThrow().getFile()
         return fileName
@@ -237,41 +244,34 @@ public class DiskFileItem <: FileItem {
             return i
         } else {
             var tempDir: Option<Directory> = repository
-            let tempFileName: String = "upload_" + generateId() + ".tmp"
-            if (let Some(j) = tempDir) {}
-            else {
-                let dirName = "tempDir" + generateId()
-                if (!Directory.exists(dirName)) {
-                    tempDir = Directory.create(dirName)
+            let dirName = "tempDir"
+            var pathDir: Path = Path(dirName)
+            if (let Some(j) = tempDir) {
+                pathDir = j.info.path
+            } else {
+                if (!Directory.exists(pathDir)) {
+                    tempDir = Directory.create(pathDir)
                 }
             }
-            let path: Path = tempDir.getOrThrow().info.path.join(tempFileName)
+            let tempFileName: String = "upload_" + UID + getUniqueId() + ".tmp"
+            let path: Path = pathDir.join(tempFileName)
             tempFile = File(path, OpenOption.Create(true))
         }
         return tempFile.getOrThrow()
     }
 
-    private func generateId(): String {
-        var array: Array<String> = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "g",
-        "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C",
-        "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y",
-        "Z"]
-        var strbuilder = StringBuilder()
-        let size = array.size
-        let sizeDouble = Float64(size)
-        var m: Random = Random()
-        for (i in 0..16) {
-            let doubleValue = m.nextFloat64()
-            let value = doubleValue * sizeDouble
-            let IntValue = Int64(value)
-            let chooseStr = array[IntValue]
-            strbuilder.append(chooseStr)
+    private static func getUniqueId(): String {
+        let limit: Int64 = 100000000
+        let current: Int64 = COUNTER.fetchAdd(1)
+        var id: String = current.toString()
+        if (current < limit) {
+            id = ("00000000" + id).substring(id.size)
         }
-        return strbuilder.toString()
+        return id
     }
 
     public func toString(): String {
-        if (let Some(i) = getStoreLocation()) {
+         if (let Some(i) = getStoreLocation()) {
             return "name=" + getName() + " StoreLocation=" + getStoreLocation().getOrThrow().info.path.toString() + " size="+getSize().toString() + " bytes isFormField=" + isGetFormField().toString() + " FieldName=" +getFieldName()
         } else {
             return "name=" + getName() + " size=" + getSize().toString() + " bytes isFormField=" + isGetFormField().toString() + " FieldName=" + getFieldName()
