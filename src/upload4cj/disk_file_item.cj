@@ -8,10 +8,6 @@ from std import sync.*
 public class DiskFileItem <: FileItem {
     public static let DEFAULT_CHARSET: String = "UTF-8"
 
-    private static let UID: String = Generators.randomBasedGenerator().generate().toString().replace('-', '_')
-
-    private static let COUNTER = AtomicInt64(0)
-
     private var fieldName: String
 
     private var contentType: String
@@ -52,9 +48,14 @@ public class DiskFileItem <: FileItem {
         this.repository = repository
     }
 
-    public override func getInputStream(): InputStream {
+    public override func getInputStream(): Option<InputStream> {
         if (!this.isInMemory()) {
-            return this.dfos.getOrThrow().getFile()
+            let optFile:Option<File> = this.dfos.getOrThrow().getFile()
+            if(let Some(j) = optFile){
+                return j
+            }else{
+                return Option<InputStream>.None
+            }
         } else {
             if (let Some(i) = cachedContent) {}
             else {
@@ -105,7 +106,13 @@ public class DiskFileItem <: FileItem {
         if (this.dfos.getOrThrow().isInMemory()) {
             return this.dfos.getOrThrow().getData().getOrThrow().size
         }
-        return this.dfos.getOrThrow().getFile().info.length
+
+        let optFile = this.dfos.getOrThrow().getFile()
+        if(let Some(i) = optFile){
+            return i.info.length
+        }else{
+            return 0
+        }
     }
 
     public override func get(): Option<Array<UInt8>> {
@@ -130,8 +137,8 @@ public class DiskFileItem <: FileItem {
 
         // read file to Array<Unit8>
         try {
-            this.dfos.getOrThrow().getFile().seek(SeekPosition.Begin(0))
-            this.dfos.getOrThrow().getFile().read(fileData.getOrThrow())
+            this.dfos.getOrThrow().getFile().getOrThrow().seek(SeekPosition.Begin(0))
+            this.dfos.getOrThrow().getFile().getOrThrow().read(fileData.getOrThrow())
         } catch (ie: Exception) {
             return Option<Array<UInt8>>.None
         }
@@ -218,8 +225,7 @@ public class DiskFileItem <: FileItem {
             case None => false
         }
         if (!isDfos) {
-            var outputFile: File = getTempFile()
-            dfos = DeferredFileOutputStream(sizeThreshold, outputFile)
+            dfos = DeferredFileOutputStream(sizeThreshold,tempFile,repository)
         }
 
         return dfos.getOrThrow()
@@ -237,37 +243,6 @@ public class DiskFileItem <: FileItem {
 
         let fileName: Option<File> = dfos.getOrThrow().getFile()
         return fileName
-    }
-
-    protected func getTempFile(): File {
-        if (let Some(i) = tempFile) {
-            return i
-        } else {
-            var tempDir: Option<Directory> = repository
-            let dirName = "tempDir"
-            var pathDir: Path = Path(dirName)
-            if (let Some(j) = tempDir) {
-                pathDir = j.info.path
-            } else {
-                if (!Directory.exists(pathDir)) {
-                    tempDir = Directory.create(pathDir)
-                }
-            }
-            let tempFileName: String = "upload_" + UID + getUniqueId() + ".tmp"
-            let path: Path = pathDir.join(tempFileName)
-            tempFile = File(path, OpenOption.Create(true))
-        }
-        return tempFile.getOrThrow()
-    }
-
-    private static func getUniqueId(): String {
-        let limit: Int64 = 100000000
-        let current: Int64 = COUNTER.fetchAdd(1)
-        var id: String = current.toString()
-        if (current < limit) {
-            id = ("00000000" + id).substring(id.size)
-        }
-        return id
     }
 
     public func toString(): String {

@@ -1,9 +1,9 @@
 package upload4cj
 
-public class LimitedInputStreamImpl <: LimitedInputStream {
+class LimitedInputStreamImpl <: LimitedInputStream {
     private var itemStream: Option<ItemInputStream>
 
-    public init(inputStream: InputStream, pSizeMax: Int64, stream: Option<ItemInputStream>) {
+    init(inputStream: InputStream, pSizeMax: Int64, stream: Option<ItemInputStream>) {
         super(inputStream, pSizeMax)
         this.itemStream = stream
     }
