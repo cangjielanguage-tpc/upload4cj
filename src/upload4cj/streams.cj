@@ -5,7 +5,7 @@ public class Streams {
 
     public static let  DEFAULT_BUFFER_SIZE:Int64 = 8192
 
-    public static func copy(inputStream:InputStream,outputStream:Option<OutputStream>,closeOutputStream:Bool):Int64{
+    public static func copy(inputStream:Option<InputStream>,outputStream:Option<OutputStream>,closeOutputStream:Bool):Int64{
         return copy(inputStream, outputStream, closeOutputStream,  Array<UInt8>(DEFAULT_BUFFER_SIZE,item:0))
     }
 
