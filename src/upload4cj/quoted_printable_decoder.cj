@@ -36,11 +36,14 @@ public class QuotedPrintableDecoder {
                     }
                 } else {
                     let b: UInt8 = hexToBinary(b1, b2)
-                    out.write(String(Char(b)).toUtf8Array())
+                    out.write(b)
                 }
             } else {
                 out.write(ch)
             }
+        }
+        if (out.length == 0) {
+            return ""
         }
         var str = String.fromUtf8(out.readToEnd())
         return str

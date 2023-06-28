@@ -18,6 +18,8 @@ main() {
     mimeUtilityTest.test4()
     mimeUtilityTest.test5()
     mimeUtilityTest.test6()
+    mimeUtilityTest.test7()
+    mimeUtilityTest.test8()
     return 0
 }
 
@@ -66,24 +68,30 @@ public class MimeUtilityTest {
 
     @TestCase
     public func test5(): Unit {
-        try {
-            let encoded: Option<String> = MimeUtility.decodeText("=??=")
-        } catch (e: ParseException) {
-            if (e.toString().contains("Decode This Text Fail")) {
-                println("Pass5")
-            }
-        }
+        let encoded: Option<String> = MimeUtility.decodeText("=??=")
+        @Assert(encoded.getOrThrow(), "=??=")
+        println("Pass5")
+    }
+
+    @TestCase
+    public func test7(): Unit {
+        let encoded: Option<String> = MimeUtility.decodeText("=?")
+        @Assert(encoded.getOrThrow(), "=?")
+        println("Pass7")
     }
 
     @TestCase
     public func test6(): Unit {
         let encoded: Option<String> = MimeUtility.decodeText("=?UTF-8?Q?_h=C3=A9!_=C3=A0=C3=A8=C3=B4u_!!!?=")
+        let expected = " hé! àèôu !!!"
+        @Assert(encoded.getOrThrow(), expected)
+        println("Pass6")
+    }
 
-        let expected: Option<String> = " h\\u00e9! \\u00e0\\u00e8\\u00f4u !!!"
-
-        // @Assert(expected.getOrThrow(), encoded.getOrThrow())
-        if (encoded.getOrThrow() == expected.getOrThrow()) {
-            println("Pass6")
-        }
+    @TestCase
+    public func test8(): Unit {
+        let encoded: Option<String> = MimeUtility.decodeText("")
+        @Assert(encoded.getOrThrow(), "")
+        println("Pass8")
     }
 }

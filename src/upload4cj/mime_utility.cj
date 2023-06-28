@@ -69,9 +69,7 @@ public class MimeUtility {
 
                         decodedText.append(decodedWord)
                         continue
-                    } catch (e: ParseException) {
-                        throw ParseException("Decode This Text Fail")
-                    }
+                    } catch (e: ParseException) {}
                 }
                 if (startWhiteSpace != -1) {
                     decodedText.append(text.substring(startWhiteSpace, endWhiteSpace - startWhiteSpace))
