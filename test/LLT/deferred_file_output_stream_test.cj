@@ -28,7 +28,7 @@ public class DeferredFileOutputStreamTest{
         if(!File.exists(file.info.path)){
             File.create(file.info.path)
         }
-        let dfos:DeferredFileOutputStream = DeferredFileOutputStream(sizeThreshold, file)
+        let dfos:DeferredFileOutputStream = DeferredFileOutputStream(sizeThreshold, Option<File>.None,Option<Directory>.None)
 
         let textFieldValue:String = "0123456789"
         let testFieldValueBytes:Array<UInt8> = textFieldValue.toUtf8Array()
@@ -37,8 +37,6 @@ public class DeferredFileOutputStreamTest{
         @Assert(isInMemory,true)
         let strData:String = String.fromUtf8(dfos.getData().getOrThrow())
         @Assert(strData,textFieldValue)
-        let size = dfos.getFile().info.length
-        @Assert(size,0)
         let threshold:Int64 = dfos.getThreshold()
         @Assert(threshold,sizeThreshold)
         let writtenByteCount:Int64 = dfos.getByteCount()
@@ -58,7 +56,7 @@ public class DeferredFileOutputStreamTest{
         if(!File.exists(file.info.path)){
             File.create(file.info.path)
         }
-        let dfos:DeferredFileOutputStream = DeferredFileOutputStream(sizeThreshold, file)
+        let dfos:DeferredFileOutputStream = DeferredFileOutputStream(sizeThreshold, Option<File>.None,Option<Directory>.None)
 
         let textFieldValue:String = "01234567890123456789"
         let testFieldValueBytes:Array<UInt8> = textFieldValue.toUtf8Array()
@@ -72,7 +70,7 @@ public class DeferredFileOutputStreamTest{
             isNull = true
         }
         @Assert(isNull,true)
-        let size = dfos.getFile().info.length
+        let size = dfos.getFile().getOrThrow().info.length
         @Assert(size,20)
         let threshold:Int64 = dfos.getThreshold()
         @Assert(threshold,sizeThreshold)

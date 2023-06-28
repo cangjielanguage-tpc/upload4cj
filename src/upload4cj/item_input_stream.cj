@@ -4,7 +4,7 @@
 
 package upload4cj
 
-public class ItemInputStream <: InterInputStream {
+class ItemInputStream <: InterInputStream {
     private var total: Int64 = 0
 
     /**

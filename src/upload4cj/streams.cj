@@ -58,7 +58,7 @@ public class Streams {
                         sb.append(c)
                    }
                 }
-                throw InvalidFileNameException(i+" Invalid file name: " + sb.toString())
+                throw InvalidFileNameException("Invalid file name: " + sb.toString())
            }
         }
         return fileName

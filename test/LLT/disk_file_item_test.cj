@@ -69,7 +69,7 @@ public class DiskFileItemTest {
         let output = item.getOutputStream()
         output.write(testFieldValueBytes)
 
-        let inputStreamtemp:InputStream = item.getInputStream()
+        let inputStreamtemp:Option<InputStream> = item.getInputStream()
 
         @Assert(item.isInMemory(),true)
         @Assert(item.getSize(),testFieldValueBytes.size)
@@ -93,7 +93,7 @@ public class DiskFileItemTest {
         let output = item.getOutputStream()
         output.write(testFieldValueBytes)
 
-        let inputStreamtemp:InputStream = item.getInputStream()
+        let inputStreamtemp:Option<InputStream> = item.getInputStream()
 
         @Assert(item.isInMemory(),false)
         @Assert(item.getSize(),testFieldValueBytes.size)

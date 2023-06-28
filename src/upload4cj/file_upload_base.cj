@@ -125,7 +125,7 @@ public abstract class FileUploadBase {
                     item.isFormField(), fileName.getOrThrow())
                 items.append(fileItem)
                 try {
-                    Streams.copy(item.openStream(), fileItem.getOutputStream(), true, buffer)
+                      Streams.copy(item.openStream(), fileItem.getOutputStream(), true, buffer)
                 } catch (e: FileUploadException) {
                     throw FileUploadException("ParseRequest Fail")
                 } catch (e: ReadWriteException) {
