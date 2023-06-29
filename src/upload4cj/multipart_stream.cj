@@ -99,7 +99,7 @@ public class MultipartStream {
 
             if (tail <= 0) {
                 // No more data available.
-                throw FileUploadException("No more data is available")
+                throw ReadWriteException("No more data is available")
             }
 
             if (let Some(i) = notifier) {
@@ -132,7 +132,7 @@ public class MultipartStream {
         } catch (e: FileUploadException) {
             // wraps a SizeException, re-throw as it will be unwrapped later
             throw e
-        } catch (e: IOException) {
+        } catch (e: ReadWriteException) {
             throw MalformedStreamException("Stream ended unexpectedly")
         }
         return nextChunk
@@ -181,7 +181,7 @@ public class MultipartStream {
                 b = readByte()
             } catch (e: FileUploadException) {
                 throw FileUploadException("Headers Get Fail")
-            } catch (e: IOException) {
+            } catch (e: ReadWriteException) {
                 throw MalformedStreamException("Stream ended unexpectedly")
             }
             size++
@@ -209,7 +209,7 @@ public class MultipartStream {
             try {
                 // bytes -> String
                 headers = String.fromUtf8(baos.readToEnd())
-            } catch (e: IOException) {
+            } catch (e: ReadWriteException) {
                 // Fall back to platform default if specified encoding is not
                 // supported.
                 headers = String.fromUtf8(baos.readToEnd())

@@ -135,7 +135,7 @@ class ItemInputStream <: InterInputStream {
             var bytesRead: Int64 = mMultiPartStream.getOrThrow().input.read(bufferTemp)
             bufferTemp.copyTo(mMultiPartStream.getOrThrow().buffer, 0, mMultiPartStream.getOrThrow().tail,
                 mMultiPartStream.getOrThrow().bufSize - mMultiPartStream.getOrThrow().tail)
-            if (bytesRead == -1) {
+            if (bytesRead <= 0) {
                 throw MalformedStreamException("Stream ended unexpectedly");
             }
 

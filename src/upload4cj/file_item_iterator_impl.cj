@@ -140,7 +140,7 @@ public class FileItemIteratorImpl <: FileItemIterator {
             } else {
                 throw InvalidContentTypeException(
                     "the request doesn't contain a " + MULTIPART_FORM_DATA + " or " + MULTIPART_MIXED +
-                        " stream, content type header is " + j
+                        " stream, content type header is null"
                 )
             }
         } else {
