@@ -23,6 +23,7 @@ main() {
     quotedPrintableDecoderTest.test9()
     quotedPrintableDecoderTest.test10()
     quotedPrintableDecoderTest.test11()
+    quotedPrintableDecoderTest.test12()
 
     return 0
 }
@@ -105,6 +106,14 @@ public class QuotedPrintableDecoderTest {
         let actual: String = QuotedPrintableDecoder.decode(encodedData)
         @Assert(clearText, actual)
         println("Pass6")
+    }
+
+    @TestCase
+    public func test12(): Unit {
+        let origin = Array<UInt8>()
+        let actual: String = QuotedPrintableDecoder.decode(origin)
+        @Assert(actual,"")
+        println("Pass12")
     }
 
     @TestCase
