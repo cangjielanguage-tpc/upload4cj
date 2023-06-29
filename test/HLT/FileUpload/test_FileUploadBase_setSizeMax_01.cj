@@ -1,0 +1,26 @@
+// 3rd_party_lib:upload4cj/build/upload4cj
+// 3rd_party_lib:upload4cj/build/charset
+// 3rd_party_lib:upload4cj/build/cryptocj
+// 3rd_party_lib:upload4cj/build/uuid
+
+from upload4cj import upload4cj.*
+from std import fs.*
+from std import io.*
+from std import collection.*
+from net import http.*
+
+@Test
+public class TestFileUploadBase {
+    /***
+        public init() 
+        public func setSizeMax(parafileSizeMax:Int64):Unit
+        测试场景:  set后获取到set的值
+    ***/
+    @TestCase
+    func testFileUploadBaseSetSizeMax01(): Unit {
+        var fu = FileUpload()
+        @Assert(fu.getSizeMax(), -1)
+        fu.setSizeMax(8000)
+        @Assert(fu.getSizeMax(), 8000)
+    }
+}
