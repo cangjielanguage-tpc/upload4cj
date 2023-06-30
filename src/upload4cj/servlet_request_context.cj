@@ -10,7 +10,7 @@ public class ServletRequestContext <: RequestContext {
     }
 
     public override func getCharacterEncoding(): Option<String> {
-        return Option<String>.None
+        return FileUploadBase.CHARACTER_ENCODING
     }
 
     public override func getContentType(): Option<String> {
@@ -20,8 +20,9 @@ public class ServletRequestContext <: RequestContext {
     public override func contentLength(): Int64 {
         var size: Int64
         try {
-            size = request.contentLength
-        } catch (e: IllegalArgumentException) {
+            let contentLength: String = request.header.get(FileUploadBase.CONTENT_LENGTH).getOrThrow()
+            size = Int64.parse(contentLength)
+        } catch (e: Exception) {
             size = request.contentLength
         }
         return size

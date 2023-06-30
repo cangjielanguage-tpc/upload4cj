@@ -17,6 +17,11 @@ public abstract class FileUploadBase {
     public static let CONTENT_LENGTH: String = "Content-Length"
 
     /**
+     * HTTP CharacterEncoding.
+     */
+    public static let CHARACTER_ENCODING: String = "UTF-8"
+
+    /**
      * Content-disposition value for form data.
      */
     public static let FORM_DATA: String = "form-data"
