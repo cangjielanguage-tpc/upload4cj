@@ -71,211 +71,50 @@ public func test1(): Unit {
 
 ## 2 其他接口
 
-#### 2.1FileItemHeadersImpl
+#### 2.1 DeferredFileOutputStream
 
 ```
-public class FileItemHeadersImpl <: FileItemHeaders {
-
-	/**
-     * 获取对应header的value值
-     *
-     * 参数 name - String header的key
-     * 返回值 - Option<String> 对应的value值
-     */
-    public override func getHeader(name:String): Option<String>
+public class DeferredFileOutputStream <: ThresholdingOutputStream {
 
     /**
-     * 获取所有的key
+     * DeferredFileOutputStream构造函数
      *
-     * 返回值 - Iterator<String> 所有key的迭代器
+     * 参数 threshold - Int64 内存和本地存储的分解阈值
+     * 参数 tempFile - Option<File> 本地存储的文件
+     * 参数 repository - Option<Directory> 本地存储的目录
      */
-    public override func getHeaderNames(): Iterator<String>
+    public init(threshold: Int64, tempFile: Option<File>,repository:Option<Directory>)
 
     /**
-     * 获取所有的value
-     *
-     * 参数 name - String header的key
-     * 返回值 - Iterator<String> 所有value的迭代器
+     * 关闭流的方法
      */
-	public override func getHeaders(name:String): Iterator<String>
-
-	/**
-     * 添加新header
-     *
-     * 参数 name - String header的key
-     * 参数 value - String header的value
-     */
-	public func addHeader(name:String,value:String):Unit
-}
-```
-
-#### 2.2 ParameterParser
-
-```
-public class ParameterParser {
+    public func close(): Unit
 
     /**
-     * ParameterParser 解析
+     * 获取内存中的数据
+     *
+     * 返回值 - Option<Array<UInt8>> 内存中数据的字节数组形式
      */
-    public init ()
+    public func getData(): Option<Array<UInt8>>
 
     /**
-     * 解析
+     * 本地存储时候的文件对象，注意只有写，并且写的时候达到阈值的时候才会创建文件，否则返回Option<File>.None
      *
-     * 参数 str - Option<String> 需解析的字符串
-     * 参数 separators - Option<Array<Char>> 做分隔的Char数组 一般是';',':'等
-     * 返回值 - Map<String, Option<String>> 解析后的map
+     * 返回值 - File 本地存储时候的文件对象
      */
-    public func parse(str: Option<String>, separators: Option<Array<Char>>): Map<String, Option<String>>
+    public func getFile(): Option<File>
 
     /**
-     * 解析
+     * 是否存储在内存
      *
-     * 参数 str - Option<String> 需解析的字符串
-     * 参数 separator - Char 做分隔的Char 一般是';',':'等
-     * 返回值 - Map<String, Option<String>> 解析后的map
+     * 返回值 - Bool true存储在内存 false存储在本地
      */
-    public func parse(str: Option<String>, separator: Char): Map<String, Option<String>>
-
-    /**
-     * 解析
-     *
-     * 参数 charArray - Option<Array<Char>> 需解析的Char数组
-     * 参数 separator - Char 做分隔的Char 一般是';',':'等
-     * 返回值 - Map<String, Option<String>> 解析后的map
-     */
-    public func parse(charArray: Option<Array<Char>>, separator: Char): Map<String, Option<String>>
-
-    /**
-     * 解析
-     *
-     * 参数 charArray - Option<Array<Char>> 需解析的Char数组
-     * 参数 offset - Int64 下标
-     * 参数 length - Int64 长度
-     * 参数 separator - Char 做分隔的Char 一般是';',':'等
-     * 返回值 - Map<String, Option<String>> 解析后的map
-     */
-    public func parse(charArray: Option<Array<Char>>, offset: Int64, length: Int64, separator: Char): Map<String, Option<String>>
-
-    /**
-     * 获取是否设置name小写
-     *
-     * 返回值 - Bool
-     */
-    public func isLowerCaseNames(): Bool
-
-    /**
-     * 设置name是否小写
-     *
-     * 参数 b - Bool 设置name是否小写
-     */
-    public func setLowerCaseNames(b: Bool)
-}
-
-```
-
-#### 2.3 MultipartStream
-
-```
-public class MultipartStream {
-
-    /**
-     * MultipartStream 初始化
-     *
-     * 参数 input - InputStream 文本信息输入流
-     * 参数 boundary - Option<Array<UInt8>> 分隔符
-     * 参数 bufSize - Int64 读取size
-     * 参数 pNotifier - Option<ProgressNotifier> 监听器
-     */
-    public init (input: InputStream, boundary: Option<Array<UInt8>>, bufSize: Int64, pNotifier: Option<ProgressNotifier>)
-
-    /**
-     * MultipartStream 初始化
-     *
-     * 参数 input - InputStream 文本信息输入流
-     * 参数 boundary - Option<Array<UInt8>> 分隔符
-     * 参数 pNotifier - Option<ProgressNotifier> 监听器
-     */
-    public init (input: InputStream, boundary: Option<Array<UInt8>>, pNotifier: Option<ProgressNotifier>)
-
-    /**
-     * 获取编码格式
-     *
-     * 返回值 Option<String> 编码格式
-     */
-    public func getHeaderEncoding(): Option<String>
-
-    /**
-     * 设置编码格式
-     *
-     * 参数 encoding - Option<String> 编码格式
-     */
-    public func setHeaderEncoding(encoding: Option<String>)
-
-    /**
-     * 读取文件
-     *
-     * 返回值 UInt8 - 下一个从流中读取的字节
-     */
-    public func readByte(): UInt8
-
-    /**
-     * 读取分隔符
-     *
-     * 返回值 Bool - 是否还有分隔符
-     */
-    public func readBoundary(): Bool
-
-    /**
-     * 设置分隔符
-     *
-     * 参数 boundary - Array<UInt8> 分隔符
-     */
-    public func setBoundary(boundary: Array<UInt8>)
-
-    /**
-     * 读取文件头
-     *
-     * 返回值 String 文件头
-     */
-    public func readHeaders(): String
-
-    /**
-     * 从流中读取文件体
-     *
-     * 参数 output - Option<OutputStream> 输出流
-     * 返回值 Int64 读取到的字节大小
-     */
-    public func readBodyData(output:Option<OutputStream>):Int64
-
-    /**
-     * 丢弃读取的文件体
-     *
-     * 返回值 Int64 丢弃的字节大小
-     */
-    public func discardBodyData():Int64
-
-    /**
-     * 忽略序言
-     *
-     * 返回值 Bool 是否成功
-     */
-    public func skipPreamble():Bool
-
-    /**
-     * 比较两个字节数组是否一致
-     *
-     * 参数 a - Array<UInt8> 要比较的第一个数组
-     * 参数 b - Array<UInt8> 要比较的第二个数组
-     * 参数 count - Int64 要比较几个字节
-     * 返回值 Bool 是否一致
-     */
-    public static func arrayequals(a: Array<UInt8>, b: Array<UInt8>, count: Int64): Bool
+    public func isInMemory(): Bool
 
 }
 ```
 
-#### 2.6  DiskFileItemFactory
+#### 2.2  DiskFileItemFactory
 
 ```
 public class DiskFileItemFactory implements FileItemFactory{
@@ -348,7 +187,7 @@ public class DiskFileItemFactory implements FileItemFactory{
 
 ```
 
-#### 2.7  DiskFileItem
+#### 2.3  DiskFileItem
 
 ```
 public class DiskFileItem implements FileItem{
@@ -479,9 +318,9 @@ public class DiskFileItem implements FileItem{
     /**
     * 获取fileItem的输入流对象
     *
-    * 返回值 InputStream - fileItem的输入流对象
+    * 返回值 Option<InputStream> - fileItem的输入流对象
     /
-    public override func getInputStream(): InputStream
+    public override func getInputStream(): Option<InputStream>
 
     /**
     * 把fileItem的内容写入file
@@ -508,215 +347,274 @@ public class DiskFileItem implements FileItem{
     *
     * 返回值 String - fileItem的toString表示
     /
-    public func toString():String{
+    public func toString():String
 
 }
 ```
 
-
-#### 2.11 ServletFileUpload
+#### 2.4  FileItemFactory
 
 ```
-public class ServletFileUpload extends FileUpload {
+public interface FileItemFactory {
+
+    /**
+     * 创建FileItem对象
+     *
+     * 参数 fieldName - FileItem的fieldName
+     * 参数 contentType - FileItem的contentType
+     * 参数 isFormField - FileItem是否是表单字段 true是 false不是
+     * 参数 fileName - FileItem对应的文件名
+     */
+    func createItem(fieldName: String, contentType: String, isFormField: Bool, fileName: String): FileItem
+
+}
+```
+
+#### 2.5 FileItemHeadersImpl
+
+```
+public class FileItemHeadersImpl <: FileItemHeaders {
+
 	/**
-    * 初始化
-    */
-	public init()
+     * 获取对应header的value值
+     *
+     * 参数 name - String header的key
+     * 返回值 - Option<String> 对应的value值
+     */
+    public override func getHeader(name:String): Option<String>
 
     /**
-    * 初始化
-    *
-    * 参数 fileItemFactory - FileItemFactory 文本构造工厂类
-    */
-    public init(fileItemFactory: FileItemFactory)
+     * 获取所有的key
+     *
+     * 返回值 - Iterator<String> 所有key的迭代器
+     */
+    public override func getHeaderNames(): Iterator<String>
 
     /**
-    * 生成请求对象
-    *
-    * 参数 request - Request 请求对象
-    * 返回值 Map<String, ArrayList<FileItem>> - 文本对象map
-    */
-    public func parseParameterMap(request: Request): Map<String, ArrayList<FileItem>>
+     * 获取所有的value
+     *
+     * 参数 name - String header的key
+     * 返回值 - Iterator<String> 所有value的迭代器
+     */
+	public override func getHeaders(name:String): Iterator<String>
 
-    /**
-    * 解析请求
-    *
-    * 参数 request - Request 请求对象
-    * 返回值 Map<String, ArrayList<FileItem>> - 文本对象列表
-    */
-    public func parseRequest(request: Request): Option<ArrayList<FileItem>>
-
-    /**
-    * 判断请求是不是MultiPart类型
-    *
-    * 参数 request - Request 请求对象
-    * 返回值 Bool - true 是  false 不是
-    */
-    public static func isMultipartContent(request: Request):Bool
-
-    /**
-    * 获取FileItem的迭代器
-    *
-    * 参数 request - Request 请求对象
-    * 返回值 FileItemIterator - FileItem的迭代器
-    */
-    public func getItemIterator(request:Request):FileItemIterator
-
-}
-```
-
-
-
-#### 2.17 FileUploadBase
-
-```
-public abstract class FileUploadBase {
 	/**
-     * 解析请求获取FileItem集合
+     * 添加新header
      *
-     * 参数 ctx - RequestContext 请求对象
-     * 返回值 - Option<ArrayList<FileItem>> 解析出来的FileItem集合
+     * 参数 name - String header的key
+     * 参数 value - String header的value
      */
-    public func parseRequest(ctx: RequestContext): Option<ArrayList<FileItem>>
+	public func addHeader(name:String,value:String):Unit
+}
+```
+
+####  2.6 FileItemHeadersSupport
+
+```
+public interface FileItemHeadersSupport {
 
     /**
-     * 获取Map形式的FileItem集合
+     * 获取FileItem的Headers
      *
-     * 参数 ctx - RequestContext 请求对象
-     * 返回值 - Map<String,ArrayList<FileItem>> Map形式的FileItem集合
+     * 返回值 - FileItemHeaders FileItem的Headers
      */
-    public func parseParameterMap(ctx:RequestContext):Map<String,ArrayList<FileItem>>
+    func getHeaders(): FileItemHeaders
 
     /**
-    * 判断请求是不是MultiPart类型
-    *
-    * 参数 ctx - RequestContext 请求对象
-    * 返回值 Bool - true 是  false 不是
-    */
-    public static func isMultipartContent(ctx:RequestContext):Bool
-
-    /**
-    * 设置FileItem内容大小的最大阈值
-    *
-    * 参数 fileSizeMax - Int64 FileItem内容的最大阈值
-    */
-    public func setFileSizeMax(fileSizeMax:Int64):Unit
-
-    /**
-    * 获取FileItem内容大小的最大阈值
-    *
-    * 返回值 Int64 - FileItem内容大小的最大阈值
-    */
-    public func getFileSizeMax():Int64
-
-    /**
-    * 设置request内容大小的最大阈值
-    *
-    * 参数 sizeMax - Int64 request内容大小的最大阈值
-    */
-    public func setSizeMax(sizeMax:Int64)
-
-    /**
-    * 获取request内容大小的最大阈值
-    *
-    * 返回值 Int64 - request内容大小的最大阈值
-    */
-    public func getSizeMax():Int64{
-
-    /**
-    * 设置一个request里面FileItem的最大数量阈值
-    *
-    * 参数 fileCountMax - Int64 一个request里面FileItem的最大数量阈值
-    */
-    public func setFileCountMax(fileCountMax:Int64):Unit
-
-    /**
-    * 获取一个request里面FileItem的最大数量阈值
-    *
-    * 返回值 Int64 - 一个request里面FileItem的最大数量阈值
-    */
-    public func getFileCountMax():Int64
-
-    /**
-    * 设置请求头里的编码
-    *
-    * 参数 encoding - Option<String> 请求头里的编码
-    */
-    public func setHeaderEncoding(encoding:Option<String>):Unit
-
-    /**
-    * 获取请求头里的编码
-    *
-    * 返回值 Option<String> - 请求头里的编码
-    */
-    public func getHeaderEncoding():Option<String>
-
-    /**
-    * 设置监听器对象
-    *
-    * 参数 pListener - Option<ProgressListener> 监听器对象
-    */
-    public func setProgressListener(pListener:Option<ProgressListener>):Unit
-
-    /**
-    * 获取监听器对象
-    *
-    * 返回值 Option<ProgressListener> - 监听器对象
-    */
-    public func getProgressListener():Option<ProgressListener>
+     * 设置FileItem的Headers
+     *
+     * 参数 headers - 要设置的FileItem的Headers
+     */
+    func setHeaders(headers: FileItemHeaders): Unit
 
 }
 ```
 
-#### 2.18 FileUpload
-
-####
+#### 2.7 FileItemHeaders
 
 ```
-public open class FileUpload <: FileUploadBase {
-	/**
-     * 无参构造函数
-     *
-     */
-    public init()
+public interface FileItemHeaders {
 
     /**
-     * 一个参数的构造函数
+     * 根据key获取value
      *
-     * 参数 fileItemFactory -  FileItem工厂对象
+     * 参数 name - header的key
+     * 返回值 - Option<String> 该key对应的value
      */
-    public init(fileItemFactory: Option<FileItemFactory>)
+    func getHeader(name: String): Option<String>
 
     /**
-     * 获取FlieItem创建工厂
+     * 获取key对应的value的迭代器
      *
-     * 返回值 - Option<FileItemFactory> FileItem工厂对象
+     * 参数 name - header的key
+     * 返回值 - Iterator<String> 该key对应的value的迭代器
      */
-    public override func getFileItemFactory(): Option<FileItemFactory>
+    func getHeaders(name: String): Iterator<String>
 
-    /**
-     * 设置FileItem工厂对象
+     /**
+     * 获取header中所有key组合成的迭代器
      *
-     * 参数 factory -  要设置的FileItem工厂对象
+     * 返回值 - Iterator<String> 所有key组成的迭代器
      */
-    public override func setFileItemFactory(factory: Option<FileItemFactory>)
+    func getHeaderNames(): Iterator<String>
 
 }
 ```
 
+#### 2.8 FileItemIteratorImpl
 
-####  FileItem
+```
+public class FileItemIteratorImpl <: FileItemIterator {
 
-####
+    /**
+     * 是否还有下一个FileItemStream
+     *
+     * 返回值 - Bool true有 false没有
+     */
+    public override func hasNext(): Bool
+
+    /**
+     * 获取下一个FileItemStream
+     *
+     * 返回值 - FileItemStream 下一个FileItemStream
+     */
+    public override func next(): FileItemStream
+
+}
+```
+
+#### 2.9 FileItemIterator
+
+```
+public interface FileItemIterator {
+
+    /**
+     * 是否还有下一个FileItemStream
+     *
+     * 返回值 - Bool true有 false没有
+     */
+    func hasNext(): Bool
+
+    /**
+     * 获取下一个FileItemStream
+     *
+     * 返回值 - FileItemStream 下一个FileItemStream
+     */
+    func next(): FileItemStream
+
+}
+```
+
+#### 2.10 FileItemStreamImpl
+
+```
+public class FileItemStreamImpl <: FileItemStream {
+
+    /**
+     * 获取FileItemStream的ContentType
+     *
+     * 返回值 - String FileItemStream的ContentType
+     */
+    public override func getContentType(): String
+
+    /**
+     * 获取FileItemStream的FieldName
+     *
+     * 返回值 - String FileItemStream的FieldName
+     */
+    public override func getFieldName(): String
+
+    /**
+     * 获取FileItemStream的Name
+     *
+     * 返回值 - Option<String> FileItemStream的Name
+     */
+    public override func getName(): Option<String>
+
+    /**
+     * 判断这个FileItemStream是不是表单字段类型
+     *
+     * 返回值 - Bool true是 false不是
+     */
+    public override func isFormField(): Bool
+
+     /**
+     * 获取FileItemStream的InputStream
+     *
+     * 返回值 - InputStream FileItemStream的InputStream
+     */
+    public override func openStream(): InputStream
+
+     /**
+     * 获取FileItemStream的Headers
+     *
+     * 返回值 - FileItemHeaders FileItemStream的Headers
+     */
+    public override func getHeaders(): FileItemHeaders
+
+     /**
+     * 设置FileItemStream的Headers
+     *
+     * 参数 pHeaders - 要设置的FileItemStream的Headers
+     */
+    public override func setHeaders(pHeaders: FileItemHeaders): Unit
+
+}
+```
+
+#### 2.11 FileItemStream
+
+```
+public interface FileItemStream <: FileItemHeadersSupport{
+
+    /**
+     * 获取FileItemStream的ContentType
+     *
+     * 返回值 - String FileItemStream的ContentType
+     */
+    func getContentType():String
+
+    /**
+     * 获取FileItemStream的FieldName
+     *
+     * 返回值 - String FileItemStream的FieldName
+     */
+    func getFieldName():String
+
+    /**
+     * 获取FileItemStream的Name
+     *
+     * 返回值 - Option<String> FileItemStream的Name
+     */
+    func getName():Option<String>
+
+    /**
+     * 判断这个FileItemStream是不是表单字段类型
+     *
+     * 返回值 - Bool true是 false不是
+     */
+    func isFormField():Bool
+
+     /**
+     * 获取FileItemStream的InputStream
+     *
+     * 返回值 - InputStream FileItemStream的InputStream
+     */
+    func openStream():InputStream
+
+}
+```
+
+#### 2.12 FileItem
 
 ```
 public interface FileItem <: FileItemHeadersSupport {
 	/**
      * 获取FileItem的输入流
      *
-     * 返回值 - InputStream FileItem的输入流
+     * 返回值 - Option<InputStream> FileItem的输入流
      */
-    func getInputStream(): InputStream
+    func getInputStream(): Option<InputStream>
 
     /**
      * 获取FileItem的ContentType
@@ -811,86 +709,389 @@ public interface FileItem <: FileItemHeadersSupport {
 }
 ```
 
-####  FileItemHeadersSupport
-
-####
+#### 2.13 FileUploadBase
 
 ```
-public interface FileItemHeadersSupport {
+public abstract class FileUploadBase {
+	/**
+     * 解析请求获取FileItem集合
+     *
+     * 参数 ctx - RequestContext 请求对象
+     * 返回值 - Option<ArrayList<FileItem>> 解析出来的FileItem集合
+     */
+    public func parseRequest(ctx: RequestContext): Option<ArrayList<FileItem>>
 
     /**
-     * 获取FileItem的Headers
+     * 获取Map形式的FileItem集合
      *
-     * 返回值 - FileItemHeaders FileItem的Headers
+     * 参数 ctx - RequestContext 请求对象
+     * 返回值 - Map<String,ArrayList<FileItem>> Map形式的FileItem集合
      */
-    func getHeaders(): FileItemHeaders
+    public func parseParameterMap(ctx:RequestContext):Map<String,ArrayList<FileItem>>
 
     /**
-     * 设置FileItem的Headers
+     * 解析获取FileItem的迭代器
      *
-     * 参数 headers - 要设置的FileItem的Headers
+     * 参数 ctx - RequestContext 请求对象
+     * 返回值 - FileItemIterator FileItem的迭代器
      */
-    func setHeaders(headers: FileItemHeaders): Unit
+    public func getItemIterator(ctx: RequestContext): FileItemIterator
+
+    /**
+    * 判断请求是不是MultiPart类型
+    *
+    * 参数 ctx - RequestContext 请求对象
+    * 返回值 Bool - true 是  false 不是
+    */
+    public static func isMultipartContent(ctx:RequestContext):Bool
+
+    /**
+    * 获取FileItemFactory对象
+    *
+    * 返回值 Option<FileItemFactory> - FileItemFactory对象
+    */
+    public func getFileItemFactory(): Option<FileItemFactory>
+
+   /**
+    * 设置FileItemFactory对象
+    *
+    * 参数 factory - 要设置的FileItemFactory对象
+    */
+    public func setFileItemFactory(factory: Option<FileItemFactory>): Unit
+
+    /**
+    * 设置FileItem内容大小的最大阈值
+    *
+    * 参数 fileSizeMax - Int64 FileItem内容的最大阈值
+    */
+    public func setFileSizeMax(fileSizeMax:Int64):Unit
+
+    /**
+    * 获取FileItem内容大小的最大阈值
+    *
+    * 返回值 Int64 - FileItem内容大小的最大阈值
+    */
+    public func getFileSizeMax():Int64
+
+    /**
+    * 设置request内容大小的最大阈值
+    *
+    * 参数 sizeMax - Int64 request内容大小的最大阈值
+    */
+    public func setSizeMax(sizeMax:Int64)
+
+    /**
+    * 获取request内容大小的最大阈值
+    *
+    * 返回值 Int64 - request内容大小的最大阈值
+    */
+    public func getSizeMax():Int64
+
+    /**
+    * 设置一个request里面FileItem的最大数量阈值
+    *
+    * 参数 fileCountMax - Int64 一个request里面FileItem的最大数量阈值
+    */
+    public func setFileCountMax(fileCountMax:Int64):Unit
+
+    /**
+    * 获取一个request里面FileItem的最大数量阈值
+    *
+    * 返回值 Int64 - 一个request里面FileItem的最大数量阈值
+    */
+    public func getFileCountMax():Int64
+
+    /**
+    * 设置请求头里的编码
+    *
+    * 参数 encoding - Option<String> 请求头里的编码
+    */
+    public func setHeaderEncoding(encoding:Option<String>):Unit
+
+    /**
+    * 获取请求头里的编码
+    *
+    * 返回值 Option<String> - 请求头里的编码
+    */
+    public func getHeaderEncoding():Option<String>
+
+    /**
+    * 设置监听器对象
+    *
+    * 参数 pListener - Option<ProgressListener> 监听器对象
+    */
+    public func setProgressListener(pListener:Option<ProgressListener>):Unit
+
+    /**
+    * 获取监听器对象
+    *
+    * 返回值 Option<ProgressListener> - 监听器对象
+    */
+    public func getProgressListener():Option<ProgressListener>
 
 }
 ```
 
-####  FileItemHeaders
-
-####
+#### 2.14 FileUpload
 
 ```
-public interface FileItemHeaders {
+public open class FileUpload <: FileUploadBase {
+	/**
+     * 无参构造函数
+     *
+     */
+    public init()
 
     /**
-     * 根据key获取value
+     * 一个参数的构造函数
      *
-     * 参数 name - header的key
-     * 返回值 - Option<String> 该key对应的value
+     * 参数 fileItemFactory -  FileItem工厂对象
      */
-    func getHeader(name: String): Option<String>
+    public init(fileItemFactory: Option<FileItemFactory>)
 
     /**
-     * 获取key对应的value的迭代器
+     * 获取FlieItem创建工厂
      *
-     * 参数 name - header的key
-     * 返回值 - Iterator<String> 该key对应的value的迭代器
+     * 返回值 - Option<FileItemFactory> FileItem工厂对象
      */
-    func getHeaders(name: String): Iterator<String>
+    public override func getFileItemFactory(): Option<FileItemFactory>
 
-     /**
-     * 获取header中所有key组合成的迭代器
+    /**
+     * 设置FileItem工厂对象
      *
-     * 返回值 - Iterator<String> 所有key组成的迭代器
+     * 参数 factory -  要设置的FileItem工厂对象
      */
-    func getHeaderNames(): Iterator<String>
+    public override func setFileItemFactory(factory: Option<FileItemFactory>)
 
 }
 ```
 
-####  FileItemFactory
-
-####
+#### 2.15 InterInputStream
 
 ```
-public interface FileItemFactory {
+public interface InterInputStream <: InputStream {
 
     /**
-     * 创建FileItem对象
+     * close方法
      *
-     * 参数 fieldName - FileItem的fieldName
-     * 参数 contentType - FileItem的contentType
-     * 参数 isFormField - FileItem是否是表单字段 true是 false不是
-     * 参数 fileName - FileItem对应的文件名
      */
-    func createItem(fieldName: String, contentType: String, isFormField: Bool, fileName: String): FileItem
+    func close(): Unit
 
 }
 ```
 
-####  ProgressListener
+#### 2.16 LimitedInputStream
 
-####
+```
+public abstract class LimitedInputStream <: InterInputStream {
+
+    /**
+     * 构造函数
+     *
+     * 参数 inputStream - 输入流对象
+     * 参数 pSizeMax - 最大阈值
+     */
+    public init(inputStream: InputStream, pSizeMax: Int64)
+
+    /**
+     * read方法
+     *
+     * 参数 buffer - 将内容读到buffer中
+     * 返回值 - Int64 读了多少字节
+     */
+    public override func read(buffer: Array<UInt8>): Int64
+
+    /**
+     * close方法
+     *
+     */
+    public override func close(): Unit
+
+}
+```
+
+#### 2.17 MimeUtility
+
+```
+public class MimeUtility {
+
+	/**
+     * 解析编码的文本
+     *
+     * 参数 - String 要解码的文本
+     * 返回值 - Option<String> 解码后的文本
+     */
+	public static func decodeText(text: String): Option<String>
+}
+```
+
+#### 2.18 MultipartStream
+
+```
+public class MultipartStream {
+
+    /**
+     * MultipartStream 初始化
+     *
+     * 参数 input - InputStream 文本信息输入流
+     * 参数 boundary - Option<Array<UInt8>> 分隔符
+     * 参数 bufSize - Int64 读取size
+     * 参数 pNotifier - Option<ProgressNotifier> 监听器
+     */
+    public init (input: InputStream, boundary: Option<Array<UInt8>>, bufSize: Int64, pNotifier: Option<ProgressNotifier>)
+
+    /**
+     * MultipartStream 初始化
+     *
+     * 参数 input - InputStream 文本信息输入流
+     * 参数 boundary - Option<Array<UInt8>> 分隔符
+     * 参数 pNotifier - Option<ProgressNotifier> 监听器
+     */
+    public init (input: InputStream, boundary: Option<Array<UInt8>>, pNotifier: Option<ProgressNotifier>)
+
+    /**
+     * 获取编码格式
+     *
+     * 返回值 Option<String> 编码格式
+     */
+    public func getHeaderEncoding(): Option<String>
+
+    /**
+     * 设置编码格式
+     *
+     * 参数 encoding - Option<String> 编码格式
+     */
+    public func setHeaderEncoding(encoding: Option<String>)
+
+    /**
+     * 读取文件
+     *
+     * 返回值 UInt8 - 下一个从流中读取的字节
+     */
+    public func readByte(): UInt8
+
+    /**
+     * 读取分隔符
+     *
+     * 返回值 Bool - 是否还有分隔符
+     */
+    public func readBoundary(): Bool
+
+    /**
+     * 设置分隔符
+     *
+     * 参数 boundary - Array<UInt8> 分隔符
+     */
+    public func setBoundary(boundary: Array<UInt8>)
+
+    /**
+     * 读取文件头
+     *
+     * 返回值 String 文件头
+     */
+    public func readHeaders(): String
+
+    /**
+     * 从流中读取文件体
+     *
+     * 参数 output - Option<OutputStream> 输出流
+     * 返回值 Int64 读取到的字节大小
+     */
+    public func readBodyData(output:Option<OutputStream>):Int64
+
+    /**
+     * 丢弃读取的文件体
+     *
+     * 返回值 Int64 丢弃的字节大小
+     */
+    public func discardBodyData():Int64
+
+    /**
+     * 忽略序言
+     *
+     * 返回值 Bool 是否成功
+     */
+    public func skipPreamble():Bool
+
+    /**
+     * 比较两个字节数组是否一致
+     *
+     * 参数 a - Array<UInt8> 要比较的第一个数组
+     * 参数 b - Array<UInt8> 要比较的第二个数组
+     * 参数 count - Int64 要比较几个字节
+     * 返回值 Bool 是否一致
+     */
+    public static func arrayequals(a: Array<UInt8>, b: Array<UInt8>, count: Int64): Bool
+
+}
+```
+
+#### 2.19 ParameterParser
+
+```
+public class ParameterParser {
+
+    /**
+     * ParameterParser 解析
+     */
+    public init ()
+
+    /**
+     * 解析
+     *
+     * 参数 str - Option<String> 需解析的字符串
+     * 参数 separators - Option<Array<Char>> 做分隔的Char数组 一般是';',':'等
+     * 返回值 - Map<String, Option<String>> 解析后的map
+     */
+    public func parse(str: Option<String>, separators: Option<Array<Char>>): Map<String, Option<String>>
+
+    /**
+     * 解析
+     *
+     * 参数 str - Option<String> 需解析的字符串
+     * 参数 separator - Char 做分隔的Char 一般是';',':'等
+     * 返回值 - Map<String, Option<String>> 解析后的map
+     */
+    public func parse(str: Option<String>, separator: Char): Map<String, Option<String>>
+
+    /**
+     * 解析
+     *
+     * 参数 charArray - Option<Array<Char>> 需解析的Char数组
+     * 参数 separator - Char 做分隔的Char 一般是';',':'等
+     * 返回值 - Map<String, Option<String>> 解析后的map
+     */
+    public func parse(charArray: Option<Array<Char>>, separator: Char): Map<String, Option<String>>
+
+    /**
+     * 解析
+     *
+     * 参数 charArray - Option<Array<Char>> 需解析的Char数组
+     * 参数 offset - Int64 下标
+     * 参数 length - Int64 长度
+     * 参数 separator - Char 做分隔的Char 一般是';',':'等
+     * 返回值 - Map<String, Option<String>> 解析后的map
+     */
+    public func parse(charArray: Option<Array<Char>>, offset: Int64, length: Int64, separator: Char): Map<String, Option<String>>
+
+    /**
+     * 获取是否设置name小写
+     *
+     * 返回值 - Bool
+     */
+    public func isLowerCaseNames(): Bool
+
+    /**
+     * 设置name是否小写
+     *
+     * 参数 b - Bool 设置name是否小写
+     */
+    public func setLowerCaseNames(b: Bool)
+}
+
+```
+
+#### 2.20 ProgressListener
 
 ```
 public interface ProgressListener {
@@ -907,102 +1108,503 @@ public interface ProgressListener {
 }
 ```
 
-####  RequestContext
+#### 2.21 ProgressNotifier
 
-####
+```
+public class ProgressNotifier {
+
+    /**
+     * ProgressNotifier 初始化
+     *
+     * 参数 pListener - Option<ProgressListener> 进度监听器
+     * 参数 pContentLength - Int64 内容长度
+     */
+    public init(pListener: Option<ProgressListener>, pContentLength: Int64)
+
+}
+```
+
+#### 2.22 QuotedPrintableDecoder
+
+```
+public class QuotedPrintableDecoder {
+
+    /**
+     * 解析QP编码
+     *
+     * 参数 data - 要解析的数据
+     * 返回值 - String 解析后的结果
+     */
+    public static func decode(data: Array<UInt8>): String
+
+}
+```
+
+#### 2.23 RequestContext
 
 ```
 public interface RequestContext {
 
     /**
-     * 获取请求的字符编码
+     * 获取request字符编码
      *
-     * 返回值 - Option<String> 请求的字符编码
+     * 返回值 - Option<String> request字符编码
      */
     func getCharacterEncoding(): Option<String>
 
     /**
-     * 获取请求的ContentType
+     * 获取request的ContentType
      *
-     * 返回值 - Option<String> 请求的ContentType
+     * 返回值 - Option<String> request的ContentType
      */
     func getContentType(): Option<String>
 
     /**
-     * 获取请求的内容长度
+     * 获取request内容长度
      *
-     * 返回值 - Int64 请求的内容长度
+     * 返回值 - Int64 request内容长度
      */
-    func 
-    (): Int64
+    func contentLength(): Int64
 
     /**
-     * 获取请求的输入流
+     * 获取request的InputStream
      *
-     * 返回值 - InputStream 请求的输入流
+     * 返回值 - InputStream  request的InputStream
      */
     func getInputStream(): InputStream
 
 }
 ```
 
-#### ServletRequestContext
+#### 2.24 ServletFileUpload
 
-####
+```
+public class ServletFileUpload extends FileUpload {
+	/**
+    * 初始化
+    */
+	public init()
+
+    /**
+    * 初始化
+    *
+    * 参数 fileItemFactory - FileItemFactory 文本构造工厂类
+    */
+    public init(fileItemFactory: FileItemFactory)
+
+    /**
+    * 生成请求对象
+    *
+    * 参数 request - Request 请求对象
+    * 返回值 Map<String, ArrayList<FileItem>> - 文本对象map
+    */
+    public func parseParameterMap(request: Request): Map<String, ArrayList<FileItem>>
+
+    /**
+    * 解析请求
+    *
+    * 参数 request - Request 请求对象
+    * 返回值 Map<String, ArrayList<FileItem>> - 文本对象列表
+    */
+    public func parseRequest(request: Request): Option<ArrayList<FileItem>>
+
+    /**
+    * 判断请求是不是MultiPart类型
+    *
+    * 参数 request - Request 请求对象
+    * 返回值 Bool - true 是  false 不是
+    */
+    public static func isMultipartContent(request: Request):Bool
+
+    /**
+    * 获取FileItem的迭代器
+    *
+    * 参数 request - Request 请求对象
+    * 返回值 FileItemIterator - FileItem的迭代器
+    */
+    public func getItemIterator(request:Request):FileItemIterator
+
+}
+```
+
+#### 2.25 ServletRequestContext
 
 ```
 public class ServletRequestContext <: RequestContext {
 	/**
      * 初始化
-     * 
+     *
      * 参数 Request - Request 请求体
      */
 	public init(request: Request)
-	
+
 	/**
      * 获取编码类型
-     * 
+     *
      * 返回值 - Option<String> 编码类型
      */
 	public override func getCharacterEncoding(): Option<String>
-	
+
 	/**
      * 获取contentType
-     * 
+     *
      * 返回值 - Option<String> contentType
      */
 	public override func getContentType(): Option<String>
-	
+
 	/**
      * 获取request的body大小
-     * 
+     *
      * 返回值 - Int64 大小
      */
 	public override func contentLength(): Int64
-	
+
 	/**
      * 获取request的body输入流
-     * 
+     *
      * 返回值 - InputStream body输入流
      */
 	public override func getInputStream(): InputStream
-}
-```
 
-#### MimeUtility
-
-解析MIMA格式的文本
-
-```
-public class MimeUtility {
-
-	/**
-     * 获取请求的内容长度
+    /**
+     * ServletRequestContext的toString形式
      *
-     * 参数 - String 要解码的文本
-     * 返回值 - Option<String> 解码后的文本
+     * 返回值 - String ServletRequestContext的toString形式
      */
-	public static func decodeText(text: String): Option<String>
+    public func toString(): String
+
 }
 ```
 
+#### 2.26 Streams
+
+```
+public class Streams {
+
+    /**
+     * 复制方法
+     *
+     * 参数 inputStream - 输入流
+     * 参数 outputStream - 输出流
+     * 参数 closeOutputStream - 是否关闭流
+     * 返回值 - Int64 一共写了多少字节
+     */
+    public static func copy(inputStream:Option<InputStream>,outputStream:Option<OutputStream>,closeOutputStream:Bool):Int64
+
+    /**
+     * 复制方法
+     *
+     * 参数 inputStream - 输入流
+     * 参数 outputStream - 输出流
+     * 参数 closeOutputStream - 是否关闭流
+     * 参数 buffer - 读写缓冲区
+     * 返回值 - Int64 一共写了多少字节
+     */
+    public static func copy(inputStream:Option<InputStream>,outputStream:Option<OutputStream>,closeOutputStream:Bool,buffer:Array<UInt8>):Int64
+
+    /**
+     * 检查文件名
+     *
+     * 参数 fileName - 文件名
+     * 返回值 - Option<String> 检查后的文件名
+     */
+    public static func checkFileName(fileName:Option<String>):Option<String>
+
+}
+```
+
+#### 2.27 ThresholdingOutputStream
+
+```
+public abstract class ThresholdingOutputStream <: OutputStream {
+
+    /**
+     * 初始化
+     *
+     * 参数 threshold - 保存内存和本地的界限阈值
+     */
+    public init(threshold: Int64)
+
+    /**
+     * 冲刷流
+     *
+     */
+    public func flush()
+
+    /**
+     * 已经写入的字节数
+     *
+     * 返回值 - Int64 已经写入的字节数
+     */
+    public func getByteCount(): Int64
+
+    /**
+     * 获取阈值
+     *
+     * 返回值 - Int64 保存内存和本地的界限阈值
+     */
+    public func getThreshold(): Int64
+
+    /**
+     * 是否已经达到阈值
+     *
+     * 返回值 - Bool true达到 false没达到
+     */
+    public func isThresholdExceeded(): Bool
+
+    /**
+     * 写方法
+     *
+     * 参数 b - 要写入的内容
+     */
+    public func write(b: Array<UInt8>)
+
+}
+```
+
+#### 2.28 FileUploadException
+
+```
+public class FileUploadException <: Exception {
+
+    /**
+     * 初始化
+     *
+     * 参数 messages 异常信息
+     */
+    public init(messages: String)
+
+}
+```
+
+#### 2.29 IllegalBoundaryException
+
+```
+public class IllegalBoundaryException <: Exception {
+
+    /**
+     * 初始化
+     *
+     * 参数 messages 异常信息
+     */
+    public init(messages: String)
+
+}
+```
+
+#### 2.30 MalformedStreamException
+
+```
+public class MalformedStreamException <: Exception {
+
+    /**
+     * 初始化
+     *
+     * 参数 messages 异常信息
+     */
+    public init(messages: String)
+
+}
+```
+
+#### 2.31 NullPointerException
+
+```
+public class NullPointerException <: Exception {
+
+    /**
+     * 初始化
+     *
+     * 参数 messages 异常信息
+     */
+    public init(messages: String)
+
+}
+```
+
+#### 2.32 InvalidContentTypeException
+
+```
+public class InvalidContentTypeException <: Exception {
+
+    /**
+     * 初始化
+     *
+     * 参数 messages 异常信息
+     */
+    public init(messages: String)
+
+}
+```
+
+#### 2.33 SizeLimitExceededException
+
+```
+public class SizeLimitExceededException <: Exception {
+
+    /**
+     * 初始化
+     *
+     * 参数 messages 异常信息
+     */
+    public init(messages: String)
+
+}
+```
+
+#### 2.34 UnsupportedEncodingException
+
+```
+public class UnsupportedEncodingException <: Exception {
+
+    /**
+     * 初始化
+     *
+     * 参数 messages 异常信息
+     */
+    public init(messages: String)
+
+}
+```
+
+#### 2.35 IllegalStateException
+
+```
+public class IllegalStateException <: Exception {
+
+    /**
+     * 初始化
+     *
+     * 参数 messages 异常信息
+     */
+    public init(messages: String)
+
+}
+```
+
+#### 2.36 NoSuchElementException
+
+```
+public class NoSuchElementException <: Exception {
+
+    /**
+     * 初始化
+     *
+     * 参数 messages 异常信息
+     */
+    public init(messages: String)
+
+}
+```
+
+#### 2.37 FileCountLimitExceededException
+
+```
+public class FileCountLimitExceededException <: Exception {
+
+    /**
+     * 初始化
+     *
+     * 参数 messages 异常信息
+     */
+    public init(messages: String)
+
+    /**
+     * 获取最大阈值
+     *
+     * 返回值 - Int64 最大阈值
+     */
+    public func getLimit(): Int64
+
+}
+```
+
+#### 2.38 FileSizeLimitExceededException
+
+```
+public class FileSizeLimitExceededException <: Exception {
+
+    /**
+     * 初始化
+     *
+     * 参数 messages 异常信息
+     */
+    public init(messages: String)
+
+}
+```
+
+#### 2.39 InvalidFileNameException
+
+```
+public class InvalidFileNameException <: Exception {
+
+    /**
+     * 初始化
+     *
+     * 参数 messages 异常信息
+     */
+    public init(messages: String)
+
+}
+```
+
+#### 2.40 ItemSkippedException
+
+```
+public class ItemSkippedException <: Exception {
+
+    /**
+     * 初始化
+     *
+     * 参数 messages 异常信息
+     */
+    public init(messages: String)
+
+}
+```
+
+#### 2.41 ParseException
+
+```
+public class ParseException <: Exception {
+
+    /**
+     * 初始化
+     *
+     * 参数 messages 异常信息
+     */
+    public init(messages: String)
+
+}
+```
+
+#### 2.42 QDecoderException
+
+```
+public class QDecoderException <: Exception {
+
+    /**
+     * 初始化
+     *
+     * 参数 messages 异常信息
+     */
+    public init(messages: String)
+
+}
+```
+
+#### 2.43 ReadWriteException
+
+```
+public class ReadWriteException <: Exception {
+
+    /**
+     * 初始化
+     *
+     * 参数 messages 异常信息
+     */
+    public init(messages: String)
+
+}
+```
