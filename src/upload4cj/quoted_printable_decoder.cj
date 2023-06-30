@@ -6,7 +6,7 @@ package upload4cj
 
 from encoding import hex.*
 
-public class QuotedPrintableDecoder {
+class QuotedPrintableDecoder {
     private static let UPPER_NIBBLE_SHIFT: Int64 = 4
 
     public static func decode(data: Array<UInt8>): String {

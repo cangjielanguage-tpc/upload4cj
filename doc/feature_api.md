@@ -1,4 +1,4 @@
-# UUID4CJ 库
+# UPLOAD4CJ 库
 
 ## 介绍
 
@@ -1124,23 +1124,7 @@ public class ProgressNotifier {
 }
 ```
 
-#### 2.22 QuotedPrintableDecoder
-
-```
-public class QuotedPrintableDecoder {
-
-    /**
-     * 解析QP编码
-     *
-     * 参数 data - 要解析的数据
-     * 返回值 - String 解析后的结果
-     */
-    public static func decode(data: Array<UInt8>): String
-
-}
-```
-
-#### 2.23 RequestContext
+#### 2.22 RequestContext
 
 ```
 public interface RequestContext {
@@ -1176,7 +1160,7 @@ public interface RequestContext {
 }
 ```
 
-#### 2.24 ServletFileUpload
+#### 2.23 ServletFileUpload
 
 ```
 public class ServletFileUpload extends FileUpload {
@@ -1227,7 +1211,7 @@ public class ServletFileUpload extends FileUpload {
 }
 ```
 
-#### 2.25 ServletRequestContext
+#### 2.24 ServletRequestContext
 
 ```
 public class ServletRequestContext <: RequestContext {
@@ -1276,7 +1260,7 @@ public class ServletRequestContext <: RequestContext {
 }
 ```
 
-#### 2.26 Streams
+#### 2.25 Streams
 
 ```
 public class Streams {
@@ -1313,7 +1297,7 @@ public class Streams {
 }
 ```
 
-#### 2.27 ThresholdingOutputStream
+#### 2.26 ThresholdingOutputStream
 
 ```
 public abstract class ThresholdingOutputStream <: OutputStream {
@@ -1362,7 +1346,7 @@ public abstract class ThresholdingOutputStream <: OutputStream {
 }
 ```
 
-#### 2.28 FileUploadException
+#### 2.27 FileUploadException
 
 ```
 public class FileUploadException <: Exception {
@@ -1377,7 +1361,7 @@ public class FileUploadException <: Exception {
 }
 ```
 
-#### 2.29 IllegalBoundaryException
+#### 2.28 IllegalBoundaryException
 
 ```
 public class IllegalBoundaryException <: Exception {
@@ -1392,7 +1376,7 @@ public class IllegalBoundaryException <: Exception {
 }
 ```
 
-#### 2.30 MalformedStreamException
+#### 2.29 MalformedStreamException
 
 ```
 public class MalformedStreamException <: Exception {
@@ -1407,7 +1391,7 @@ public class MalformedStreamException <: Exception {
 }
 ```
 
-#### 2.31 NullPointerException
+#### 2.30 NullPointerException
 
 ```
 public class NullPointerException <: Exception {
@@ -1422,7 +1406,7 @@ public class NullPointerException <: Exception {
 }
 ```
 
-#### 2.32 InvalidContentTypeException
+#### 2.31 InvalidContentTypeException
 
 ```
 public class InvalidContentTypeException <: Exception {
@@ -1437,7 +1421,7 @@ public class InvalidContentTypeException <: Exception {
 }
 ```
 
-#### 2.33 SizeLimitExceededException
+#### 2.32 SizeLimitExceededException
 
 ```
 public class SizeLimitExceededException <: Exception {
@@ -1452,7 +1436,7 @@ public class SizeLimitExceededException <: Exception {
 }
 ```
 
-#### 2.34 UnsupportedEncodingException
+#### 2.33 UnsupportedEncodingException
 
 ```
 public class UnsupportedEncodingException <: Exception {
@@ -1467,7 +1451,7 @@ public class UnsupportedEncodingException <: Exception {
 }
 ```
 
-#### 2.35 IllegalStateException
+#### 2.34 IllegalStateException
 
 ```
 public class IllegalStateException <: Exception {
@@ -1482,7 +1466,7 @@ public class IllegalStateException <: Exception {
 }
 ```
 
-#### 2.36 NoSuchElementException
+#### 2.35 NoSuchElementException
 
 ```
 public class NoSuchElementException <: Exception {
@@ -1497,7 +1481,7 @@ public class NoSuchElementException <: Exception {
 }
 ```
 
-#### 2.37 FileCountLimitExceededException
+#### 2.36 FileCountLimitExceededException
 
 ```
 public class FileCountLimitExceededException <: Exception {
@@ -1519,7 +1503,7 @@ public class FileCountLimitExceededException <: Exception {
 }
 ```
 
-#### 2.38 FileSizeLimitExceededException
+#### 2.37 FileSizeLimitExceededException
 
 ```
 public class FileSizeLimitExceededException <: Exception {
@@ -1534,7 +1518,7 @@ public class FileSizeLimitExceededException <: Exception {
 }
 ```
 
-#### 2.39 InvalidFileNameException
+#### 2.38 InvalidFileNameException
 
 ```
 public class InvalidFileNameException <: Exception {
@@ -1549,7 +1533,7 @@ public class InvalidFileNameException <: Exception {
 }
 ```
 
-#### 2.40 ItemSkippedException
+#### 2.39 ItemSkippedException
 
 ```
 public class ItemSkippedException <: Exception {
@@ -1564,7 +1548,7 @@ public class ItemSkippedException <: Exception {
 }
 ```
 
-#### 2.41 ParseException
+#### 2.40 ParseException
 
 ```
 public class ParseException <: Exception {
@@ -1579,7 +1563,7 @@ public class ParseException <: Exception {
 }
 ```
 
-#### 2.42 QDecoderException
+#### 2.41 QDecoderException
 
 ```
 public class QDecoderException <: Exception {
@@ -1594,7 +1578,7 @@ public class QDecoderException <: Exception {
 }
 ```
 
-#### 2.43 ReadWriteException
+#### 2.42 ReadWriteException
 
 ```
 public class ReadWriteException <: Exception {
