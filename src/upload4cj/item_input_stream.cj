@@ -4,18 +4,14 @@
 
 package upload4cj
 
+/**
+ * ItemInputStream
+ */
 class ItemInputStream <: InterInputStream {
     private var total: Int64 = 0
 
-    /**
-     * The number of bytes, which must be hold, because
-     * they might be a part of the boundary.
-     */
     private var pad: Int64 = 0
 
-    /**
-     * The current offset in the buffer.
-     */
     private var pos: Int64 = 0
 
     private var closed: Bool = false
@@ -52,6 +48,12 @@ class ItemInputStream <: InterInputStream {
         return pos - mMultiPartStream.getOrThrow().head
     }
 
+    /**
+     * read the buffer array
+     *
+     * @param buffer - Array<Byte> The buffer array
+     * @return Int64 - the array size read
+     */
     public override func read(buffer: Array<Byte>): Int64 {
         if (closed) {
             throw ItemSkippedException("Read Fail")
@@ -77,6 +79,9 @@ class ItemInputStream <: InterInputStream {
         return res
     }
 
+    /**
+     * close
+     */
     public override func close(): Unit {
         close(false)
     }
@@ -124,8 +129,12 @@ class ItemInputStream <: InterInputStream {
             return 0
         }
         total = total + (mMultiPartStream.getOrThrow().tail - mMultiPartStream.getOrThrow().head - pad)
-        mMultiPartStream.getOrThrow().buffer.copyTo(mMultiPartStream.getOrThrow().buffer,
-            mMultiPartStream.getOrThrow().tail - pad, 0, pad)
+        mMultiPartStream.getOrThrow().buffer.copyTo(
+            mMultiPartStream.getOrThrow().buffer,
+            mMultiPartStream.getOrThrow().tail - pad,
+            0,
+            pad
+        )
         mMultiPartStream.getOrThrow().head = 0
         mMultiPartStream.getOrThrow().tail = pad
 
@@ -133,8 +142,12 @@ class ItemInputStream <: InterInputStream {
             var bufferTemp = mMultiPartStream.getOrThrow().buffer[mMultiPartStream.getOrThrow().tail..mMultiPartStream.
                 getOrThrow().bufSize]
             var bytesRead: Int64 = mMultiPartStream.getOrThrow().input.read(bufferTemp)
-            bufferTemp.copyTo(mMultiPartStream.getOrThrow().buffer, 0, mMultiPartStream.getOrThrow().tail,
-                mMultiPartStream.getOrThrow().bufSize - mMultiPartStream.getOrThrow().tail)
+            bufferTemp.copyTo(
+                mMultiPartStream.getOrThrow().buffer,
+                0,
+                mMultiPartStream.getOrThrow().tail,
+                mMultiPartStream.getOrThrow().bufSize - mMultiPartStream.getOrThrow().tail
+            )
             if (bytesRead <= 0) {
                 throw MalformedStreamException("Stream ended unexpectedly");
             }

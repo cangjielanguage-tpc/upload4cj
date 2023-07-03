@@ -1,5 +1,12 @@
+/*
+ * @Copyright (c) Huawei Technologies Co., Ltd. 2023-2023. All rights reserved.
+ */
+
 package upload4cj
 
+/**
+ * FileUploadBase
+ */
 public abstract class FileUploadBase {
     /**
      * HTTP content type header name.
@@ -41,16 +48,8 @@ public abstract class FileUploadBase {
      */
     public static let MULTIPART_FORM_DATA: String = "multipart/form-data"
 
-    /**
-     * The maximum permitted number of files that may be uploaded in a single
-     * request. A value of -1 indicates no maximum.
-     */
     private var fileCountMax: Int64 = -1
 
-    /**
-     * The maximum size permitted for a single uploaded file, as opposed
-     * to {@link #sizeMax}. A value of -1 indicates no maximum.
-     */
     var fileSizeMax: Int64 = -1
 
     /**
@@ -59,33 +58,66 @@ public abstract class FileUploadBase {
      */
     public var sizeMax: Int64 = -1
 
-    /**
-     * The content encoding to use when reading part headers.
-     */
     private var headerEncoding: Option<String> = Option<String>.None
 
     private var listener: Option<ProgressListener> = Option<ProgressListener>.None
 
+    /**
+     * get FileItemFactory
+     *
+     * @return Option<FileItemFactory> - the FileItemFactory
+     */
     public func getFileItemFactory(): Option<FileItemFactory>
 
+    /**
+     * set FileItemFactory
+     *
+     * @param factory - Option<FileItemFactory> the FileItemFactory
+     */
     public func setFileItemFactory(factory: Option<FileItemFactory>): Unit
 
+    /**
+     * set File SizeMax
+     *
+     * @param parafileSizeMax - Int64 the max size
+     */
     public func setFileSizeMax(parafileSizeMax: Int64): Unit {
         this.fileSizeMax = parafileSizeMax
     }
 
+    /**
+     * get the max size
+     *
+     * @return Int64 - the max size
+     */
     public func getFileSizeMax(): Int64 {
         return fileSizeMax
     }
 
+    /**
+     * set size max
+     *
+     * @param sizeMax - Int64 the max size
+     */
     public func setSizeMax(sizeMax: Int64) {
         this.sizeMax = sizeMax
     }
 
+    /**
+     * get size max
+     *
+     * @return Int64 - The size max
+     */
     public func getSizeMax(): Int64 {
         return sizeMax
     }
 
+    /**
+     * is Multipart or not
+     *
+     * @param ctx - RequestContext The RequestContext
+     * @return Bool - is Multipart or not
+     */
     public static func isMultipartContent(ctx: RequestContext): Bool {
         let contentType: Option<String> = ctx.getContentType()
         if (let Some(i) = contentType) {
@@ -100,6 +132,12 @@ public abstract class FileUploadBase {
         }
     }
 
+    /**
+     * parse request
+     *
+     * @param ctx - RequestContext The RequestContext
+     * @return Option<ArrayList<FileItem>> - the FileItem ArrayList
+     */
     public func parseRequest(ctx: RequestContext): Option<ArrayList<FileItem>> {
         let items: ArrayList<FileItem> = ArrayList<FileItem>()
         var successful: Bool = false
@@ -126,11 +164,15 @@ public abstract class FileUploadBase {
                         fileName = ""
                     }
                 }
-                let fileItem: FileItem = fac.getOrThrow().createItem(item.getFieldName(), item.getContentType(),
-                    item.isFormField(), fileName.getOrThrow())
+                let fileItem: FileItem = fac.getOrThrow().createItem(
+                    item.getFieldName(),
+                    item.getContentType(),
+                    item.isFormField(),
+                    fileName.getOrThrow()
+                )
                 items.append(fileItem)
                 try {
-                      Streams.copy(item.openStream(), fileItem.getOutputStream(), true, buffer)
+                    Streams.copy(item.openStream(), fileItem.getOutputStream(), true, buffer)
                 } catch (e: FileUploadException) {
                     throw FileUploadException("ParseRequest Fail")
                 } catch (e: ReadWriteException) {
@@ -156,6 +198,12 @@ public abstract class FileUploadBase {
         }
     }
 
+    /**
+     * get Item Iterator
+     *
+     * @param ctx - RequestContext The RequestContext
+     * @return FileItemIterator - the FileItemIterator
+     */
     public func getItemIterator(ctx: RequestContext): FileItemIterator {
         try {
             return FileItemIteratorImpl(ctx, this)
@@ -164,6 +212,12 @@ public abstract class FileUploadBase {
         }
     }
 
+    /**
+     * parse ParameterMap
+     *
+     * @param ctx - RequestContext The RequestContext
+     * @return Map<String, ArrayList<FileItem>> - the FileItem map
+     */
     public func parseParameterMap(ctx: RequestContext): Map<String, ArrayList<FileItem>> {
         let items: ArrayList<FileItem> = parseRequest(ctx).getOrThrow()
         let itemsMap: Map<String, ArrayList<FileItem>> = HashMap<String, ArrayList<FileItem>>()
@@ -295,26 +349,56 @@ public abstract class FileUploadBase {
         return FileItemHeadersImpl()
     }
 
+    /**
+     * get File CountMax
+     *
+     * @return Int64 - The File CountMax
+     */
     public func getFileCountMax(): Int64 {
         return fileCountMax
     }
 
+    /**
+     * set File CountMax
+     *
+     * @param tempFileCountMax - Int64 The File CountMax
+     */
     public func setFileCountMax(tempFileCountMax: Int64): Unit {
         this.fileCountMax = tempFileCountMax
     }
 
+    /**
+     * get Header Encoding
+     *
+     * @return Option<String> - The Header Encoding
+     */
     public func getHeaderEncoding(): Option<String> {
         return headerEncoding
     }
 
+    /**
+     * set header encoding
+     *
+     * @param encoding - Option<String> The Header Encoding
+     */
     public func setHeaderEncoding(encoding: Option<String>): Unit {
         this.headerEncoding = encoding
     }
 
+    /**
+     * get the Progress Listener
+     *
+     * @return Option<ProgressListener> - The Progress Listener
+     */
     public func getProgressListener(): Option<ProgressListener> {
         return this.listener
     }
 
+    /**
+     * set progress listener
+     *
+     * @param pListener - Option<ProgressListener> The Progress Listener
+     */
     public func setProgressListener(pListener: Option<ProgressListener>): Unit {
         this.listener = pListener
     }

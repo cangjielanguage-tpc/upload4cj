@@ -1,15 +1,20 @@
+/*
+ * @Copyright (c) Huawei Technologies Co., Ltd. 2023-2023. All rights reserved.
+ */
+
 package upload4cj
 
-public interface FileItemStream <: FileItemHeadersSupport{
+/**
+ * FileItemStream
+ */
+public interface FileItemStream <: FileItemHeadersSupport {
+    func openStream(): InputStream
 
-    func openStream():InputStream
+    func getContentType(): String
 
-    func getContentType():String
+    func getName(): Option<String>
 
-    func getName():Option<String>
+    func getFieldName(): String
 
-    func getFieldName():String
-
-    func isFormField():Bool
-
+    func isFormField(): Bool
 }

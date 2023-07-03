@@ -1,5 +1,12 @@
+/*
+ * @Copyright (c) Huawei Technologies Co., Ltd. 2023-2023. All rights reserved.
+ */
+
 package upload4cj
 
+/**
+ * FileItemIteratorImpl
+ */
 public class FileItemIteratorImpl <: FileItemIterator {
     /**
      * HTTP content type header for multipart forms.
@@ -21,25 +28,12 @@ public class FileItemIteratorImpl <: FileItemIterator {
      */
     public static let CONTENT_LENGTH: String = "Content-Length"
 
-    /**
-     * The content encoding to use when reading part headers.
-     */
     private var headerEncoding: Option<String> = Option<String>.None
 
-    /**
-     * The boundary, which separates the various parts.
-     */
     private var boundary: Option<Array<UInt8>> = Option<Array<UInt8>>.None
 
-    /**
-     * The notifier, which used for triggering the
-     * {@link ProgressListener}.
-     */
     private var notifier: Option<ProgressNotifier> = Option<ProgressNotifier>.None
 
-    /**
-     * The progress listener.
-     */
     private var listener: Option<ProgressListener> = Option<ProgressListener>.None
 
     /**
@@ -47,34 +41,16 @@ public class FileItemIteratorImpl <: FileItemIterator {
      */
     public static let CONTENT_TYPE: String = "Content-type"
 
-    /**
-     * The multi part stream to process.
-     */
     var multi: Option<MultipartStream> = Option<MultipartStream>.None
 
-    /**
-     * The current items field name.
-     */
     private var currentFieldName: Option<String> = Option<String>.None
 
-    /**
-     * Whether we are currently skipping the preamble.
-     */
     private var skipPreamble: Bool = false
 
-    /**
-     * Whether the current item may still be read.
-     */
     private var itemValid: Bool = false
 
-    /**
-     * Whether we have seen the end of the file.
-     */
     private var eof: Bool = false
 
-    /**
-     * The item, which we currently process.
-     */
     private var currentItem: Option<FileItemStreamImpl> = Option<FileItemStreamImpl>.None
 
     private let mfileuploadBase: Option<FileUploadBase>
@@ -269,6 +245,11 @@ public class FileItemIteratorImpl <: FileItemIterator {
         }
     }
 
+    /**
+     * iterator have next value or not
+     *
+     * @return Bool - have or not
+     */
     public override func hasNext(): Bool {
         if (eof) {
             return false
@@ -285,8 +266,13 @@ public class FileItemIteratorImpl <: FileItemIterator {
         }
     }
 
+    /**
+     * get iterator next value
+     *
+     * @return FileItemStream - get the FileItemStream
+     */
     public override func next(): FileItemStream {
-        let hsNext:Bool = hasNext()
+        let hsNext: Bool = hasNext()
         if (eof || (!itemValid && !hsNext)) {
             throw NoSuchElementException("No Such Element")
         }
