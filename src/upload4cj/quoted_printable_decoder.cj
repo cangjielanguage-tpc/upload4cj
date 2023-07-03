@@ -6,6 +6,9 @@ package upload4cj
 
 from encoding import hex.*
 
+/**
+ * QuotedPrintableDecoder
+ */
 class QuotedPrintableDecoder {
     private static let UPPER_NIBBLE_SHIFT: Int64 = 4
 

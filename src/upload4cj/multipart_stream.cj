@@ -6,6 +6,9 @@ package upload4cj
 
 from std import math.*
 
+/**
+ * MultipartStream
+ */
 public class MultipartStream {
     let CR: UInt8 = 0x0D
 
@@ -47,6 +50,14 @@ public class MultipartStream {
 
     let notifier: Option<ProgressNotifier>
 
+    /**
+     * init
+     *
+     * @param input - InputStream The InputStream
+     * @param boundary - Option<Array<UInt8>> The data Array
+     * @param bufSize - Int64 The buffer size
+     * @param pNotifier - Option<ProgressNotifier> The ProgressNotifier
+     */
     public init(input: InputStream, boundary: Option<Array<UInt8>>, bufSize: Int64, pNotifier: Option<ProgressNotifier>) {
         if (boundary == Option<Array<UInt8>>.None) {
             throw IllegalArgumentException("boundary may not be null")
@@ -75,18 +86,40 @@ public class MultipartStream {
         tail = 0
     }
 
+    /**
+     * init
+     *
+     * @param input - InputStream The InputStream
+     * @param boundary - Option<Array<UInt8>> The data Array
+     * @param pNotifier - Option<ProgressNotifier> The ProgressNotifier
+     */
     public init(input: InputStream, boundary: Option<Array<UInt8>>, pNotifier: Option<ProgressNotifier>) {
         this(input, boundary, DEFAULT_BUFSIZE, pNotifier)
     }
 
+    /**
+     * get the Header Encoding
+     *
+     * @return Option<String> - the Header Encoding
+     */
     public func getHeaderEncoding(): Option<String> {
         return headerEncoding
     }
 
+    /**
+     * set the Header Encoding
+     *
+     * @param encoding - Option<String> the Header Encoding
+     */
     public func setHeaderEncoding(encoding: Option<String>) {
         headerEncoding = encoding
     }
 
+    /**
+     * read the byte data
+     *
+     * @return UInt8 - The byte data
+     */
     public func readByte(): UInt8 {
         // Buffer depleted ?
         if (head == tail) {
@@ -111,6 +144,11 @@ public class MultipartStream {
         return retCode
     }
 
+    /**
+     * read the boundary
+     *
+     * @return Bool - ok or fault
+     */
     public func readBoundary(): Bool {
         var BoundaryMarker: Array<UInt8> = Array<UInt8>(2, item: 0)
         var nextChunk: Bool = false
@@ -138,6 +176,11 @@ public class MultipartStream {
         return nextChunk
     }
 
+    /**
+     * set the boundary
+     *
+     * @param boundary - Array<UInt8> the boundary(byte array)
+     */
     public func setBoundary(boundary: Array<UInt8>) {
         if (boundary.size != boundaryLength - BOUNDARY_PREFIX.size) {
             throw IllegalBoundaryException("The length of a boundary token cannot be changed");
@@ -168,6 +211,11 @@ public class MultipartStream {
         }
     }
 
+    /**
+     * read Headers
+     *
+     * @return String - The headers
+     */
     public func readHeaders(): String {
         var i: Int64 = 0
         var b: UInt8
@@ -224,10 +272,20 @@ public class MultipartStream {
         return ItemInputStream(this)
     }
 
+    /**
+     * discard BodyData
+     *
+     * @return Int64 - the byte size
+     */
     public func discardBodyData(): Int64 {
         return readBodyData(Option<OutputStream>.None)
     }
 
+    /**
+     * skip Preamble
+     *
+     * @return Bool - true or fault
+     */
     public func skipPreamble(): Bool {
         boundary.copyTo(boundary, 2, 0, boundary.size - 2)
         boundaryLength = boundary.size - 2
@@ -246,6 +304,13 @@ public class MultipartStream {
         }
     }
 
+    /**
+     * array equals tool
+     *
+     * @param a - Array<UInt8> UInt8 Array a
+     * @param b - Array<UInt8> UInt8 Array b
+     * @return Bool - true(equal) false(unequal)
+     */
     public static func arrayequals(a: Array<UInt8>, b: Array<UInt8>, count: Int64): Bool {
         for (i in 0..count) {
             if (a[i] != b[i]) {
@@ -282,6 +347,12 @@ public class MultipartStream {
         return -1
     }
 
+    /**
+     * read BodyData
+     *
+     * @param outputStream - Option<OutputStream> the body OutputStream
+     * @return Int64 - read the size
+     */
     public func readBodyData(outputStream: Option<OutputStream>): Int64 {
         return Streams.copy(newInputStream(), outputStream, false)
     }

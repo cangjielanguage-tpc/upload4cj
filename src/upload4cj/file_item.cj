@@ -1,5 +1,12 @@
+/*
+ * @Copyright (c) Huawei Technologies Co., Ltd. 2023-2023. All rights reserved.
+ */
+
 package upload4cj
 
+/**
+ * FileItem
+ */
 public interface FileItem <: FileItemHeadersSupport {
     func getInputStream(): Option<InputStream>
 

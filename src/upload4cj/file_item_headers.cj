@@ -1,5 +1,12 @@
+/*
+ * @Copyright (c) Huawei Technologies Co., Ltd. 2023-2023. All rights reserved.
+ */
+
 package upload4cj
 
+/**
+ * FileItemHeaders
+ */
 public interface FileItemHeaders {
     func getHeader(name: String): Option<String>
 

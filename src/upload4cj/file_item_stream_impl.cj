@@ -1,39 +1,25 @@
+/*
+ * @Copyright (c) Huawei Technologies Co., Ltd. 2023-2023. All rights reserved.
+ */
+
 package upload4cj
 
+/**
+ * FileItemStreamImpl
+ */
 public class FileItemStreamImpl <: FileItemStream {
-    /**
-     * The file items content type.
-     */
     private let contentType: Option<String>
 
-    /**
-     * The file items file name.
-     */
     let name: Option<String>
 
-    /**
-     * The file items field name.
-     */
     private let fieldName: Option<String>
 
-    /**
-     * Whether the file item is a form field.
-     */
     private let formField: Bool
 
-    /**
-     * The file items input stream.
-     */
     private let stream: InterInputStream
 
-    /**
-     * Whether the file item was already opened.
-     */
     private var opened: Bool = false
 
-    /**
-     * The headers, if any.
-     */
     private var headers: Option<FileItemHeaders> = Option<FileItemHeaders>.None
 
     private let mfileuploadBase: Option<FileUploadBase>
@@ -74,6 +60,11 @@ public class FileItemStreamImpl <: FileItemStream {
         stream = istream
     }
 
+    /**
+     * get the contentType
+     *
+     * @return String - The contentType
+     */
     public override func getContentType(): String {
         if (let Some(i) = contentType) {
             return i
@@ -82,18 +73,38 @@ public class FileItemStreamImpl <: FileItemStream {
         }
     }
 
+    /**
+     * get the FieldName
+     *
+     * @return String - The FieldName
+     */
     public override func getFieldName(): String {
         return fieldName.getOrThrow()
     }
 
+    /**
+     * get the name
+     *
+     * @return Option<String> - The name
+     */
     public override func getName(): Option<String> {
         return Streams.checkFileName(name)
     }
 
+    /**
+     * is memory or not
+     *
+     * @return Bool - is memory or not
+     */
     public override func isFormField(): Bool {
         return formField
     }
 
+    /**
+     * get the InputStream
+     *
+     * @return InputStream - the InputStream
+     */
     public override func openStream(): InputStream {
         if (opened) {
             throw IllegalStateException("The stream was already opened.")
@@ -105,10 +116,20 @@ public class FileItemStreamImpl <: FileItemStream {
         stream.close()
     }
 
+    /**
+     * get the FileItemHeaders
+     *
+     * @return FileItemHeaders - The FileItemHeaders
+     */
     public override func getHeaders(): FileItemHeaders {
         return headers.getOrThrow()
     }
 
+    /**
+     * set the FileItemHeaders
+     *
+     * @param pHeaders - FileItemHeaders The threshold
+     */
     public override func setHeaders(pHeaders: FileItemHeaders): Unit {
         this.headers = pHeaders
     }

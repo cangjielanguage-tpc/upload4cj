@@ -1,5 +1,12 @@
+/*
+ * @Copyright (c) Huawei Technologies Co., Ltd. 2023-2023. All rights reserved.
+ */
+
 package upload4cj
 
+/**
+ * LimitedInputStreamImpl
+ */
 class LimitedInputStreamImpl <: LimitedInputStream {
     private var itemStream: Option<ItemInputStream>
 
@@ -13,7 +20,8 @@ class LimitedInputStreamImpl <: LimitedInputStream {
             i.close(true)
             throw FileSizeLimitExceededException(
                 "The field exceeds its maximum permitted size of " + pSizeMax.toString() + " bytes. actual " +
-                    pCount.toString())
+                    pCount.toString()
+            )
         } else {
             throw SizeLimitExceededException(
                 "the request was rejected because its size " + pCount.toString() + " exceeds the configured maximum " +

@@ -1,8 +1,15 @@
+/*
+ * @Copyright (c) Huawei Technologies Co., Ltd. 2023-2023. All rights reserved.
+ */
+
 package upload4cj
 
 from std import unicode.*
 from std import collection.*
 
+/**
+ * ParameterParser
+ */
 public class ParameterParser {
     private var chars: Array<Char> = []
 
@@ -16,6 +23,9 @@ public class ParameterParser {
 
     private var lowerCaseNames: Bool = false
 
+    /**
+     * init
+     */
     public init() {
         super()
     }
@@ -24,6 +34,13 @@ public class ParameterParser {
         return this.pos < this.len
     }
 
+    /**
+     * parse the text
+     *
+     * @param str - Option<String> The str need to parse
+     * @param separators - Option<Array<Char>> The separator array
+     * @return Map<String, Option<String>> - the result
+     */
     public func parse(str: Option<String>, separators: Option<Array<Char>>): Map<String, Option<String>> {
         match (separators) {
             case None => return HashMap<String, Option<String>>()
@@ -56,6 +73,13 @@ public class ParameterParser {
         return parse(str, separator)
     }
 
+    /**
+     * parse the text
+     *
+     * @param str - Option<String> The str need to parse
+     * @param separator - Char The separator char
+     * @return Map<String, Option<String>> - the result
+     */
     public func parse(str: Option<String>, separator: Char): Map<String, Option<String>> {
         match (str) {
             case None => return HashMap<String, Option<String>>()
@@ -65,6 +89,13 @@ public class ParameterParser {
         }
     }
 
+    /**
+     * parse the Char array
+     *
+     * @param charArray - Option<Array<Char>> The char array need to parse
+     * @param separator - Char The separator char
+     * @return Map<String, Option<String>> - the result
+     */
     public func parse(charArray: Option<Array<Char>>, separator: Char): Map<String, Option<String>> {
         match (charArray) {
             case None => return HashMap<String, Option<String>>()
@@ -72,8 +103,16 @@ public class ParameterParser {
         }
     }
 
-    public func parse(charArray: Option<Array<Char>>, offset: Int64, length: Int64, separator: Char): Map<String,
-        Option<String>> {
+    /**
+     * parse the Char array
+     *
+     * @param charArray - Option<Array<Char>> The char array need to parse
+     * @param offset - Int64 The offset
+     * @param length - Int64 The length
+     * @param separator - Char The separator char
+     * @return Map<String, Option<String>> - the result
+     */
+    public func parse(charArray: Option<Array<Char>>, offset: Int64, length: Int64, separator: Char): Map<String, Option<String>> {
         match (charArray) {
             case None => return HashMap<String, Option<String>>()
             case Some(v) => this.chars = charArray.getOrThrow()
@@ -168,10 +207,20 @@ public class ParameterParser {
         return result
     }
 
+    /**
+     * support turn to lowerCase Names
+     *
+     * @return Bool - support or not
+     */
     public func isLowerCaseNames(): Bool {
         return lowerCaseNames
     }
 
+    /**
+     * set turn to lowerCase Names
+     *
+     * @param b - Bool turn to lowerCase Names or not
+     */
     public func setLowerCaseNames(b: Bool) {
         this.lowerCaseNames = b
     }

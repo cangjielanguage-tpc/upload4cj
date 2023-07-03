@@ -6,6 +6,9 @@ package upload4cj
 
 from encoding import base64.*
 
+/**
+ * MimeUtility
+ */
 public class MimeUtility {
     private static let BASE64_ENCODING_MARKER: String = "B"
 
@@ -17,6 +20,12 @@ public class MimeUtility {
 
     private static let LINEAR_WHITESPACE: String = " \t\r\n"
 
+    /**
+     * decode the Text
+     *
+     * @param text - String the Text
+     * @return Option<String> - the Text decoded
+     */
     public static func decodeText(text: String): Option<String> {
         if (text.indexOf(ENCODED_TOKEN_MARKER) == Option<Int64>.None) {
             return text
