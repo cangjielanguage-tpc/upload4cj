@@ -1,3 +1,11 @@
 .git/
 .gitee/
 .vscode/
+build/
+ci_lib/
+ci_test/
+log/
+module-resolve.json
+report/
+tmp/
+uuid4cj/

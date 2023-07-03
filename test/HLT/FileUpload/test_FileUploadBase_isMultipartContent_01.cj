@@ -1,0 +1,25 @@
+// 3rd_party_lib:upload4cj/build/upload4cj
+// 3rd_party_lib:upload4cj/build/charset
+// 3rd_party_lib:upload4cj/build/cryptocj
+// 3rd_party_lib:upload4cj/build/uuid
+
+from upload4cj import upload4cj.*
+from std import fs.*
+from std import io.*
+from std import collection.*
+from net import http.*
+
+@Test
+public class TestFileUploadBase {
+    /***
+        public static func isMultipartContent(ctx:RequestContext):Bool
+        测试场景:  参数不含CONTENT_TYPE分支，返回false
+    ***/
+    @TestCase
+    func testFileUploadBaseIsMultipartContent01(): Unit {
+        let req: Request = Request(RequestMethod.POST, "http://127.0.0.1/",ByteArrayStream())
+        //req1.header.add("Content-Type", CONTENT_TYPE)
+        let res = FileUpload.isMultipartContent(ServletRequestContext(req))
+        @Assert(res, false)
+    }
+}
