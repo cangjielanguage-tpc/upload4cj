@@ -18,7 +18,7 @@ main(){
         let upload:ServletFileUpload = ServletFileUpload(DiskFileItemFactory(0,Option<Directory>.None))
         let items:ArrayList<FileItem> = upload.parseRequest(req1).getOrThrow()
         if(items.size == 1){
-            println("Pass3")
+            println("Pass1")
         }
         let item0:FileItem = items.get(0).getOrThrow()
 

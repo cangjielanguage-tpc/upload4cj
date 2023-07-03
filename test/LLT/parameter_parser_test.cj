@@ -20,12 +20,15 @@ main(){
     parameterTest.test9()
     parameterTest.test10()
     parameterTest.test11()
+    parameterTest.test12()
+    parameterTest.test13()
+    parameterTest.test14()
     return 0
 }
 
 @Test
 public class parameterTest {
-    
+
     @TestCase
     public func test1(): Unit {
         let s: String = "test; test1 =  stuff   ; test2 =  \"stuff; stuff\"; test3=\"stuff"
@@ -169,7 +172,7 @@ public class parameterTest {
         let s: String = "param = \"stuff\\\"; more stuff\""
         var parser: ParameterParser = ParameterParser()
         let s1: Option<String> = s
-        
+
         var map: Map<String, Option<String>> = parser.parse(s1, ';')
 
         @Assert(map.size, 1)
@@ -183,7 +186,7 @@ public class parameterTest {
         let s: String = "param = \"stuff\\\\\"; anotherparam"
         var parser: ParameterParser = ParameterParser()
         let s1: Option<String> = s
-        
+
         var map: Map<String, Option<String>> = parser.parse(s1, ';')
 
         @Assert(map.size, 2)
@@ -207,16 +210,16 @@ public class parameterTest {
 
         let s: Option<String> = "Content-type: multipart/form-data , boundary=AaB03x"
         let s_new: Option<String> = "Content-type: multipart/form-data, boundary=AaB03x"
-        
+
         var arrayChar: Option<Array<Char>> = [',', ';']
         var arrayChar_new: Option<Array<Char>> = [';', ',']
 
         var map: Map<String, Option<String>> = parser.parse(s, arrayChar)
         var map_new: Map<String, Option<String>> = parser.parse(s_new, arrayChar_new)
-        
+
         @Assert(map.get("boundary").getOrThrow().getOrThrow(), "AaB03x")
         @Assert(map_new.get("boundary").getOrThrow().getOrThrow(), "AaB03x")
-   
+
         let s2: Option<String> = "Content-type: multipart/mixed, boundary=BbC04y"
         var arrayChar2: Option<Array<Char>> = [',', ';']
         var map2: Map<String, Option<String>> = parser.parse(s2, arrayChar2)
@@ -238,5 +241,44 @@ public class parameterTest {
 
         @Assert(map.get("filename").getOrThrow().getOrThrow(), "If you can read this you understand the example.")
         println("Pass11")
+    }
+
+    @TestCase
+    public func test12(): Unit {
+        let s: String = "text/plain: Charset=UTF-8"
+        var parser: ParameterParser = ParameterParser()
+        parser.setLowerCaseNames(true)
+        let isLowerCaseNames: Bool = parser.isLowerCaseNames()
+        let s1: Option<String> = s
+        var map: Map<String, Option<String>> = parser.parse(s1, ':')
+        @Assert(isLowerCaseNames, true)
+        @Assert(map.get("charset").getOrThrow().getOrThrow(), "UTF-8")
+        println("Pass12")
+    }
+
+    @TestCase
+    public func test13(): Unit {
+        let s: String = "text/plain; Charset=UTF-16"
+        var parser: ParameterParser = ParameterParser()
+        parser.setLowerCaseNames(true)
+        let isLowerCaseNames: Bool = parser.isLowerCaseNames()
+        let s1: Option<String> = s
+        var map: Map<String, Option<String>> = parser.parse(s1, ';')
+        @Assert(isLowerCaseNames, true)
+        @Assert(map.get("charset").getOrThrow().getOrThrow(), "UTF-16")
+        println("Pass13")
+    }
+
+    @TestCase
+    public func test14(): Unit {
+        let s: String = "text/plain; Charset=UTF-8"
+        var parser: ParameterParser = ParameterParser()
+        parser.setLowerCaseNames(false)
+        let isLowerCaseNames: Bool = parser.isLowerCaseNames()
+        let s1: Option<String> = s
+        var map: Map<String, Option<String>> = parser.parse(s1, ';')
+        @Assert(isLowerCaseNames, false)
+        @Assert(map.get("Charset").getOrThrow().getOrThrow(), "UTF-8")
+        println("Pass14")
     }
 }

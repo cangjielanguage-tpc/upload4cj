@@ -20,6 +20,10 @@ main() {
     mimeUtilityTest.test6()
     mimeUtilityTest.test7()
     mimeUtilityTest.test8()
+    mimeUtilityTest.test9()
+    mimeUtilityTest.test10()
+    mimeUtilityTest.test11()
+    mimeUtilityTest.test12()
     return 0
 }
 
@@ -32,6 +36,33 @@ public class MimeUtilityTest {
         @Assert(expected.getOrThrow(), encoded.getOrThrow())
 
         println("Pass1")
+    }
+
+    @TestCase
+    public func test10(): Unit {
+        let encoded: Option<String> = MimeUtility.decodeText("abc-rf")
+        let expected: Option<String> = "abc-rf"
+        @Assert(expected.getOrThrow(), encoded.getOrThrow())
+
+        println("Pass10")
+    }
+
+    @TestCase
+    public func test11(): Unit {
+        let encoded: Option<String> = MimeUtility.decodeText("abc-rf_ty")
+        let expected: Option<String> = "abc-rf_ty"
+        @Assert(expected.getOrThrow(), encoded.getOrThrow())
+
+        println("Pass11")
+    }
+
+    @TestCase
+    public func test12(): Unit {
+        let encoded: Option<String> = MimeUtility.decodeText("abc-rf_ty:56")
+        let expected: Option<String> = "abc-rf_ty:56"
+        @Assert(expected.getOrThrow(), encoded.getOrThrow())
+
+        println("Pass12")
     }
 
     @TestCase
@@ -86,6 +117,14 @@ public class MimeUtilityTest {
         let expected = " hé! àèôu !!!"
         @Assert(encoded.getOrThrow(), expected)
         println("Pass6")
+    }
+
+    @TestCase
+    public func test9(): Unit {
+        let encoded: Option<String> = MimeUtility.decodeText("=?UTF-8?B?IGjDqSEgw6DDqMO0dSAhISE=?=")
+        let expected = " hé! àèôu !!!"
+        @Assert(encoded.getOrThrow(), expected)
+        println("Pass9")
     }
 
     @TestCase

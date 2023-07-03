@@ -1,4 +1,6 @@
 
+// EXEC: cjc %import-path %L %l %f
+// EXEC: ./main
 
 from upload4cj import upload4cj.*
 from std import fs.*
@@ -10,12 +12,132 @@ from std import unittest.*
 from std import unittest.testmacro.*
 
 main(){
-    testFileUploadBaseIsParseRequest01()
+    test1()
+    test2()
+    test3()
+    test4()
+    test5()
+    test6()
+    test7()
+    test8()
 }
 
 
+     func test1(): Unit {
+        let content= "-----1234\r\n" +
+                    "Content-Disposition: form-data; name=\"utf8Html\"\r\n" +
+                    "\r\n" +
+                    "This is the content of the file\n" +
+                    "\r\n" +
+                    "-----1234--\r\n"
+        var body_in=ByteArrayStream()
+        body_in.write(content.toUtf8Array())
+        let fileItemFactory=DiskFileItemFactory()
+        let servletFileUpload=ServletFileUpload(fileItemFactory)
+        let request=http.Request(RequestMethod.GET,"http://www.baidu.com")
+        request.body=body_in
+        var head_ori=Header()
+        head_ori.add("Content-Type","multipart/form-data; boundary=---1234")
+        request.header=head_ori
+        var re=servletFileUpload.parseRequest(request).getOrThrow()
+        @Assert(re.size,1)
+        @Assert(re[0].isInMemory(),true)
+        @Assert(re[0].getSize(),32)
+        @Assert(re[0].getString(),"This is the content of the file\n")
+        println("pass1")
+    }
 
- func testFileUploadBaseIsParseRequest01(): Unit {
+      func test2(): Unit {
+        let CONTENT_TYPE: String = "multipart/form-data; boundary=---1234"
+        let content= "-----1234\r\n" +
+                    "Content-Disposition: form-data; name=\"utf8Html\"\r\n" +
+                    "\r\n" +
+                    "This is the content of the file\n" +
+                    "\r\n" +
+                    "-----1234--\r\n"
+        var body_in=ByteArrayStream()
+        body_in.write(content.toUtf8Array())
+        let fileItemFactory=DiskFileItemFactory()
+        let servletFileUpload=ServletFileUpload(fileItemFactory)
+        let request=http.Request(RequestMethod.GET,"http://www.baidu.com")
+        request.body=body_in
+        request.header.add("Content-Type", CONTENT_TYPE)
+        var re=servletFileUpload.parseRequest(request).getOrThrow()
+        @Assert(re.size,1)
+        @Assert(re[0].isInMemory(),true)
+        @Assert(re[0].getSize(),32)
+        @Assert(re[0].getString(),"This is the content of the file\n")
+        println("pass2")
+    }
+
+    func test3(): Unit {
+        let CONTENT_TYPE: String = "multipart/form-data; boundary=---1234"
+        let str = "\""
+        var text = "-----1234\r\n" +
+                        "Content-Disposition: form-data; name=${str}test${str}; filename=${str}file1${str}\r\n" +
+                        "Content-Type: text/whatever\r\n" +
+                        "\r\n" +
+                        "This is the content of the file\n" +
+                        "\r\n" +
+                        "-----1234\r\n"
+        let bytes: Array<UInt8> = text.toUtf8Array()
+        var output = ByteArrayStream()
+        output.write(bytes)
+        var req: Request = Request(RequestMethod.POST, "http://127.0.0.1/", output)
+        req.header.add("Content-Type", CONTENT_TYPE)
+        let fileItemFactory: DiskFileItemFactory = DiskFileItemFactory()
+        let upload: ServletFileUpload = ServletFileUpload(fileItemFactory)
+        let iterator: FileItemIterator = upload.getItemIterator(req)
+
+        let item: FileItemStream = iterator.next()
+        let asItem = (item as FileItemStreamImpl).getOrThrow()
+        let stream = asItem.openStream()
+        var arr = Array<Byte>(100, item: 0)
+        let readByteCount = stream.read(arr)
+        @Assert(readByteCount, 32)
+        println("pass3")
+    }
+
+
+    func test4(): Unit {
+        let dfs = DiskFileItem("a1" , "text/html; charset=utf16" , false, "testfile" , 129 , Option<Directory>.None)
+        var flag = 0
+        dfs.getOutputStream()
+        match (dfs.getStoreLocation()) {
+            case Some(v) => flag = 1
+            case None => flag = 0
+        }
+        @Assert(flag, 0)
+        println("pass4")
+    }
+
+  func test5(): Unit {
+        let CONTENT_TYPE: String = "multipart/form-data; boundary=---1234"
+        let content= "-----1234\r\n" +
+                    "Content-Disposition: form-data; name=\"utf8Html\"\r\n" +
+                    "\r\n" +
+                    "This is the content of the file\n" +
+                    "\r\n" +
+                    "-----1234--\r\n"
+        var body_in=ByteArrayStream()
+        body_in.write(content.toUtf8Array())
+        let servletFileUpload=ServletFileUpload()
+        let request=http.Request(RequestMethod.GET,"http://www.baidu.com")
+        request.body=body_in
+        request.header.add("Content-Type", CONTENT_TYPE)
+        var re_flag=1
+        try{
+            servletFileUpload.parseRequest(request)
+        }catch(e:Exception){
+            re_flag=0
+        }
+        @Assert(re_flag,0)
+        println("pass5")
+    }
+
+
+//用例不应该卡住，应该个数为0
+ func test6(): Unit {
         let text ="contentTEXT\r\ntest"
         let CONTENT_TYPE: String = "multipart/form-data; boundary=---1234"
         let bytes: Array<UInt8> = text.toUtf8Array()
@@ -27,12 +149,12 @@ main(){
         fileItemFactory.setDefaultCharset("UTF-8")
         let upload: FileUpload = FileUpload(fileItemFactory)
         let fileItems: ArrayList<FileItem> = upload.parseRequest(ServletRequestContext(req1)).getOrThrow()
-        //let fileItem: FileItem = fileItems.get(0).getOrThrow()
         @Assert(fileItems.size,0)
+        println("pass6")
     }
 
-
- public func testFileUploadBaseGetItemIterator01(): Unit {
+//用例解析出来个数为0
+ public func test7(): Unit {
         var flag = 0
         var fu = FileUpload()
         let CONTENT_TYPE: String = "multipart/form-data; boundary=---1234"
@@ -49,9 +171,10 @@ main(){
             flag = 1
         }
         @Assert(flag, 0)
+        println("pass7")
     }
 
- public func testFileUploadBaseGetItemIterator02(): Unit {
+ public func test8(): Unit {
         var flag = 0
         var fu = FileUpload()
         let CONTENT_TYPE: String = "multipart/form-data; boundary=---1234"
@@ -63,137 +186,8 @@ main(){
         try {
             fu.getItemIterator(ServletRequestContext(req))
         } catch (e: Exception){
-            println("e="+e.message)
             flag = 1
         }
-        @Assert(flag, 0)
+        @Assert(flag, 1)
+        println("pass8")
     }
-
-public func test1(n:Int64){
-        var totalTime:Int64 = 0
-        for(i in 0..n){
-            let CONTENT_TYPE: String = "multipart/form-data; boundary=---1234"
-            let text =
-            "-----1234\r\n" + "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
-            "Content-Type: text/whatever\r\n" + "\r\n" + "This is the content of the file\n" + "\r\n" + "-----1234\r\n" +
-            "Content-Disposition: form-data; name=\"field\"\r\n" + "\r\n" + "fieldValue\r\n" + "-----1234\r\n" +
-            "Content-Disposition: form-data; name=\"multi\"\r\n" + "\r\n" + "value1\r\n" + "-----1234\r\n" +
-            "Content-Disposition: form-data; name=\"multi\"\r\n" + "\r\n" + "value2\r\n" + "-----1234--\r\n"
-            let bytes: Array<UInt8> = text.toUtf8Array()
-            var output = ByteArrayStream()
-            output.write(bytes)
-            var req1: Request = Request(RequestMethod.POST, "http://127.0.0.1/", output)
-            req1.header.add("Content-Type", CONTENT_TYPE)
-            let upload: ServletFileUpload = ServletFileUpload(DiskFileItemFactory())
-            let s = Time.now()
-            let mappedParameters: Map<String, ArrayList<FileItem>> = upload.parseParameterMap(req1)
-            let e0 = Time.since(s).nanoseconds()
-            totalTime += e0
-            let vs = mappedParameters.values()
-            for(v in vs){
-                for(item in v){
-                    item.delete()
-                }
-            }
-
-        }
-        let average = Float64(totalTime)/Float64(n)
-        println("总时间="+totalTime.toString()+" 总次数="+n.toString()+ " 平均时间="+average.toString())
-}
-
-
-
-public func test2(n:Int64){
-        var totalTime:Int64 = 0
-        for(i in 0..n){
-            let CONTENT_TYPE: String = "multipart/form-data; boundary=---1234"
-            let text =
-            "-----1234\r\n" + "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
-            "Content-Type: text/whatever\r\n" + "\r\n" + "This is the content of the file\n" + "\r\n" + "-----1234\r\n" +
-            "Content-Disposition: form-data; name=\"field\"\r\n" + "\r\n" + "fieldValue\r\n" + "-----1234\r\n" +
-            "Content-Disposition: form-data; name=\"multi\"\r\n" + "\r\n" + "value1\r\n" + "-----1234\r\n" +
-            "Content-Disposition: form-data; name=\"multi\"\r\n" + "\r\n" + "value2\r\n" + "-----1234--\r\n"
-            let bytes: Array<UInt8> = text.toUtf8Array()
-            var output = ByteArrayStream()
-            output.write(bytes)
-            var req1: Request = Request(RequestMethod.POST, "http://127.0.0.1/", output)
-            req1.header.add("Content-Type", CONTENT_TYPE)
-            let fileItemFactory: DiskFileItemFactory = DiskFileItemFactory()
-            let upload: ServletFileUpload = ServletFileUpload(fileItemFactory)
-            let s = Time.now()
-            let fileItems: ArrayList<FileItem> = upload.parseRequest(req1).getOrThrow()
-            let e0 = Time.since(s).nanoseconds()
-            totalTime += e0
-            for(item in fileItems){
-                item.delete()
-            }
-        }
-        let average = Float64(totalTime)/Float64(n)
-        println("总时间="+totalTime.toString()+" 总次数="+n.toString()+ " 平均时间="+average.toString())
-}
-
-
-public func test3(n:Int64){
-        var totalTime:Int64 = 0
-        for(i in 0..n){
-            let CONTENT_TYPE: String = "multipart/form-data; boundary=---1234"
-            let text =
-            "-----1234\r\n" + "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
-            "Content-Type: text/whatever\r\n" + "\r\n" + "This is the content of the file\n" + "\r\n" + "-----1234\r\n" +
-            "Content-Disposition: form-data; name=\"field\"\r\n" + "\r\n" + "fieldValue\r\n" + "-----1234\r\n" +
-            "Content-Disposition: form-data; name=\"multi\"\r\n" + "\r\n" + "value1\r\n" + "-----1234\r\n" +
-            "Content-Disposition: form-data; name=\"multi\"\r\n" + "\r\n" + "value2\r\n" + "-----1234--\r\n"
-            let bytes: Array<UInt8> = text.toUtf8Array()
-            var output = ByteArrayStream()
-            output.write(bytes)
-            var req1: Request = Request(RequestMethod.POST, "http://127.0.0.1/", output)
-            req1.header.add("Content-Type", CONTENT_TYPE)
-            let fileItemFactory: DiskFileItemFactory = DiskFileItemFactory()
-            fileItemFactory.setSizeThreshold(1)
-            let upload: ServletFileUpload = ServletFileUpload(fileItemFactory)
-            let s = Time.now()
-            let fileItems: ArrayList<FileItem> = upload.parseRequest(req1).getOrThrow()
-            let e0 = Time.since(s).nanoseconds()
-            totalTime += e0
-            for(item in fileItems){
-                item.delete()
-            }
-        }
-        let average = Float64(totalTime)/Float64(n)
-        println("总时间="+totalTime.toString()+" 总次数="+n.toString()+ " 平均时间="+average.toString())
-}
-
-
-public func test4(n:Int64){
-        var totalTime:Int64 = 0
-        for(i in 0..n){
-            let CONTENT_TYPE: String = "multipart/form-data; boundary=---1234"
-            let text =
-            "-----1234\r\n" + "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
-            "Content-Type: text/whatever\r\n" + "\r\n" + "This is the content of the file\n" + "\r\n" + "-----1234\r\n" +
-            "Content-Disposition: form-data; name=\"field\"\r\n" + "\r\n" + "fieldValue\r\n" + "-----1234\r\n" +
-            "Content-Disposition: form-data; name=\"multi\"\r\n" + "\r\n" + "value1\r\n" + "-----1234\r\n" +
-            "Content-Disposition: form-data; name=\"multi\"\r\n" + "\r\n" + "value2\r\n" + "-----1234--\r\n"
-            let bytes: Array<UInt8> = text.toUtf8Array()
-            var output = ByteArrayStream()
-            output.write(bytes)
-            var req1: Request = Request(RequestMethod.POST, "http://127.0.0.1/", output)
-            req1.header.add("Content-Type", CONTENT_TYPE)
-            let fileItemFactory: DiskFileItemFactory = DiskFileItemFactory()
-            fileItemFactory.setSizeThreshold(1)
-            let upload: ServletFileUpload = ServletFileUpload(fileItemFactory)
-            let s = Time.now()
-            let mappedParameters: Map<String, ArrayList<FileItem>> = upload.parseParameterMap(req1)
-            let e0 = Time.since(s).nanoseconds()
-            totalTime += e0
-            let vs = mappedParameters.values()
-            for(v in vs){
-                for(item in v){
-                    item.delete()
-                }
-            }
-
-        }
-        let average = Float64(totalTime)/Float64(n)
-        println("总时间="+totalTime.toString()+" 总次数="+n.toString()+ " 平均时间="+average.toString())
-}
