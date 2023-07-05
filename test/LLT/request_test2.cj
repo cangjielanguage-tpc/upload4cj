@@ -21,7 +21,7 @@ main(){
     req3.header.add("Content-Type","multipart/form-data")
     req3.parseForm()
     println("Parse the request")
-    println("The data of postForm after parsing:${req3.postForm.encode()}")
+    println("The data of postForm after parsing:${req3.postForm.toEncodeString()}")
     println("Get all of values which match c:${req3.postForm.getAll("c")}")
     return 0
 }
