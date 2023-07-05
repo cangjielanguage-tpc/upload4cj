@@ -295,7 +295,7 @@ public abstract class FileUploadBase {
             while (start < len) {
                 var nonWs = start
                 while (nonWs < len) {
-                    let c: Char = headerPart.charAt(nonWs)
+                    let c: Char = headerPart.get(nonWs).getOrThrow()
                     if (c != ' ' && c != '\t') {
                         break
                     }
@@ -326,7 +326,7 @@ public abstract class FileUploadBase {
             } else {
                 throw IllegalStateException("Expected headers to be terminated by an empty line.")
             }
-            if (headerPart.charAt(offset.getOrThrow() + 1) == '\n') {
+            if (headerPart.get(offset.getOrThrow() + 1).getOrThrow() == '\n') {
                 return offset.getOrThrow()
             }
             index = offset.getOrThrow() + 1

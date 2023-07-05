@@ -40,12 +40,12 @@ public class MimeUtility {
 
         var previousTokenEncoded: Bool = false
         while (offset < endOffset) {
-            var ch = text.charAt(offset)
+            var ch = text.get(offset).getOrThrow()
 
             if (LINEAR_WHITESPACE.indexOf(ch) != Option<Int64>.None) {
                 startWhiteSpace = offset
                 while (offset < endOffset) {
-                    ch = text.charAt(offset)
+                    ch = text.get(offset).getOrThrow()
                     if (LINEAR_WHITESPACE.indexOf(ch) != Option<Int64>.None) { // whitespace found
                         offset++
                     } else {
@@ -57,7 +57,7 @@ public class MimeUtility {
                 var wordStart: Int64 = offset
 
                 while (offset < endOffset) {
-                    ch = text.charAt(offset)
+                    ch = text.get(offset).getOrThrow()
                     if (LINEAR_WHITESPACE.indexOf(ch) == Option<Int64>.None) { // not white space
                         offset++
                     } else {

@@ -4,7 +4,7 @@ from upload4cj import upload4cj.*
 from net import http.*
 from std import io.*
 
-@overflowWrapping
+@OverflowWrapping
 main() {
     let CONTENT_TYPE: String = "multipart/form-data; boundary=---1234"
 
@@ -33,7 +33,7 @@ main() {
     return 0
 }
 
-@overflowWrapping
+@OverflowWrapping
 public func runTest(NUM_ITEM: Int64, pContentLength: Int64, request: ServletRequestContext): Int64 {
     let upload: ServletFileUpload = ServletFileUpload(DiskFileItemFactory())
 

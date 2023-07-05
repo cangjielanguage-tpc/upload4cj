@@ -86,7 +86,7 @@ public class Streams {
             if (let Some(j) = index) {
                 let sb: StringBuilder = StringBuilder()
                 for (k in 0..i.size) {
-                    let c: Char = i.charAt(k)
+                    let c: Char = i.get(k).getOrThrow()
                     if (c == '\u{0}') {
                         sb.append("\\0")
                     } else {
