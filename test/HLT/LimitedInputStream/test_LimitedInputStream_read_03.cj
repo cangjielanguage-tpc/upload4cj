@@ -1,7 +1,11 @@
 // 3rd_party_lib:upload4cj/build/charset
+// 3rd_party_lib_ohos:upload4cj/build/aarch64-linux-ohos/charset
 // 3rd_party_lib:upload4cj/build/cryptocj
+// 3rd_party_lib_ohos:upload4cj/build/aarch64-linux-ohos/cryptocj
 // 3rd_party_lib:upload4cj/build/upload4cj
+// 3rd_party_lib_ohos:upload4cj/build/aarch64-linux-ohos/upload4cj
 // 3rd_party_lib:upload4cj/build/uuid
+// 3rd_party_lib_ohos:upload4cj/build/aarch64-linux-ohos/uuid
 // dependence: ../upload_common_values.cj
 
 @Test
@@ -20,7 +24,7 @@ public class TestLimitedInputStream{
         var re_array=Array<UInt8>([0,0,0,0,0,0,0,0,0,0,0,0,0,0])
         var re_flag=1
         try{
-            let re_int=subLimitedInputStream.read(re_array)
+            subLimitedInputStream.read(re_array)
         }catch(e:IOException){
             if(e.toString().contains("raiseError")){
                 re_flag=0
