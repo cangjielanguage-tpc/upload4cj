@@ -67,7 +67,7 @@ public class DeferredFileOutputStream <: ThresholdingOutputStream {
      * @return - Option<Array<UInt8>> data Array
      */
     public func getData(): Option<Array<UInt8>> {
-        if (let Some(i) = this.memoryOutputStream) {
+        if (let Some(_) = this.memoryOutputStream) {
             return this.memoryOutputStream.getOrThrow().bytes()
         } else {
             return Option<Array<UInt8>>.None

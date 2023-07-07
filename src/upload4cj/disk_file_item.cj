@@ -79,7 +79,7 @@ public class DiskFileItem <: FileItem {
                 return Option<InputStream>.None
             }
         } else {
-            if (let Some(i) = cachedContent) {}
+            if (let Some(_) = cachedContent) {}
             else {
                 cachedContent = this.dfos.getOrThrow().getData()
             }
@@ -125,7 +125,7 @@ public class DiskFileItem <: FileItem {
      * @return Bool - is InMemory or not
      */
     public override func isInMemory(): Bool {
-        if (let Some(i) = cachedContent) {
+        if (let Some(_) = cachedContent) {
             return true
         }
         return this.dfos.getOrThrow().isInMemory()
@@ -142,7 +142,7 @@ public class DiskFileItem <: FileItem {
         }
 
         let InMemory = match (cachedContent) {
-            case Some(v) => this.cachedContent.getOrThrow().size
+            case Some(_) => this.cachedContent.getOrThrow().size
             case None => 0
         }
 
@@ -170,12 +170,12 @@ public class DiskFileItem <: FileItem {
     public override func get(): Option<Array<UInt8>> {
         if (this.isInMemory()) {
             let isCachedContent = match (cachedContent) {
-                case Some(v) => true
+                case Some(_) => true
                 case None => false
             }
 
             let isDfos = match (dfos) {
-                case Some(v) => true
+                case Some(_) => true
                 case None => false
             }
 
@@ -223,7 +223,7 @@ public class DiskFileItem <: FileItem {
             var outputFile: Option<File> = getStoreLocation()
 
             let isOutputFile = match (outputFile) {
-                case Some(v) => true
+                case Some(_) => true
                 case None => false
             }
 
@@ -311,7 +311,7 @@ public class DiskFileItem <: FileItem {
      */
     public override func getOutputStream(): OutputStream {
         let isDfos = match (dfos) {
-            case Some(v) => true
+            case Some(_) => true
             case None => false
         }
         if (!isDfos) {
@@ -328,7 +328,7 @@ public class DiskFileItem <: FileItem {
      */
     public func getStoreLocation(): Option<File> {
         let isDfos = match (dfos) {
-            case Some(v) => true
+            case Some(_) => true
             case None => false
         }
 
@@ -346,7 +346,7 @@ public class DiskFileItem <: FileItem {
      * @return String - toString
      */
     public func toString(): String {
-        if (let Some(i) = getStoreLocation()) {
+        if (let Some(_) = getStoreLocation()) {
             return "name=" + getName() + " StoreLocation=" + getStoreLocation().getOrThrow().info.path.toString() + " size="+
                 getSize().toString() + " bytes isFormField=" + isGetFormField().toString() + " FieldName=" +
                 getFieldName()

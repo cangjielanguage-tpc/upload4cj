@@ -213,7 +213,6 @@ public class SizeTest {
         try {
             upload.parseRequest(req1)
         } catch (e: FileCountLimitExceededException) {
-            let limit: Int64 = e.getLimit()
             expected = true
         }
         @Assert(expected,true)

@@ -44,7 +44,7 @@ public class ParameterParser {
     public func parse(str: Option<String>, separators: Option<Array<Char>>): Map<String, Option<String>> {
         match (separators) {
             case None => return HashMap<String, Option<String>>()
-            case Some(v) =>
+            case Some(_) =>
                 if (separators.getOrThrow().size == 0) {
                     return HashMap<String, Option<String>>()
                 }
@@ -53,7 +53,7 @@ public class ParameterParser {
         var separator: Char = separators.getOrThrow()[0]
         let isStr = match (str) {
             case None => false
-            case Some(v) => true
+            case Some(_) => true
         }
 
         if (isStr) {
@@ -62,7 +62,7 @@ public class ParameterParser {
                 var tmp: Option<Int64> = str.getOrThrow().indexOf(separatorChar)
                 let isTmp = match (tmp) {
                     case None => false
-                    case Some(v) => true
+                    case Some(_) => true
                 }
                 if (isTmp && tmp.getOrThrow() < idx) {
                     idx = tmp.getOrThrow()
@@ -83,7 +83,7 @@ public class ParameterParser {
     public func parse(str: Option<String>, separator: Char): Map<String, Option<String>> {
         match (str) {
             case None => return HashMap<String, Option<String>>()
-            case Some(v) =>
+            case Some(_) =>
                 let charArray: Option<Array<Char>> = str.getOrThrow().toCharArray()
                 return this.parse(charArray, separator)
         }
@@ -99,7 +99,7 @@ public class ParameterParser {
     public func parse(charArray: Option<Array<Char>>, separator: Char): Map<String, Option<String>> {
         match (charArray) {
             case None => return HashMap<String, Option<String>>()
-            case Some(v) => return this.parse(charArray, 0, charArray.getOrThrow().size, separator)
+            case Some(_) => return this.parse(charArray, 0, charArray.getOrThrow().size, separator)
         }
     }
 
@@ -115,7 +115,7 @@ public class ParameterParser {
     public func parse(charArray: Option<Array<Char>>, offset: Int64, length: Int64, separator: Char): Map<String, Option<String>> {
         match (charArray) {
             case None => return HashMap<String, Option<String>>()
-            case Some(v) => this.chars = charArray.getOrThrow()
+            case Some(_) => this.chars = charArray.getOrThrow()
         }
         var params: HashMap<String, Option<String>> = HashMap<String, Option<String>>()
 
@@ -146,7 +146,7 @@ public class ParameterParser {
 
             let isParamName = match (paramName) {
                 case None => false
-                case Some(v) => true
+                case Some(_) => true
             }
 
             if (isParamName && (paramName.getOrThrow().size > 0)) {

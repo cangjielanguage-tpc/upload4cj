@@ -39,7 +39,7 @@ public class parameterTest {
         let isTest: Bool = match(map.get("test").getOrThrow()) {
             case None =>
                 false
-            case Some(v) =>
+            case Some(_) =>
                 true
         }
 
@@ -63,7 +63,7 @@ public class parameterTest {
         let isTest: Bool = match(map.get("test").getOrThrow()) {
             case None =>
                 false
-            case Some(v) =>
+            case Some(_) =>
                 true
         }
 
@@ -86,21 +86,21 @@ public class parameterTest {
         let isTest: Bool = match(map.get("test").getOrThrow()) {
             case None =>
                 false
-            case Some(v) =>
+            case Some(_) =>
                 true
         }
 
         let isTest2: Bool = match(map.get("test2").getOrThrow()) {
             case None =>
                 false
-            case Some(v) =>
+            case Some(_) =>
                 true
         }
 
         let isTest3: Bool = match(map.get("test3").getOrThrow()) {
             case None =>
                 false
-            case Some(v) =>
+            case Some(_) =>
                 true
         }
 
@@ -122,7 +122,7 @@ public class parameterTest {
         let isTest: Bool = match(map.get("test").getOrThrow()) {
             case None =>
                 false
-            case Some(v) =>
+            case Some(_) =>
                 true
         }
 
@@ -195,7 +195,7 @@ public class parameterTest {
         let isTest: Bool = match(map.get("anotherparam").getOrThrow()) {
             case None =>
                 false
-            case Some(v) =>
+            case Some(_) =>
                 true
         }
 
