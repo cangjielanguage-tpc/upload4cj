@@ -30,7 +30,7 @@ public class MultipartStreamTest {
 
             let notifier = Option<ProgressNotifier>.None
 
-            var multipartStream: MultipartStream = MultipartStream(input, boundary, iBufSize, notifier)
+            MultipartStream(input, boundary, iBufSize, notifier)
         } catch (e: IllegalArgumentException) {
             if (e.message == "The buffer size specified for the MultipartStream is too small") {
                 threw = true
@@ -52,7 +52,7 @@ public class MultipartStreamTest {
 
             let notifier = Option<ProgressNotifier>.None
 
-            var multipartStream: MultipartStream = MultipartStream(input, boundary, notifier)
+            MultipartStream(input, boundary, notifier)
         } catch (e: Exception) {
             threw = false
         }
@@ -75,7 +75,7 @@ public class MultipartStreamTest {
 
             let notifier = Option<ProgressNotifier>.None
 
-            var multipartStream: MultipartStream = MultipartStream(input, boundary, iBufSize, notifier)
+            MultipartStream(input, boundary, iBufSize, notifier)
         } catch (e: IllegalArgumentException) {
             if (e.message == "boundary may not be null") {
                 threw = true

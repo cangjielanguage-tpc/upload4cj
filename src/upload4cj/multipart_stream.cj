@@ -249,7 +249,7 @@ public class MultipartStream {
         var headers: String = ""
 
         let isHeaderEncoding = match (headerEncoding) {
-            case Some(v) => true
+            case Some(_) => true
             case None => false
         }
 

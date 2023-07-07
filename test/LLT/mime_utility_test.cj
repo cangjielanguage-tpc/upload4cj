@@ -89,7 +89,7 @@ public class MimeUtilityTest {
     @TestCase
     public func test4(): Unit {
         try {
-            let encoded: Option<String> = MimeUtility.decodeText("=?invalid?B?xyz-?=")
+            MimeUtility.decodeText("=?invalid?B?xyz-?=")
         } catch (e: UnsupportedEncodingException) {
             if (e.toString().contains("Invalid RFC 2047 encoding")) {
                 println("Pass4")

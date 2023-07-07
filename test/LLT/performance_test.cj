@@ -104,7 +104,7 @@ main(){
         var flag = 0
         dfs.getOutputStream()
         match (dfs.getStoreLocation()) {
-            case Some(v) => flag = 1
+            case Some(_) => flag = 1
             case None => flag = 0
         }
         @Assert(flag, 0)
@@ -177,7 +177,6 @@ main(){
  public func test8(): Unit {
         var flag = 0
         var fu = FileUpload()
-        let CONTENT_TYPE: String = "multipart/form-data; boundary=---1234"
         var text ="-----1234"
         let bytes: Array<UInt8> = text.toUtf8Array()
         var output = ByteArrayStream()

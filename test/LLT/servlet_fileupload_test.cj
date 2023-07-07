@@ -59,7 +59,7 @@ public class ServletFileUploadTest {
         upload.setProgressListener(Option<ProgressListener>.None)
         let proListener = upload.getProgressListener()
         var isNull = false
-        if (let Some(i) = proListener) {
+        if (let Some(_) = proListener) {
             isNull = false
         } else {
             isNull = true
@@ -304,21 +304,21 @@ public class ServletFileUploadTest {
         let fileItems: ArrayList<FileItem> = upload.parseRequest(req1).getOrThrow()
         @Assert(fileItems.size,4)
         let file: FileItem = fileItems.get(0).getOrThrow()
-        let value0 = assertHeaders(headerNames, headerValues, file, 0)
+        let value0 = assertHeaders(headerNames, file, 0)
         @Assert(headerValues[0],value0)
         let field: FileItem = fileItems.get(1).getOrThrow()
-        let value1 = assertHeaders(headerNames, headerValues, field, 1)
+        let value1 = assertHeaders(headerNames, field, 1)
         @Assert(headerValues[1],value1)
         let multi0: FileItem = fileItems.get(2).getOrThrow()
-        let value2 = assertHeaders(headerNames, headerValues, multi0, 2)
+        let value2 = assertHeaders(headerNames, multi0, 2)
         @Assert(headerValues[2],value2)
         let multi1: FileItem = fileItems.get(3).getOrThrow()
-        let value3 = assertHeaders(headerNames, headerValues, multi1, 3)
+        let value3 = assertHeaders(headerNames, multi1, 3)
         @Assert(headerValues[3],value3)
         println("Pass9")
     }
 
-    func assertHeaders(pHeaderNames: Array<String>, pHeaderValues: Array<String>, pItem: FileItem, pIndex: Int64): String {
+    func assertHeaders(pHeaderNames: Array<String>, pItem: FileItem, pIndex: Int64): String {
         var value: Option<String> = Option<String>.None
         for (i in 0..pHeaderNames.size) {
             if (i == pIndex) {
@@ -410,7 +410,7 @@ public class ServletFileUploadTest {
         @Assert(fieldName,"file")
         let isformfield = fis.isFormField()
         @Assert(isformfield,false)
-        let inStream = fis.openStream()
+        fis.openStream()
         let headers = fis.getHeaders()
         let value = headers.getHeader("Content-Type").getOrThrow()
         @Assert(value,"text/whatever")
@@ -443,7 +443,7 @@ public class ServletFileUploadTest {
 
         let upload: ServletFileUpload = ServletFileUpload()
         try {
-            let fileItems: ArrayList<FileItem> = upload.parseRequest(req1).getOrThrow()
+            upload.parseRequest(req1).getOrThrow()
         } catch (e: NullPointerException) {
             if (e.toString().contains("No FileItemFactory has been set.")) {
                 println("Pass13")

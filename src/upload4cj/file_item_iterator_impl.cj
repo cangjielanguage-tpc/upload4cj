@@ -92,12 +92,12 @@ public class FileItemIteratorImpl <: FileItemIterator {
                         input = i.getInputStream()
                     }
                     var charEncoding: Option<String> = headerEncoding
-                    if (let Some(k) = charEncoding) {}
+                    if (let Some(_) = charEncoding) {}
                     else {
                         charEncoding = i.getCharacterEncoding()
                     }
                     boundary = getBoundary(j)
-                    if (let Some(l) = boundary) {
+                    if (let Some(_) = boundary) {
                         notifier = ProgressNotifier(mfileuploadBase.getOrThrow().getProgressListener(), requestSize)
                         try {
                             multi = MultipartStream(input.getOrThrow(), boundary, notifier.getOrThrow())
@@ -128,7 +128,7 @@ public class FileItemIteratorImpl <: FileItemIterator {
         if (eof) {
             return false
         }
-        if (let Some(i) = currentItem) {
+        if (let Some(_) = currentItem) {
             currentItem.getOrThrow().close()
             currentItem = Option<FileItemStreamImpl>.None
         }
@@ -140,7 +140,7 @@ public class FileItemIteratorImpl <: FileItemIterator {
                 nextPart = multi.getOrThrow().readBoundary()
             }
             if (!nextPart) {
-                if (let Some(i) = currentFieldName) {}
+                if (let Some(_) = currentFieldName) {}
                 else {
                     eof = true
                     return false
@@ -186,7 +186,7 @@ public class FileItemIteratorImpl <: FileItemIterator {
                     }
                     let fileName: Option<String> = mfileuploadBase.getOrThrow().getFileName(headers)
                     var isfileNameNull: Bool = false
-                    if (let Some(m) = fileName) {
+                    if (let Some(_) = fileName) {
                         isfileNameNull = false
                     } else {
                         isfileNameNull = true
@@ -218,7 +218,7 @@ public class FileItemIteratorImpl <: FileItemIterator {
         let params: Map<String, Option<String>> = parser.parse(contentType, charArray)
         let boundaryStr: Option<Option<String>> = params.get("boundary")
         if (let Some(k) = boundaryStr) {
-            if (let Some(i) = k) {
+            if (let Some(_) = k) {
                 var boundary: Array<UInt8>
                 try {
                     //仓颉目前只支持utf-8

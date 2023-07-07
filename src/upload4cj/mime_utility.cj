@@ -101,7 +101,7 @@ public class MimeUtility {
         }
         var charsetPos: Int64 = word.indexOf('?', 2).getOrThrow()
 
-        let charset: String = word.substring(2, charsetPos - 2).toAsciiLower() // diff java, cj -> substring(beginIndex, length)
+        word.substring(2, charsetPos - 2).toAsciiLower() // diff java, cj -> substring(beginIndex, length)
 
         if (word.indexOf('?', charsetPos + 1) == Option<Int64>.None) {
             throw ParseException("Missing encoding in RFC 2047 encoded-word: " + word);

@@ -25,7 +25,7 @@ main() {
     req1.header.add("Content-Type", CONTENT_TYPE)
 
     var servletRequestContext: ServletRequestContext = ServletRequestContext(req1)
-    let srt: String = servletRequestContext.toString()
+    servletRequestContext.toString()
     let c: Int64 = runTest(NUM_ITEMS, baos.length, servletRequestContext)
     if (c == 1) {
         return 1
@@ -78,6 +78,7 @@ public class ProgressListenerImpl <: ProgressListener {
     }
 
     public override func update(pBytesRead: Int64, pContentLength: Int64, pItems: Int64) {
+        println("pContentLength="+pContentLength.toString())
         bytesRead = pBytesRead
         items = pItems
     }

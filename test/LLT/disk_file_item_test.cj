@@ -68,9 +68,7 @@ public class DiskFileItemTest {
 
         let output = item.getOutputStream()
         output.write(testFieldValueBytes)
-
-        let inputStreamtemp:Option<InputStream> = item.getInputStream()
-
+        item.getInputStream()
         @Assert(item.isInMemory(),true)
         @Assert(item.getSize(),testFieldValueBytes.size)
         @Assert(item.get().getOrThrow().size,testFieldValueBytes.size)
@@ -92,9 +90,7 @@ public class DiskFileItemTest {
 
         let output = item.getOutputStream()
         output.write(testFieldValueBytes)
-
-        let inputStreamtemp:Option<InputStream> = item.getInputStream()
-
+        item.getInputStream()
         @Assert(item.isInMemory(),false)
         @Assert(item.getSize(),testFieldValueBytes.size)
         @Assert(item.get().getOrThrow().size,testFieldValueBytes.size)
@@ -105,7 +101,7 @@ public class DiskFileItemTest {
             //i就是diskFileItem
             let file:Option<File> = i.getStoreLocation()
             var isFileExists = false
-            if(let Some(j) = file){
+            if(let Some(_) = file){
                 isFileExists = true
             }else{
                 isFileExists = false
@@ -135,7 +131,7 @@ public class DiskFileItemTest {
 
     public static let CHARSET_UTF8:String = "UTF-8"
 
-    public func constructString(unicodeChars:Array<UInt32>):String{
+    public func constructString():String{
         let buffer:StringBuilder = StringBuilder()
         for(i in 0..SWISS_GERMAN_STUFF_UTF8.size){
             buffer.append(Char(SWISS_GERMAN_STUFF_UTF8[i]))
@@ -147,10 +143,10 @@ public class DiskFileItemTest {
     public func test5(): Unit {
 
         let factory:FileItemFactory = createFactory(Option<Directory>.None)
-        let teststr:String = constructString(SWISS_GERMAN_STUFF_UNICODE)
+        let teststr:String = constructString()
         let item:FileItem = factory.createItem("doesnotmatter","text/plain; charset=" + CHARSET_UTF8,true,"")
         let outstream:OutputStream = item.getOutputStream()
-        let str2 = constructString(SWISS_GERMAN_STUFF_UTF8)
+        let str2 = constructString()
         outstream.write(str2.toUtf8Array())
         @Assert(teststr,item.getString())
         println("Pass5")
