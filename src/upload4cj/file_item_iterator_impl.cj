@@ -61,33 +61,20 @@ public class FileItemIteratorImpl <: FileItemIterator {
             let contentType: Option<String> = i.getContentType()
             if (let Some(j) = contentType) {
                 if (!j.toAsciiLower().startsWith(MULTIPART)) {
-                    throw InvalidContentTypeException(
-                        "the request doesn't contain a " + MULTIPART_FORM_DATA + " or " + MULTIPART_MIXED +
-                            " stream, content type header is " + j
-                    )
+                    throw InvalidContentTypeException("the request doesn't contain a " + MULTIPART_FORM_DATA + " or " + MULTIPART_MIXED +" stream, content type header is " + j)
                 } else {
                     //正常逻辑
                     let contentLengthInt: Int64 = i.contentLength()
-
                     //这个先遗留
                     let requestSize: Int64 = contentLengthInt
                     var input: Option<InputStream> = Option<InputStream>.None
                     if (this.mfileuploadBase.getOrThrow().sizeMax >= 0) {
                         //表示request内容长度有限制
                         if (requestSize != -1 && requestSize > this.mfileuploadBase.getOrThrow().sizeMax) {
-                            throw SizeLimitExceededException(
-                                "the request was rejected because its size (" + requestSize.toString() +
-                                    ") exceeds the configured maximum (" +
-                                    this.mfileuploadBase.getOrThrow().sizeMax.toString() + ")"
-                            )
+                            throw SizeLimitExceededException("the request was rejected because its size (" + requestSize.toString() +") exceeds the configured maximum (" +this.mfileuploadBase.getOrThrow().sizeMax.toString() + ")")
                         }
-
                         // N.B. this is eventually closed in MultipartStream processing
-                        input = LimitedInputStreamImpl(
-                            ctx.getOrThrow().getInputStream(),
-                            this.mfileuploadBase.getOrThrow().sizeMax,
-                            Option<ItemInputStream>.None
-                        )
+                        input = LimitedInputStreamImpl(ctx.getOrThrow().getInputStream(),this.mfileuploadBase.getOrThrow().sizeMax,Option<ItemInputStream>.None)
                     } else {
                         input = i.getInputStream()
                     }
@@ -102,9 +89,7 @@ public class FileItemIteratorImpl <: FileItemIterator {
                         try {
                             multi = MultipartStream(input.getOrThrow(), boundary, notifier.getOrThrow())
                         } catch (iae: IllegalArgumentException) {
-                            throw InvalidContentTypeException(
-                                "The boundary specified in the " + CONTENT_TYPE + " header is too long" + iae.toString()
-                            )
+                            throw InvalidContentTypeException("The boundary specified in the " + CONTENT_TYPE + " header is too long" + iae.toString())
                         }
                         multi.getOrThrow().setHeaderEncoding(charEncoding)
                         skipPreamble = true
@@ -114,31 +99,39 @@ public class FileItemIteratorImpl <: FileItemIterator {
                     }
                 }
             } else {
-                throw InvalidContentTypeException(
-                    "the request doesn't contain a " + MULTIPART_FORM_DATA + " or " + MULTIPART_MIXED +
-                        " stream, content type header is null"
-                )
+                throw InvalidContentTypeException("the request doesn't contain a " + MULTIPART_FORM_DATA + " or " + MULTIPART_MIXED +" stream, content type header is null")
             }
         } else {
             throw NullPointerException("ctx parameter")
         }
     }
 
+
+    private func calcNextPart():Bool{
+        var nextPartTemp: Bool
+        if (skipPreamble) {
+            nextPartTemp = multi.getOrThrow().skipPreamble()
+        } else {
+            nextPartTemp = multi.getOrThrow().readBoundary()
+        }
+        return nextPartTemp
+    }
+
+    private func doResetCurrentItem(){
+         if (let Some(_) = currentItem) {
+            currentItem.getOrThrow().close()
+            currentItem = Option<FileItemStreamImpl>.None
+        }
+    }
+
+
     private func findNextItem(): Bool {
         if (eof) {
             return false
         }
-        if (let Some(_) = currentItem) {
-            currentItem.getOrThrow().close()
-            currentItem = Option<FileItemStreamImpl>.None
-        }
+        doResetCurrentItem()
         while (true) {
-            var nextPart: Bool
-            if (skipPreamble) {
-                nextPart = multi.getOrThrow().skipPreamble()
-            } else {
-                nextPart = multi.getOrThrow().readBoundary()
-            }
+            var nextPart: Bool = calcNextPart()
             if (!nextPart) {
                 if (let Some(_) = currentFieldName) {}
                 else {
@@ -149,20 +142,11 @@ public class FileItemIteratorImpl <: FileItemIterator {
                 currentFieldName = Option<String>.None
                 continue
             }
-            let headers: FileItemHeaders = mfileuploadBase.getOrThrow().getParsedHeaders(
-                multi.getOrThrow().readHeaders())
+            let headers: FileItemHeaders = mfileuploadBase.getOrThrow().getParsedHeaders(multi.getOrThrow().readHeaders())
             if (let Some(j) = currentFieldName) {
                 let fileName: Option<String> = mfileuploadBase.getOrThrow().getFileName(headers)
                 if (let Some(n) = fileName) {
-                    currentItem = FileItemStreamImpl(
-                        n,
-                        j,
-                        headers.getHeader(CONTENT_TYPE),
-                        false,
-                        getContentLength(headers),
-                        mfileuploadBase,
-                        this
-                    )
+                    currentItem = FileItemStreamImpl(n,j,headers.getHeader(CONTENT_TYPE),false,getContentLength(headers),mfileuploadBase,this)
                     currentItem.getOrThrow().setHeaders(headers)
                     notifier.getOrThrow().noteItem()
                     itemValid = true
@@ -176,7 +160,6 @@ public class FileItemIteratorImpl <: FileItemIterator {
                         let nameLower: String = l.toAsciiLower()
                         if (nameLower.startsWith(MULTIPART_MIXED)) {
                             currentFieldName = fieldName
-
                             // Multiple files associated with this field name
                             let subBoundary: Array<UInt8> = getBoundary(l).getOrThrow()
                             multi.getOrThrow().setBoundary(subBoundary)
@@ -184,25 +167,7 @@ public class FileItemIteratorImpl <: FileItemIterator {
                             continue
                         }
                     }
-                    let fileName: Option<String> = mfileuploadBase.getOrThrow().getFileName(headers)
-                    var isfileNameNull: Bool = false
-                    if (let Some(_) = fileName) {
-                        isfileNameNull = false
-                    } else {
-                        isfileNameNull = true
-                    }
-                    currentItem = FileItemStreamImpl(
-                        fileName,
-                        k,
-                        headers.getHeader(CONTENT_TYPE),
-                        isfileNameNull,
-                        getContentLength(headers),
-                        mfileuploadBase,
-                        this
-                    )
-                    currentItem.getOrThrow().setHeaders(headers)
-                    notifier.getOrThrow().noteItem()
-                    itemValid = true
+                    doLogic(headers,k)
                     return true
                 }
             }
@@ -210,6 +175,24 @@ public class FileItemIteratorImpl <: FileItemIterator {
         }
         return false
     }
+
+
+    private func doLogic(headersTemp: FileItemHeaders,fieldNameTmep:String){
+        let fileName: Option<String> = mfileuploadBase.getOrThrow().getFileName(headersTemp)
+        var isfileNameNull: Bool = false
+        if (let Some(_) = fileName) {
+            isfileNameNull = false
+        } else {
+            isfileNameNull = true
+        }
+        currentItem = FileItemStreamImpl(fileName,fieldNameTmep,headersTemp.getHeader(CONTENT_TYPE),isfileNameNull,getContentLength(headersTemp),mfileuploadBase,this)
+        currentItem.getOrThrow().setHeaders(headersTemp)
+        notifier.getOrThrow().noteItem()
+        itemValid = true
+    }
+
+
+
 
     protected func getBoundary(contentType: String): Option<Array<UInt8>> {
         let parser: ParameterParser = ParameterParser()

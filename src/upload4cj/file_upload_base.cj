@@ -164,12 +164,7 @@ public abstract class FileUploadBase {
                         fileName = ""
                     }
                 }
-                let fileItem: FileItem = fac.getOrThrow().createItem(
-                    item.getFieldName(),
-                    item.getContentType(),
-                    item.isFormField(),
-                    fileName.getOrThrow()
-                )
+                let fileItem: FileItem = fac.getOrThrow().createItem(item.getFieldName(),item.getContentType(),item.isFormField(),fileName.getOrThrow())
                 items.append(fileItem)
                 try {
                     Streams.copy(item.openStream(), fileItem.getOutputStream(), true, buffer)
@@ -188,12 +183,17 @@ public abstract class FileUploadBase {
         } catch (e: ReadWriteException) {
             throw ReadWriteException(e.message)
         } finally {
-            if (!successful) {
-                for (fileItem in items) {
-                    try {
-                        fileItem.delete()
-                    } catch (e: Exception) {}
-                }
+            doFinally(successful,items)
+        }
+    }
+
+
+    private func doFinally(successful:Bool,items:ArrayList<FileItem>){
+        if (!successful) {
+            for (fileItem in items) {
+                try {
+                    fileItem.delete()
+                } catch (e: Exception) {}
             }
         }
     }
