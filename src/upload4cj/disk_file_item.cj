@@ -6,7 +6,7 @@ package upload4cj
 
 from std import io.*
 from std import random.*
-from uuid import uuid.*
+from uuid4cj import uuid4cj.*
 from std import sync.*
 
 /**
