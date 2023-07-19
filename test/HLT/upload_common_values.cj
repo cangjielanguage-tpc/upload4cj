@@ -1,11 +1,11 @@
 // 3rd_party_lib:upload4cj/build/charset
 // 3rd_party_lib_ohos:upload4cj/build/aarch64-linux-ohos/charset
-// 3rd_party_lib:upload4cj/build/cryptocj
-// 3rd_party_lib_ohos:upload4cj/build/aarch64-linux-ohos/cryptocj
+// 3rd_party_lib:upload4cj/build/crypto4cj
+// 3rd_party_lib_ohos:upload4cj/build/aarch64-linux-ohos/crypto4cj
 // 3rd_party_lib:upload4cj/build/upload4cj
 // 3rd_party_lib_ohos:upload4cj/build/aarch64-linux-ohos/upload4cj
-// 3rd_party_lib:upload4cj/build/uuid
-// 3rd_party_lib_ohos:upload4cj/build/aarch64-linux-ohos/uuid
+// 3rd_party_lib:upload4cj/build/uuid4cj
+// 3rd_party_lib_ohos:upload4cj/build/aarch64-linux-ohos/uuid4cj
 
 from std import unittest.*
 from std import unittest.testmacro.*
@@ -32,7 +32,7 @@ public class SubLimitedInputStream <: LimitedInputStream{
     public init(inputStream: InputStream, pSizeMax: Int64) {
         super(inputStream,pSizeMax)
     }
-    protected func raiseError(pSizeMax: Int64, pCount: Int64): Unit{        
+    protected func raiseError(pSizeMax: Int64, pCount: Int64): Unit{
 		println(pSizeMax)
 		println(pCount)
 		throw IOException("raiseError")

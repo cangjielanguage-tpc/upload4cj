@@ -21,7 +21,7 @@ public class FileUploadException <: Exception {
 }
 
 /**
- * FileUploadException
+ * IllegalBoundaryException
  */
 public class IllegalBoundaryException <: Exception {
     /**
@@ -35,7 +35,7 @@ public class IllegalBoundaryException <: Exception {
 }
 
 /**
- * FileUploadException
+ * MalformedStreamException
  */
 public class MalformedStreamException <: Exception {
     /**
@@ -49,7 +49,7 @@ public class MalformedStreamException <: Exception {
 }
 
 /**
- * FileUploadException
+ * NullPointerException
  */
 public class NullPointerException <: Exception {
     /**
@@ -63,7 +63,7 @@ public class NullPointerException <: Exception {
 }
 
 /**
- * FileUploadException
+ * InvalidContentTypeException
  */
 public class InvalidContentTypeException <: Exception {
     /**
@@ -77,7 +77,7 @@ public class InvalidContentTypeException <: Exception {
 }
 
 /**
- * FileUploadException
+ * SizeLimitExceededException
  */
 public class SizeLimitExceededException <: Exception {
     /**
@@ -91,7 +91,7 @@ public class SizeLimitExceededException <: Exception {
 }
 
 /**
- * FileUploadException
+ * UnsupportedEncodingException
  */
 public class UnsupportedEncodingException <: Exception {
     /**
@@ -105,7 +105,7 @@ public class UnsupportedEncodingException <: Exception {
 }
 
 /**
- * FileUploadException
+ * IllegalStateException
  */
 public class IllegalStateException <: Exception {
     /**
@@ -119,7 +119,7 @@ public class IllegalStateException <: Exception {
 }
 
 /**
- * FileUploadException
+ * NoSuchElementException
  */
 public class NoSuchElementException <: Exception {
     /**
@@ -133,7 +133,7 @@ public class NoSuchElementException <: Exception {
 }
 
 /**
- * FileUploadException
+ * FileCountLimitExceededException
  */
 public class FileCountLimitExceededException <: Exception {
     private let mLimit: Int64
@@ -160,7 +160,7 @@ public class FileCountLimitExceededException <: Exception {
 }
 
 /**
- * FileUploadException
+ * FileSizeLimitExceededException
  */
 public class FileSizeLimitExceededException <: Exception {
     /**
@@ -174,7 +174,7 @@ public class FileSizeLimitExceededException <: Exception {
 }
 
 /**
- * FileUploadException
+ * InvalidFileNameException
  */
 public class InvalidFileNameException <: Exception {
     /**
@@ -188,7 +188,7 @@ public class InvalidFileNameException <: Exception {
 }
 
 /**
- * FileUploadException
+ * ItemSkippedException
  */
 public class ItemSkippedException <: Exception {
     /**
@@ -202,7 +202,7 @@ public class ItemSkippedException <: Exception {
 }
 
 /**
- * FileUploadException
+ * ParseException
  */
 public class ParseException <: Exception {
     /**
@@ -216,7 +216,7 @@ public class ParseException <: Exception {
 }
 
 /**
- * FileUploadException
+ * QDecoderException
  */
 public class QDecoderException <: Exception {
     /**
@@ -230,7 +230,7 @@ public class QDecoderException <: Exception {
 }
 
 /**
- * FileUploadException
+ * ReadWriteException
  */
 public class ReadWriteException <: Exception {
     /**

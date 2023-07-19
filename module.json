@@ -5,20 +5,10 @@
     "description": "cj version common_fileupload",
     "version": "0.0.1",
     "requires": {
-      "uuid":{
+      "uuid4cj":{
         "organization": "huangjie84@huawei",
         "version": "0.0.1",
         "path":"./uuid4cj"
-      },
-      "cryptocj": {
-        "organization": "cangjie",
-        "version": "0.0.6",
-        "path": "./uuid4cj/cryptocj"
-      },
-      "charset": {
-        "organization": "zft",
-        "version": "0.0.1",
-        "path": "./uuid4cj/charset"
       }
     },
     "package_requires": {
