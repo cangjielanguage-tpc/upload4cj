@@ -168,6 +168,11 @@ public abstract class FileUploadBase {
                 items.append(fileItem)
                 try {
                     Streams.copy(item.openStream(), fileItem.getOutputStream(), true, buffer)
+                    let outputStream = fileItem.getOutputStream()
+                    let deferr = outputStream as DeferredFileOutputStream
+                    if(let Some(m) = deferr){
+                        m.close()
+                    }
                 } catch (e: FileUploadException) {
                     throw FileUploadException("ParseRequest Fail")
                 } catch (e: ReadWriteException) {

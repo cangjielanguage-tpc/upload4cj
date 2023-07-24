@@ -58,6 +58,9 @@ public class DeferredFileOutputStream <: ThresholdingOutputStream {
      * close
      */
     public func close(): Unit {
+        if(let Some(i) = outputFile){
+            i.close()
+        }
         this.closed = true
     }
 
@@ -118,11 +121,11 @@ public class DeferredFileOutputStream <: ThresholdingOutputStream {
     }
 
     private static func getUniqueId(): String {
-        let limit: Int64 = 100000000
+        let limit: Int64 = 100000000000
         let current: Int64 = COUNTER.fetchAdd(1)
         var id: String = current.toString()
         if (current < limit) {
-            id = ("00000000" + id).substring(id.size)
+            id = ("00000000000" + id).substring(id.size)
         }
         return id
     }
