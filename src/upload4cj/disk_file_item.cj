@@ -189,8 +189,10 @@ public class DiskFileItem <: FileItem {
 
         // read file to Array<Unit8>
         try {
-            this.dfos.getOrThrow().getFile().getOrThrow().seek(SeekPosition.Begin(0))
-            this.dfos.getOrThrow().getFile().getOrThrow().read(fileData.getOrThrow())
+            //如果close了，就不能调用seek和read了所以用这种代替
+            let file = File(this.dfos.getOrThrow().getFile().getOrThrow().info.path, OpenOption.Open(true,true))
+            file.seek(SeekPosition.Begin(0))
+            file.read(fileData.getOrThrow())
         } catch (ie: Exception) {
             return Option<Array<UInt8>>.None
         }
