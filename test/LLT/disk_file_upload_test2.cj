@@ -13,8 +13,8 @@ main(){
         let bytes:Array<UInt8> = text.toUtf8Array()
         var output = ByteArrayStream()
         output.write(bytes)
-        var req1: Request = Request(RequestMethod.POST, "http://127.0.0.1/", output)
-        req1.header.add("Content-Type",CONTENT_TYPE)
+        var req1 = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(output).build()
+        req1.headers.add("Content-Type",CONTENT_TYPE)
         let upload:ServletFileUpload = ServletFileUpload(DiskFileItemFactory(0,Option<Directory>.None))
         let items:ArrayList<FileItem> = upload.parseRequest(req1).getOrThrow()
         if(items.size == 1){

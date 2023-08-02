@@ -24,9 +24,9 @@ public class TestFileUploadBase {
     func testFileUploadBaseGetItemIterator02(): Unit {
         var flag = 1
         var fu = FileUpload()
-        let req =Request(RequestMethod.POST, "http://127.0.0.1/",ByteArrayStream())
+        let req = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(ByteArrayStream()).build()
         let CONTENT_TYPE: String = "text/form-data; boundary=---1234"
-        req.header.add("Content-Type", CONTENT_TYPE)
+        req.headers.add("Content-Type", CONTENT_TYPE)
         try {
             fu.getItemIterator(ServletRequestContext(req))
         } catch (e: Exception) {

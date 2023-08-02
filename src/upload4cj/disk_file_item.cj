@@ -8,6 +8,7 @@ from std import io.*
 from std import random.*
 from uuid4cj import uuid4cj.*
 from std import sync.*
+from std import convert.Parsable
 
 /**
  * create DiskFileItem

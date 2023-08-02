@@ -27,8 +27,8 @@ public class DiskFileUploadTest{
         let bytes:Array<UInt8> = "foobar".toUtf8Array()
         var output = ByteArrayStream()
         output.write(bytes)
-        var req1: Request = Request(RequestMethod.POST, "http://127.0.0.1/", output)
-        req1.header.add("Content-Type",FileUploadBase.MULTIPART_FORM_DATA)
+        var req1 = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(output).build()
+        req1.headers.add("Content-Type",FileUploadBase.MULTIPART_FORM_DATA)
         let upload:ServletFileUpload = ServletFileUpload(DiskFileItemFactory())
         try{
             upload.parseRequest(req1)
@@ -45,8 +45,8 @@ public class DiskFileUploadTest{
         let bytes:Array<UInt8> = "foobar".toUtf8Array()
         var output = ByteArrayStream()
         output.write(bytes)
-        var req1: Request = Request(RequestMethod.POST, "http://127.0.0.1/", output)
-        req1.header.add("Content-Type","")
+        var req1 = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(output).build()
+        req1.headers.add("Content-Type","")
         let upload:ServletFileUpload = ServletFileUpload(DiskFileItemFactory())
         try{
             upload.parseRequest(req1)
@@ -63,8 +63,8 @@ public class DiskFileUploadTest{
         let bytes:Array<UInt8> = "foobar".toUtf8Array()
         var output = ByteArrayStream()
         output.write(bytes)
-        var req1: Request = Request(RequestMethod.POST, "http://127.0.0.1/", output)
-        req1.header.add("Content-Type",FileUploadBase.MULTIPART_FORM_DATA)
+        var req1 = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(output).build()
+        req1.headers.add("Content-Type",FileUploadBase.MULTIPART_FORM_DATA)
         let upload:ServletFileUpload = ServletFileUpload()
         upload.setFileItemFactory(DiskFileItemFactory())
         try{

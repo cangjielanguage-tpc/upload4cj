@@ -126,9 +126,10 @@ public class MultipartStream {
             head = 0
 
             // Refill.
-            var bufferTemp = buffer[head..head + bufSize]
-            tail = input.read(bufferTemp)
-            bufferTemp.copyTo(buffer, 0, head, bufSize)
+             //var bufferTemp = buffer[head..head + bufSize]
+             //tail = input.read(bufferTemp)
+             //bufferTemp.copyTo(buffer, 0, head, bufSize)
+            tail = input.read(buffer[head..head + bufSize])
 
             if (tail <= 0) {
                 // No more data available.

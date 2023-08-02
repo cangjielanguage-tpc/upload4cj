@@ -28,11 +28,8 @@ public class TestThresholdingOutputStream{
         body_in.write(content.toUtf8Array())
         let fileItemFactory=DiskFileItemFactory()
         let servletFileUpload=ServletFileUpload(fileItemFactory)
-        let request=http.Request(RequestMethod.GET,"http://www.baidu.com")
-        let headers=Header()
-        headers.add("Content-Type","multipart/form-data; boundary=---1234")
-        request.header=headers
-        request.body=body_in
+        let request = HttpRequestBuilder.new().method("GET").url("http://www.baidu.com").body(body_in).build()
+        request.headers.add("Content-Type","multipart/form-data; boundary=---1234")
         var re=servletFileUpload.getItemIterator(request)
         re.next()
         var re_flag=1

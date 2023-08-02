@@ -17,20 +17,18 @@ public class TestStreams{
     ***/
     @TestCase
     func testServletRequestContextGetContentType01(): Unit {
-        let request=http.Request(RequestMethod.GET,"http://www.baidu.com")
-        var head_ori=Header()
-        head_ori.add("Content-length","123455")
-        request.header=head_ori
+        let request = HttpRequestBuilder.new().method("GET").url("http://www.baidu.com").build()
+        request.headers.add("Content-length","123455")
         let servletRequestContext=ServletRequestContext(request)
         var re=servletRequestContext.contentLength()
         @Assert(re,123455)
     }
     @TestCase
     func testServletRequestContextGetContentType02(): Unit {
-        let request=http.Request(RequestMethod.GET,"http://www.baidu.com")
+        let request = HttpRequestBuilder.new().method("GET").url("http://www.baidu.com").build()
         let servletRequestContext=ServletRequestContext(request)
         var re=servletRequestContext.contentLength()
-        @Assert(re,request.contentLength)
+        @Assert(re,request.bodySize.getOrThrow())
     }
 
 }

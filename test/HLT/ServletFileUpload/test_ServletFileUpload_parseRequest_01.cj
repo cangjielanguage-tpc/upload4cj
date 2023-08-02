@@ -27,11 +27,8 @@ public class TestServletFileUpload{
         var body_in=ByteArrayStream()
         body_in.write(content.toUtf8Array())
         let servletFileUpload=ServletFileUpload()
-        let request=http.Request(RequestMethod.GET,"http://www.baidu.com")
-        request.body=body_in
-        var head_ori=Header()
-        head_ori.add("Content-Type","multipart/form-data; boundary=---1234")
-        request.header=head_ori
+        let request = HttpRequestBuilder.new().method("GET").url("http://www.baidu.com").body(body_in).build()
+        request.headers.add("Content-Type","multipart/form-data; boundary=---1234")
         var re_flag=1
         try{
             servletFileUpload.parseRequest(request)

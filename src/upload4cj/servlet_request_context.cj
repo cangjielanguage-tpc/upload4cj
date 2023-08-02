@@ -10,14 +10,14 @@ from net import http.*
  * ServletRequestContext
  */
 public class ServletRequestContext <: RequestContext {
-    private var request: Request
+    private var request: HttpRequest
 
     /**
      * init
      *
      * @param request - Request The Request
      */
-    public init(request: Request) {
+    public init(request: HttpRequest) {
         this.request = request
     }
 
@@ -36,7 +36,17 @@ public class ServletRequestContext <: RequestContext {
      * @return Option<String> - The contentType
      */
     public override func getContentType(): Option<String> {
-        return request.header.get(FileUploadBase.CONTENT_TYPE)
+        let conTypeList = request.headers.get(FileUploadBase.CONTENT_TYPE)
+        if(let Some(i) = conTypeList){
+            if(i.size == 0){
+                return Option<String>.None
+            }else{
+                let contentType = request.headers.get(FileUploadBase.CONTENT_TYPE).getOrThrow().get(0).getOrThrow()
+                return Option<String>.Some(contentType)
+            }
+        }else{
+            return Option<String>.None
+        }
     }
 
     /**
@@ -47,10 +57,10 @@ public class ServletRequestContext <: RequestContext {
     public override func contentLength(): Int64 {
         var size: Int64
         try {
-            let contentLength: String = request.header.get(FileUploadBase.CONTENT_LENGTH).getOrThrow()
+            let contentLength: String = request.headers.get(FileUploadBase.CONTENT_LENGTH).getOrThrow().get(0).getOrThrow()
             size = Int64.parse(contentLength)
         } catch (e: Exception) {
-            size = request.contentLength
+            size = request.bodySize.getOrThrow()
         }
         return size
     }

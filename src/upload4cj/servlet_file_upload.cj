@@ -16,7 +16,7 @@ public class ServletFileUpload <: FileUpload {
      * @param request - Request The Request
      * @return Bool - is Multipart or not
      */
-    public static func isMultipartContent(request: Request): Bool {
+    public static func isMultipartContent(request: HttpRequest): Bool {
         let requestMethod: String = request.method.toString().toAsciiLower()
         let lowerPost = POST_METHOD.toAsciiLower()
         if (!lowerPost.equals(requestMethod)) {
@@ -47,7 +47,7 @@ public class ServletFileUpload <: FileUpload {
      * @param request - Request The Request
      * @return Option<ArrayList<FileItem>> - the FileItem ArrayList that parsed
      */
-    public func parseRequest(request: Request): Option<ArrayList<FileItem>> {
+    public func parseRequest(request: HttpRequest): Option<ArrayList<FileItem>> {
         return parseRequest(ServletRequestContext(request))
     }
 
@@ -57,7 +57,7 @@ public class ServletFileUpload <: FileUpload {
      * @param request - Request The Request
      * @return Map<String, ArrayList<FileItem>> - the FileItem map that parsed
      */
-    public func parseParameterMap(request: Request): Map<String, ArrayList<FileItem>> {
+    public func parseParameterMap(request: HttpRequest): Map<String, ArrayList<FileItem>> {
         return parseParameterMap(ServletRequestContext(request))
     }
 
@@ -67,7 +67,7 @@ public class ServletFileUpload <: FileUpload {
      * @param request - Request The Request
      * @return FileItemIterator - the FileItemIterator
      */
-    public func getItemIterator(request: Request): FileItemIterator {
+    public func getItemIterator(request: HttpRequest): FileItemIterator {
         return getItemIterator(ServletRequestContext(request))
     }
 }

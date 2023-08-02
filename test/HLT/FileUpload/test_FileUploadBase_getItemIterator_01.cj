@@ -28,9 +28,9 @@ public class TestFileUploadBase {
         let bytes: Array<UInt8> = text.toUtf8Array()
         var output = ByteArrayStream()
         output.write(bytes)
-        let req =Request(RequestMethod.POST, "http://127.0.0.1/",output)
+        let req = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(output).build()
         let CONTENT_TYPE: String = "multipart/form-data; boundary=---1234"
-        req.header.add("Content-Type", CONTENT_TYPE)
+        req.headers.add("Content-Type", CONTENT_TYPE)
         try {
             fu.getItemIterator(ServletRequestContext(req))
         } catch (e: Exception){

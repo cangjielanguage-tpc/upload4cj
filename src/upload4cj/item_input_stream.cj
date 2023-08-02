@@ -37,7 +37,7 @@ class ItemInputStream <: InterInputStream {
         }
     }
 
-    protected func getBytesRead() {
+    protected func getBytesRead():Int64 {
         return total
     }
 

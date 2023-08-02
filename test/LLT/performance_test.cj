@@ -34,11 +34,8 @@ main(){
         body_in.write(content.toUtf8Array())
         let fileItemFactory=DiskFileItemFactory()
         let servletFileUpload=ServletFileUpload(fileItemFactory)
-        let request=http.Request(RequestMethod.GET,"http://www.baidu.com")
-        request.body=body_in
-        var head_ori=Header()
-        head_ori.add("Content-Type","multipart/form-data; boundary=---1234")
-        request.header=head_ori
+        let request = HttpRequestBuilder.new().method("GET").url("http://www.baidu.com").body(body_in).build()
+        request.headers.add("Content-Type","multipart/form-data; boundary=---1234")
         var re=servletFileUpload.parseRequest(request).getOrThrow()
         @Assert(re.size,1)
         @Assert(re[0].isInMemory(),true)
@@ -59,9 +56,8 @@ main(){
         body_in.write(content.toUtf8Array())
         let fileItemFactory=DiskFileItemFactory()
         let servletFileUpload=ServletFileUpload(fileItemFactory)
-        let request=http.Request(RequestMethod.GET,"http://www.baidu.com")
-        request.body=body_in
-        request.header.add("Content-Type", CONTENT_TYPE)
+        let request = HttpRequestBuilder.new().method("GET").url("http://www.baidu.com").body(body_in).build()
+        request.headers.add("Content-Type", CONTENT_TYPE)
         var re=servletFileUpload.parseRequest(request).getOrThrow()
         @Assert(re.size,1)
         @Assert(re[0].isInMemory(),true)
@@ -83,8 +79,8 @@ main(){
         let bytes: Array<UInt8> = text.toUtf8Array()
         var output = ByteArrayStream()
         output.write(bytes)
-        var req: Request = Request(RequestMethod.POST, "http://127.0.0.1/", output)
-        req.header.add("Content-Type", CONTENT_TYPE)
+        let req = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(output).build()
+        req.headers.add("Content-Type", CONTENT_TYPE)
         let fileItemFactory: DiskFileItemFactory = DiskFileItemFactory()
         let upload: ServletFileUpload = ServletFileUpload(fileItemFactory)
         let iterator: FileItemIterator = upload.getItemIterator(req)
@@ -122,9 +118,8 @@ main(){
         var body_in=ByteArrayStream()
         body_in.write(content.toUtf8Array())
         let servletFileUpload=ServletFileUpload()
-        let request=http.Request(RequestMethod.GET,"http://www.baidu.com")
-        request.body=body_in
-        request.header.add("Content-Type", CONTENT_TYPE)
+        let request = HttpRequestBuilder.new().method("GET").url("http://www.baidu.com").body(body_in).build()
+        request.headers.add("Content-Type", CONTENT_TYPE)
         var re_flag=1
         try{
             servletFileUpload.parseRequest(request)
@@ -143,8 +138,8 @@ main(){
         let bytes: Array<UInt8> = text.toUtf8Array()
         var output = ByteArrayStream()
         output.write(bytes)
-        var req1: Request = Request(RequestMethod.POST, "http://127.0.0.1/", output)
-        req1.header.add("Content-Type", CONTENT_TYPE)
+        let req1 = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(output).build()
+        req1.headers.add("Content-Type", CONTENT_TYPE)
         let fileItemFactory: DiskFileItemFactory = DiskFileItemFactory()
         fileItemFactory.setDefaultCharset("UTF-8")
         let upload: FileUpload = FileUpload(fileItemFactory)
@@ -162,8 +157,8 @@ main(){
         let bytes: Array<UInt8> = text.toUtf8Array()
         var output = ByteArrayStream()
         output.write(bytes)
-        let req =Request(RequestMethod.POST, "http://127.0.0.1/",output)
-        req.header.add("Content-Type", CONTENT_TYPE)
+        let req = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(output).build()
+        req.headers.add("Content-Type", CONTENT_TYPE)
         try {
             fu.getItemIterator(ServletRequestContext(req))
         } catch (e: Exception){
@@ -181,7 +176,7 @@ main(){
         let bytes: Array<UInt8> = text.toUtf8Array()
         var output = ByteArrayStream()
         output.write(bytes)
-        let req =Request(RequestMethod.POST, "http://127.0.0.1/",output)
+        let req = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(output).build()
         try {
             fu.getItemIterator(ServletRequestContext(req))
         } catch (e: Exception){

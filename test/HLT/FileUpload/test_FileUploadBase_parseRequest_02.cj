@@ -33,8 +33,8 @@ public class TestFileUploadBase {
         let bytes: Array<UInt8> = text
         var output = ByteArrayStream()
         output.write(bytes)
-        var req1: Request = Request(RequestMethod.POST, "http://127.0.0.1/", output)
-        req1.header.add("Content-Type", CONTENT_TYPE)
+        let req1 = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(output).build()
+        req1.headers.add("Content-Type", CONTENT_TYPE)
         let fileItemFactory: DiskFileItemFactory = DiskFileItemFactory()
         fileItemFactory.setDefaultCharset("UTF-8")
         let upload: FileUpload = FileUpload(fileItemFactory)
