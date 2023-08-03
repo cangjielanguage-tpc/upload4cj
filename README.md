@@ -5,7 +5,7 @@
 <p align="center">
 <img alt="" src="https://img.shields.io/badge/release-v0.0.1-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/build-pass-brightgreen" style="display: inline-block;" />
-<img alt="" src="https://img.shields.io/badge/cjc-v0.39.4-brightgreen" style="display: inline-block;" />
+<img alt="" src="https://img.shields.io/badge/cjc-v0.39.5-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/cjcov-91.1%25-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/project-open-brightgreen" style="display: inline-block;" />
 </p>
@@ -34,6 +34,36 @@ commons-fileupload为apache出品的文件上传组件，用来接收浏览器�
 ├── doc
 ├── src
 │   ├── upload4cj
+│            ├──deferredFile_output_stream.cj
+│            ├──disk_file_item_factory.cj
+│            ├──disk_file_item.cj
+│            ├──file_item_factory.cj
+│            ├──file_item_headers_impl.cj
+│            ├──file_item_headers_support.cj
+│            ├──file_item_headers.cj
+│            ├──file_item_iterator_impl.cj
+│            ├──file_item_iterator.cj
+│            ├──file_item_stream_impl.cj
+│            ├──file_item_stream.cj
+│            ├──file_item.cj
+│            ├──file_upload_base.cj
+│            ├──file_upload_exception.cj
+│            ├──file_upload.cj
+│            ├──inter_input_stream.cj
+│            ├──item_input_stream.cj
+│            ├──limited_input_stream_impl.cj
+│            ├──limited_input_stream.cj
+│            ├──mime_utility.cj
+│            ├──multipart_stream.cj
+│            ├──parameter_parser.cj
+│            ├──progress_listener.cj
+│            ├──progress_notifier.cj
+│            ├──quoted_printable_decoder.cj
+│            ├──request_context.cj
+│            ├──servlet_file_upload.cj
+│            ├──servlet_request_context.cj
+│            ├──streams.cj
+│            └──thresholding_output_stream.cj
 └── test
 │   ├── HLT
 │   ├── LLT

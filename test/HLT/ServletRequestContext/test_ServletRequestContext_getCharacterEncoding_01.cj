@@ -17,7 +17,7 @@ public class TestStreams{
     ***/
     @TestCase
     func testServletRequestContextGetCharacterEncoding01(): Unit {
-        let request=http.Request(RequestMethod.GET,"http://www.baidu.com")
+        let request = HttpRequestBuilder.new().method("GET").url("http://www.baidu.com").build()
         let servletRequestContext=ServletRequestContext(request)
         var re=servletRequestContext.getCharacterEncoding().getOrThrow()
         @Assert(re,"UTF-8")

@@ -21,8 +21,8 @@ main() {
         baos.write("\r\n".toUtf8Array())
     }
     baos.write("-----1234--\r\n".toUtf8Array())
-    var req1: Request = Request(RequestMethod.POST, "http://127.0.0.1/", baos)
-    req1.header.add("Content-Type", CONTENT_TYPE)
+    var req1: HttpRequest = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(baos).build()
+    req1.headers.add("Content-Type", CONTENT_TYPE)
 
     var servletRequestContext: ServletRequestContext = ServletRequestContext(req1)
     servletRequestContext.toString()

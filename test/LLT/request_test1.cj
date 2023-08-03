@@ -9,11 +9,13 @@ from std import io.*
 main() {
     let sendBody = ByteArrayStream()
     sendBody.write("foo=bar&foo=bar2&bar=baz".toUtf8Array())
-    var req = Request(RequestMethod.POST, "http://dummy.faketssssld/", sendBody)
-    req.header.add("Content-Type","text/plain")
-    var output = ByteArrayStream()
-    req.copyTo(output)
-    var str = String.fromUtf8(output.readToEnd())
+    let sizeCon = "foo=bar&foo=bar2&bar=baz".toUtf8Array().size
+    var req = HttpRequestBuilder.new().method("POST").url("http://dummy.faketssssld/").body(sendBody).build()
+    req.headers.add("Content-Type","text/plain")
+
+    let arrTemp = Array<UInt8>(sizeCon,item:0)
+    req.body.read(arrTemp)
+    var str = String.fromUtf8(arrTemp)
     println(str)
     return 0
 }

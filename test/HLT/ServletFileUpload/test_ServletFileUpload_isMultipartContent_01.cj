@@ -16,31 +16,27 @@ public class TestServletFileUpload{
     ***/
     @TestCase
     func testServletFileUploadIsMultipartContent01(): Unit {
-        let request=http.Request(RequestMethod.GET,"http://www.baidu.com")
+        let request = HttpRequestBuilder.new().method("GET").url("http://www.baidu.com").build()
         var re=ServletFileUpload.isMultipartContent(request)
         @Assert(re,false)
     }
     @TestCase
     func testServletFileUploadIsMultipartContent02(): Unit {
-        let request=http.Request(RequestMethod.POST,"http://www.baidu.com")
+        let request = HttpRequestBuilder.new().method("POST").url("http://www.baidu.com").build()
         var re=ServletFileUpload.isMultipartContent(request)
         @Assert(re,false)
     }
     @TestCase
     func testServletFileUploadIsMultipartContent03(): Unit {
-        let request=http.Request(RequestMethod.POST,"http://www.baidu.com")
-        var head_ori=Header()
-        head_ori.add("Content-type","Content-type-value")
-        request.header=head_ori
+        let request = HttpRequestBuilder.new().method("POST").url("http://www.baidu.com").build()
+        request.headers.add("Content-type","Content-type-value")
         var re=ServletFileUpload.isMultipartContent(request)
         @Assert(re,false)
     }
     @TestCase
     func testServletFileUploadIsMultipartContent04(): Unit {
-        let request=http.Request(RequestMethod.POST,"http://www.baidu.com")
-        var head_ori=Header()
-        head_ori.add("Content-type","multipart/form-data")
-        request.header=head_ori
+        let request = HttpRequestBuilder.new().method("POST").url("http://www.baidu.com").build()
+        request.headers.add("Content-type","multipart/form-data")
         var re=ServletFileUpload.isMultipartContent(request)
         @Assert(re,true)
     }

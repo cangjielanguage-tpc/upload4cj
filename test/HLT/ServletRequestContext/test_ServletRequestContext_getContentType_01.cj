@@ -17,17 +17,15 @@ public class TestStreams{
     ***/
     @TestCase
     func testServletRequestContextGetContentType01(): Unit {
-        let request=http.Request(RequestMethod.GET,"http://www.baidu.com")
-        var head_ori=Header()
-        head_ori.add("Content-type","Content-type-value")
-        request.header=head_ori
+        let request = HttpRequestBuilder.new().method("GET").url("http://www.baidu.com").build()
+        request.headers.add("Content-type","Content-type-value")
         let servletRequestContext=ServletRequestContext(request)
         var re=servletRequestContext.getContentType().getOrThrow()
         @Assert(re,"Content-type-value")
     }
     @TestCase
     func testServletRequestContextGetContentType02(): Unit {
-        let request=http.Request(RequestMethod.GET,"http://www.baidu.com")
+        let request = HttpRequestBuilder.new().method("GET").url("http://www.baidu.com").build()
         let servletRequestContext=ServletRequestContext(request)
         var re_flag=1
         try{
