@@ -23,7 +23,7 @@ public class TestFileUploadBase {
     @TestCase
     func testFileUploadBaseSetFileCountMax01(): Unit {
         var fu = FileUpload()
-        var res = fu.setFileCountMax(1234856)
+        fu.setFileCountMax(1234856)
         @Assert(fu.getFileCountMax(), 1234856)
     }
 }

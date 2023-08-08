@@ -207,7 +207,9 @@ public class DiskFileItem <: FileItem {
      */
     public override func getString(): String {
         let s = get().getOrThrow()
-        return String.fromUtf8(s)
+        unsafe{
+            return String.fromUtf8Unchecked(s)
+        }
     }
 
     /**

@@ -26,7 +26,7 @@ public class TestFileUploadBase {
         fu.setProgressListener(ProgressListenerImpl(12, 5))
         var flag = 1
         match (fu.getProgressListener()) {
-            case Some(v) => flag = 0
+            case Some(_) => flag = 0
             case None => flag = 1
         }
         @Assert(flag, 0)
@@ -45,6 +45,7 @@ public class ProgressListenerImpl <: ProgressListener {
     }
 
     public override func update(pBytesRead: Int64, pContentLength: Int64, pItems: Int64) {
+        pContentLength.toString()
         bytesRead = pBytesRead
         items = pItems
     }

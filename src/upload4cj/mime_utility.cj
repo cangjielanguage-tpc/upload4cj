@@ -110,7 +110,9 @@ public class MimeUtility {
             var str: String = ""
             if (encoding.equals(BASE64_ENCODING_MARKER)) {
                 var encodedData: Array<UInt8> = fromBase64String(encodedText).getOrThrow()
-                str = String.fromUtf8(encodedData)
+                 unsafe{
+                    str = String.fromUtf8Unchecked(encodedData)
+                 }
             } else if (encoding.equals(QUOTEDPRINTABLE_ENCODING_MARKER)) {
                 let encodedData: Array<UInt8> = encodedText.toUtf8Array()
                 str = QuotedPrintableDecoder.decode(encodedData)

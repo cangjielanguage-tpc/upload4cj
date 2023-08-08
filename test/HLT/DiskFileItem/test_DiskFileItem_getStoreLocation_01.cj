@@ -25,7 +25,7 @@ public class TestDiskFileItem {
         let dfs = DiskFileItem("a1" , "text/html; charset=utf16" , false, "testfile" , 129 , Option<Directory>.None)
         var flag = 0
         match (dfs.getStoreLocation()) {
-            case Some(v) => flag = 1
+            case Some(_) => flag = 1
             case None => flag = 0
         }
         @Assert(flag, 0)

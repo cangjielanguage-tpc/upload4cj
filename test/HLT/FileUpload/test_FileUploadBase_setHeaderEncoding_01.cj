@@ -26,7 +26,7 @@ public class TestFileUploadBase {
         fu.setHeaderEncoding("test")
         var flag = 1
         match (fu.getHeaderEncoding()) {
-            case Some(v) => flag = 0
+            case Some(_) => flag = 0
             case None => flag = 1
         }
         @Assert(flag, 0)
