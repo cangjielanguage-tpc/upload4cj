@@ -12,20 +12,21 @@
 
 ## <img alt="" src="./doc/assets/readme-icon-introduction.png" style="display: inline-block;" width=3%/> 介绍
 
-commons-fileupload为apache出品的文件上传组件，用来接收浏览器上传的组件
+upload4cj是用于处理浏览器或者其他客户端上传上来的单个或者多个文件的一个文件报文解析组件(注:这里的文件指字段和文件两部分)
+
+参考了apache的commons-fileupload
 
 参考地址：https://github.com/apache/commons-fileupload 版本 1.5
 
 **特性**：
 
-- 🚀 解析参数内容的消息头
-- 💪 文件上传请求解析器
+- 🚀 支持解析单个字段或者多个字段上传上来的报文
 
-- 🌍 解析后的文件条目对象的封装
+- 💪 支持解析单个文件或者多个文件上传上来的报文
+
+- 🌍 支持解析字段和文件一起上传上来的报文
 
 ## <img alt="" src="./doc/assets/readme-icon-framework.png" style="display: inline-block;" width=3%/> 架构
-
-图片
 
 ### 源码目录
 
