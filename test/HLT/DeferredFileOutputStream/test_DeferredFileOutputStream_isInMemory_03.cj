@@ -26,7 +26,6 @@ public class TestDeferredFileOutputStream {
             File.create("./testtemp1")
         }
         let file = File(Path("./testtemp1"),OpenOption.Open(false, false))
-        var flag = 0
         let dfos:DeferredFileOutputStream = DeferredFileOutputStream(0, file,Option<Directory>.None)
         var res: Bool = dfos.isInMemory()
         @Assert(res, true)

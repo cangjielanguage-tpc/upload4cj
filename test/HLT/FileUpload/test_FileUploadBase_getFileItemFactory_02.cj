@@ -26,7 +26,7 @@ public class TestFileUploadBase {
         var fu = FileUpload(fileItemFactory)
         var flag = 1
         match (fu.getFileItemFactory()) {
-            case Some(v) => flag = 0
+            case Some(_) => flag = 0
             case None => flag = 1
         }
 

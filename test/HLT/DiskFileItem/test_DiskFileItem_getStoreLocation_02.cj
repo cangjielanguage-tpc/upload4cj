@@ -26,7 +26,7 @@ public class TestDiskFileItem {
         var flag = 0
         dfs.getOutputStream()
         match (dfs.getStoreLocation()) {
-            case Some(v) => flag = 1
+            case Some(_) => flag = 1
             case None => flag = 0
         }
         @Assert(flag, 0)

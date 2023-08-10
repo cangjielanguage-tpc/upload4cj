@@ -48,13 +48,19 @@ class QuotedPrintableDecoder {
         if (out.length == 0) {
             return ""
         }
-        var str = String.fromUtf8(out.readToEnd())
+        var str = ""
+        unsafe{
+            str = String.fromUtf8Unchecked(out.readToEnd())
+        }
         return str
     }
 
     private static func hexToBinary(b1: UInt8, b2: UInt8): UInt8 {
         var arr = Array<UInt8>([b1, b2])
-        var sString: String = String.fromUtf8(arr)
+        var sString = ""
+        unsafe{
+            sString = String.fromUtf8Unchecked(arr)
+        }
         var opArr: Option<Array<UInt8>> = fromHexString(sString)
         var arr2: Array<UInt8> = match (opArr) {
             case Some(s) => s

@@ -25,7 +25,7 @@ public class TestDiskFileItem {
         let dfs = DiskFileItem("a1" , "diskfile" , false, "testfile" , 129 , Option<Directory>.None)
         var flag = 1
         try {
-            var res = dfs.getInputStream()
+            dfs.getInputStream()
         } catch (e: NoneValueException) {
             flag = 0
         }

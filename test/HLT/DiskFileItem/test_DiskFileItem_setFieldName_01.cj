@@ -23,7 +23,7 @@ public class TestDiskFileItem {
     @TestCase
     func testDiskFileItemSetFieldName01(): Unit {
         let dfs = DiskFileItem("a1" , "text/html; charset=utf16" , false, "testfile" , 129 , Option<Directory>.None)
-        var res = dfs.setFieldName("newfieldName")
+        dfs.setFieldName("newfieldName")
         @Assert(dfs.getFieldName(), "newfieldName")
     }
 }

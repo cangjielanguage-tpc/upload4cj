@@ -125,13 +125,11 @@ public class ParameterParser {
         var paramValue: Option<String>
 
         while (hasChar()) {
-            var s: Array<Char> = ['=', separator]
-            paramName = parseToken(s)
+            paramName = parseToken('=', separator)
             paramValue = Option<String>.None
             if (hasChar() && charArray.getOrThrow()[pos] == '=') {
                 pos++
-                var s: Array<Char> = [separator]
-                paramValue = this.parseQuotedToken(s)
+                paramValue = this.parseQuotedToken(separator)
 
                 try {
                     paramValue = MimeUtility.decodeText(paramValue.getOrThrow())
@@ -159,12 +157,12 @@ public class ParameterParser {
         return params
     }
 
-    private func parseToken(terminators: Array<Char>): Option<String> {
+    private func parseToken(ch1:Char,ch2:Char): Option<String> {
         this.i1 = this.pos
         this.i2 = this.pos
         while (hasChar()) {
             var ch: Char = this.chars[this.pos]
-            if (isOneOf(ch, terminators)) {
+            if (isOneOf(ch, ch1,ch2)) {
                 break
             }
             this.i2++
@@ -196,15 +194,12 @@ public class ParameterParser {
         return result
     }
 
-    private func isOneOf(ch: Char, charray: Array<Char>): Bool {
-        var result: Bool = false
-        for (i in 0..charray.size) {
-            if (ch == charray[i]) {
-                result = true
-                break
-            }
-        }
-        return result
+    private func isOneOf(ch: Char, ch1: Char,ch2: Char): Bool {
+        return (ch == ch1 || ch == ch2)
+    }
+
+    private func isOneOf(ch: Char, ch1:Char): Bool {
+        return ch == ch1
     }
 
     /**
@@ -225,7 +220,7 @@ public class ParameterParser {
         this.lowerCaseNames = b
     }
 
-    private func parseQuotedToken(terminators: Array<Char>): Option<String> {
+    private func parseQuotedToken(terminators:Char): Option<String> {
         i1 = pos
         i2 = pos
         var quoted: Bool = false

@@ -25,7 +25,7 @@ public class TestFileUploadBase {
         var fu = FileUpload()
         var flag = 1
         match (fu.getFileItemFactory()) {
-            case Some(v) => flag = 1
+            case Some(_) => flag = 1
             case None => flag = 0
         }
         @Assert(flag, 0)
@@ -33,7 +33,7 @@ public class TestFileUploadBase {
         let fileItemFactory: DiskFileItemFactory = DiskFileItemFactory()
         fu.setFileItemFactory(fileItemFactory)
         match (fu.getFileItemFactory()) {
-            case Some(v) => flag = 0
+            case Some(_) => flag = 0
             case None => flag = 1
         }
         @Assert(flag, 0)

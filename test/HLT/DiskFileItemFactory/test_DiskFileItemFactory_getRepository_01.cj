@@ -25,7 +25,7 @@ public class TestDiskFileItemFactory {
         let dff = DiskFileItemFactory()
         var flag = 1
         match (dff.getRepository()) {
-            case Some(v) => ()
+            case Some(_) => ()
             case None => flag = 0
         }
         @Assert(flag, 0)

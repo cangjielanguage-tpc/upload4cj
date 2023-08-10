@@ -151,19 +151,21 @@ public class MultipartStream {
      * @return Bool - ok or fault
      */
     public func readBoundary(): Bool {
-        var BoundaryMarker: Array<UInt8> = Array<UInt8>(2, item: 0)
+        //var BoundaryMarker: Array<UInt8> = Array<UInt8>(2, item: 0)
+        var BoundaryMarker1:UInt8 = 0
+        var BoundaryMarker2:UInt8 = 0
         var nextChunk: Bool = false
 
         head = head + boundaryLength
         try {
-            BoundaryMarker[0] = readByte()
-            if (BoundaryMarker[0] == LF) {
+            BoundaryMarker1 = readByte()
+            if (BoundaryMarker1 == LF) {
                 return true
             }
-            BoundaryMarker[1] = readByte()
-            if (arrayequals(BoundaryMarker, STREAM_TERMINATOR, 2)) {
+            BoundaryMarker2 = readByte()
+            if (arrayequals(BoundaryMarker1,BoundaryMarker2, STREAM_TERMINATOR)) {
                 nextChunk = false
-            } else if (arrayequals(BoundaryMarker, FIELD_SEPARATOR, 2)) {
+            } else if (arrayequals(BoundaryMarker1,BoundaryMarker2, FIELD_SEPARATOR)) {
                 nextChunk = true
             } else {
                 throw MalformedStreamException("Unexpected characters follow a boundary")
@@ -247,7 +249,6 @@ public class MultipartStream {
         }
         baos.write(arrayUint.toArray())
 
-        var headers: String = ""
 
         let isHeaderEncoding = match (headerEncoding) {
             case Some(_) => true
@@ -257,16 +258,20 @@ public class MultipartStream {
         if (isHeaderEncoding) {
             try {
                 // bytes -> String
-                headers = String.fromUtf8(baos.readToEnd())
+                  unsafe{
+                    return String.fromUtf8Unchecked(baos.readToEnd())
+                  }
             } catch (e: ReadWriteException) {
                 // Fall back to platform default if specified encoding is not
                 // supported.
-                headers = String.fromUtf8(baos.readToEnd())
-            }
+                unsafe{
+                    return String.fromUtf8Unchecked(baos.readToEnd())
+                  }            }
         } else {
-            headers = String.fromUtf8(baos.readToEnd())
+                unsafe{
+                    return String.fromUtf8Unchecked(baos.readToEnd())
+                  }
         }
-        return headers
     }
 
     func newInputStream(): ItemInputStream {
@@ -319,6 +324,10 @@ public class MultipartStream {
             }
         }
         return true
+    }
+
+    protected static func arrayequals(a1:UInt8,a2:UInt8, b: Array<UInt8>): Bool {
+        return (a1 == b[0] && a2 == b[1])
     }
 
     protected func findByte(value: UInt8, pos: Int64): Int64 {
