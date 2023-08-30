@@ -3,9 +3,16 @@
 from upload4cj import upload4cj.*
 from net import http.*
 from std import io.*
+from std import unittest.*
+from std import unittest.testmacro.*
 
 @OverflowWrapping
 main() {
+    test1()
+}
+
+@OverflowWrapping
+func test1(): Unit {
     let CONTENT_TYPE: String = "multipart/form-data; boundary=---1234"
 
     let NUM_ITEMS: Int64 = 3
@@ -27,10 +34,12 @@ main() {
     var servletRequestContext: ServletRequestContext = ServletRequestContext(req1)
     servletRequestContext.toString()
     let c: Int64 = runTest(NUM_ITEMS, baos.length, servletRequestContext)
+    var flag = true
     if (c == 1) {
-        return 1
+        flag = false
     }
-    return 0
+    @Assert(flag,true)
+    println("pass1")
 }
 
 @OverflowWrapping

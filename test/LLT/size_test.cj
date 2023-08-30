@@ -11,7 +11,12 @@ from net import http.*
 main() {
     let sizeTest = SizeTest()
     sizeTest.test1()
+    sizeTest.test1A()
+    sizeTest.test1B()
     sizeTest.test2()
+    sizeTest.test2A()
+    sizeTest.test2B()
+    sizeTest.test2C()
     sizeTest.test3()
     sizeTest.test4()
     sizeTest.test5()
@@ -41,8 +46,14 @@ public class SizeTest {
         @Assert(items.size,1)
         let item0: FileItem = items.get(0).getOrThrow()
         @Assert("This is the content of the file\n", String.fromUtf8(item0.get().getOrThrow()))
+        println("Pass1")
+    }
 
-        //===============================================================
+      @TestCase
+    public func test1A(): Unit {
+        let text: String =
+            "-----1234\r\n" + "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
+            "Content-Type: text/whatever\r\n" + "\r\n" + "This is the content of the file\n" + "\r\n" + "-----1234--\r\n"
         let bytes2: Array<UInt8> = text.toUtf8Array()
         var output2 = ByteArrayStream()
         output2.write(bytes2)
@@ -54,8 +65,14 @@ public class SizeTest {
         @Assert(items2.size,1)
         let item02: FileItem = items2.get(0).getOrThrow()
         @Assert("This is the content of the file\n", String.fromUtf8(item02.get().getOrThrow()))
+        println("Pass1A")
+    }
 
-        //===============================================================
+      @TestCase
+    public func test1B(): Unit {
+        let text: String =
+            "-----1234\r\n" + "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
+            "Content-Type: text/whatever\r\n" + "\r\n" + "This is the content of the file\n" + "\r\n" + "-----1234--\r\n"
         let bytes3: Array<UInt8> = text.toUtf8Array()
         var output3 = ByteArrayStream()
         output3.write(bytes3)
@@ -70,7 +87,7 @@ public class SizeTest {
             expected = true
         }
         @Assert(expected,true)
-        println("Pass1")
+        println("Pass1B")
     }
 
     @TestCase
@@ -90,8 +107,16 @@ public class SizeTest {
         @Assert(items.size,1)
         let item0: FileItem = items.get(0).getOrThrow()
         @Assert("This is the content of the file\n", String.fromUtf8(item0.get().getOrThrow()))
+        println("Pass2")
+    }
 
-        //===============================================================
+
+    @TestCase
+    public func test2A(): Unit {
+        let text: String =
+            "-----1234\r\n" + "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
+            "Content-Type: text/whatever\r\n" + "Content-Length: 10\r\n" + "\r\n" + "This is the content of the file\n" +
+            "\r\n" + "-----1234--\r\n"
         let bytes2: Array<UInt8> = text.toUtf8Array()
         var output2 = ByteArrayStream()
         output2.write(bytes2)
@@ -105,8 +130,16 @@ public class SizeTest {
         @Assert(items2.size,1)
         let item02: FileItem = items2.get(0).getOrThrow()
         @Assert("This is the content of the file\n", String.fromUtf8(item02.get().getOrThrow()))
+        println("Pass2A")
+    }
 
-        //===============================================================
+
+    @TestCase
+    public func test2B(): Unit {
+        let text: String =
+            "-----1234\r\n" + "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
+            "Content-Type: text/whatever\r\n" + "Content-Length: 10\r\n" + "\r\n" + "This is the content of the file\n" +
+            "\r\n" + "-----1234--\r\n"
         let bytes3: Array<UInt8> = text.toUtf8Array()
         var output3 = ByteArrayStream()
         output3.write(bytes3)
@@ -121,8 +154,16 @@ public class SizeTest {
             expected = true
         }
         @Assert(expected,true)
+        println("Pass2B")
+    }
 
-        //===============================================================
+
+    @TestCase
+    public func test2C(): Unit {
+        let text: String =
+            "-----1234\r\n" + "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
+            "Content-Type: text/whatever\r\n" + "Content-Length: 10\r\n" + "\r\n" + "This is the content of the file\n" +
+            "\r\n" + "-----1234--\r\n"
         let bytes4: Array<UInt8> = text.toUtf8Array()
         var output4 = ByteArrayStream()
         output4.write(bytes4)
@@ -137,7 +178,7 @@ public class SizeTest {
             expected2 = true
         }
         @Assert(expected2,true)
-        println("Pass2")
+        println("Pass2C")
     }
 
     @TestCase
