@@ -50,21 +50,21 @@ public class Streams {
                 }
                 if (res > 0) {
                     total += res
-                    if (let Some(i) = output) {
+                    if (let Some(i) <- output) {
                         let bytesRes = buffer.slice(0, res)
                         i.write(bytesRes)
                     }
                 }
             }
 
-            if (let Some(j) = output) {
+            if (let Some(j) <- output) {
                 if (!closeOutputStream) {
                     j.flush()
                 }
             }
 
             let conInput = input as ItemInputStream
-            if (let Some(k) = conInput) {
+            if (let Some(k) <- conInput) {
                 k.close()
             }
             return total
@@ -81,9 +81,9 @@ public class Streams {
      * @return Option<String> - the fileName checked
      */
     public static func checkFileName(fileName: Option<String>): Option<String> {
-        if (let Some(i) = fileName) {
+        if (let Some(i) <- fileName) {
             let index: Option<Int64> = i.indexOf('\u{0}')
-            if (let Some(_) = index) {
+            if (let Some(_) <- index) {
                 let sb: StringBuilder = StringBuilder()
                 for (k in 0..i.size) {
                     let c: Char = i.get(k).getOrThrow()

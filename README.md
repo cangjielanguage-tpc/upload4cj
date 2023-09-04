@@ -5,7 +5,7 @@
 <p align="center">
 <img alt="" src="https://img.shields.io/badge/release-v0.0.1-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/build-pass-brightgreen" style="display: inline-block;" />
-<img alt="" src="https://img.shields.io/badge/cjc-v0.39.5-brightgreen" style="display: inline-block;" />
+<img alt="" src="https://img.shields.io/badge/cjc-v0.39.7-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/cjcov-91.1%25-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/project-open-brightgreen" style="display: inline-block;" />
 </p>
@@ -77,7 +77,7 @@ upload4cj是用于处理浏览器或者其他客户端上传上来的单个或�
 ├── README.OpenSource
 ```
 
-- `doc` 存放库的设计文档、使用文档、LLT 用例覆盖报告
+- `doc` 存放库的feature_api文档
 - `src` 是库源码目录
 - `test` 存放 HLT 测试用例、LLT 自测用例和 UT 单元测试用例
 

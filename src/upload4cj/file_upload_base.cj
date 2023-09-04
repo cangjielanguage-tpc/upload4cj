@@ -120,7 +120,7 @@ public abstract class FileUploadBase {
      */
     public static func isMultipartContent(ctx: RequestContext): Bool {
         let contentType: Option<String> = ctx.getContentType()
-        if (let Some(i) = contentType) {
+        if (let Some(i) <- contentType) {
             let lowerStr: String = i.toAsciiLower()
             if (lowerStr.startsWith(MULTIPART)) {
                 return true
@@ -145,7 +145,7 @@ public abstract class FileUploadBase {
             let iter: FileItemIterator = getItemIterator(ctx)
             let fac: Option<FileItemFactory> = getFileItemFactory()
             let buffer: Array<UInt8> = Array<UInt8>(Streams.DEFAULT_BUFFER_SIZE, item: 0)
-            if (let Some(_) = fac) {}
+            if (let Some(_) <- fac) {}
             else {
                 throw NullPointerException("No FileItemFactory has been set.")
             }
@@ -156,9 +156,9 @@ public abstract class FileUploadBase {
                 let item: FileItemStream = iter.next()
                 let asItem = item as FileItemStreamImpl
                 var fileName: Option<String> = Option<String>.None
-                if (let Some(j) = asItem) {
+                if (let Some(j) <- asItem) {
                     fileName = j.name
-                    if (let Some(k) = fileName) {
+                    if (let Some(k) <- fileName) {
                         fileName = k
                     } else {
                         fileName = ""
@@ -170,7 +170,7 @@ public abstract class FileUploadBase {
                     Streams.copy(item.openStream(), fileItem.getOutputStream(), true, buffer)
                     let outputStream = fileItem.getOutputStream()
                     let deferr = outputStream as DeferredFileOutputStream
-                    if(let Some(m) = deferr){
+                    if(let Some(m) <- deferr){
                         m.close()
                     }
                 } catch (e: FileUploadException) {
@@ -229,7 +229,7 @@ public abstract class FileUploadBase {
         for (fileItem in items) {
             let fieldName: String = fileItem.getFieldName()
             var mappedItems: Option<ArrayList<FileItem>> = itemsMap.get(fieldName)
-            if (let Some(i) = mappedItems) {
+            if (let Some(i) <- mappedItems) {
                 i.append(fileItem)
             } else {
                 mappedItems = ArrayList<FileItem>()
@@ -246,14 +246,14 @@ public abstract class FileUploadBase {
 
     private func getFieldName(pContentDisposition: Option<String>): Option<String> {
         var fieldName: Option<String> = Option<String>.None
-        if (let Some(i) = pContentDisposition) {
+        if (let Some(i) <- pContentDisposition) {
             let cdl: String = i.toAsciiLower()
             if (cdl.startsWith(FORM_DATA)) {
                 let parser: ParameterParser = ParameterParser()
                 parser.setLowerCaseNames(true)
                 let params: Map<String, Option<String>> = parser.parse(i, ';')
                 fieldName = params.get("name").getOrThrow()
-                if (let Some(j) = fieldName) {
+                if (let Some(j) <- fieldName) {
                     fieldName = j.trimAscii()
                 }
             }
@@ -267,7 +267,7 @@ public abstract class FileUploadBase {
 
     private func getFileName(pContentDisposition: Option<String>): Option<String> {
         var fileName: Option<String> = Option<String>.None
-        if (let Some(i) = pContentDisposition) {
+        if (let Some(i) <- pContentDisposition) {
             let cdl: String = i.toAsciiLower()
             if (cdl.startsWith(FORM_DATA) || cdl.startsWith(ATTACHMENT)) {
                 let parser: ParameterParser = ParameterParser()
@@ -275,7 +275,7 @@ public abstract class FileUploadBase {
                 let params: Map<String, Option<String>> = parser.parse(i, ';')
                 if (params.contains("filename")) {
                     fileName = params.get("filename").getOrThrow()
-                    if (let Some(j) = fileName) {
+                    if (let Some(j) <- fileName) {
                         fileName = j.trimAscii()
                     } else {
                         fileName = ""
@@ -324,7 +324,7 @@ public abstract class FileUploadBase {
         var index: Int64 = end
         while (true) {
             let offset: Option<Int64> = headerPart.indexOf('\r', index)
-            if (let Some(i) = offset) {
+            if (let Some(i) <- offset) {
                 if (i + 1 >= headerPart.size) {
                     throw IllegalStateException("Expected headers to be terminated by an empty line.")
                 }
@@ -341,7 +341,7 @@ public abstract class FileUploadBase {
 
     private func parseHeaderLine(headers: FileItemHeadersImpl, header: String): Unit {
         let colonOffset: Option<Int64> = header.indexOf(':')
-        if (let Some(i) = colonOffset) {
+        if (let Some(i) <- colonOffset) {
             var headerName: String = header.substring(0, i).trimAscii()
             let headerValue: String = header.substring(i + 1).trimAscii()
             headers.addHeader(headerName, headerValue)

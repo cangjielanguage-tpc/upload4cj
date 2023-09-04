@@ -58,7 +58,7 @@ public class DeferredFileOutputStream <: ThresholdingOutputStream {
      * close
      */
     public func close(): Unit {
-        if(let Some(i) = outputFile){
+        if(let Some(i) <- outputFile){
             i.close()
         }
         this.closed = true
@@ -70,7 +70,7 @@ public class DeferredFileOutputStream <: ThresholdingOutputStream {
      * @return - Option<Array<UInt8>> data Array
      */
     public func getData(): Option<Array<UInt8>> {
-        if (let Some(_) = this.memoryOutputStream) {
+        if (let Some(_) <- this.memoryOutputStream) {
             return this.memoryOutputStream.getOrThrow().bytes()
         } else {
             return Option<Array<UInt8>>.None
@@ -100,13 +100,13 @@ public class DeferredFileOutputStream <: ThresholdingOutputStream {
     }
 
     private func createOutputFile(): File {
-        if (let Some(i) = mTempFile) {
+        if (let Some(i) <- mTempFile) {
             return i
         } else {
             var tempDir: Option<Directory> = mRepository
             let dirName = "tempDir"
             var pathDir: Path = Path(dirName)
-            if (let Some(j) = tempDir) {
+            if (let Some(j) <- tempDir) {
                 pathDir = j.info.path
             } else {
                 if (!Directory.exists(pathDir)) {

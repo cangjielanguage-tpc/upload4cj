@@ -136,7 +136,7 @@ public class MultipartStream {
                 throw ReadWriteException("No more data is available")
             }
 
-            if (let Some(i) = notifier) {
+            if (let Some(i) <- notifier) {
                 i.noteBytesRead(tail)
             }
         }

@@ -57,9 +57,9 @@ public class FileItemIteratorImpl <: FileItemIterator {
 
     init(ctx: Option<RequestContext>, fileupLoadBase: FileUploadBase) {
         this.mfileuploadBase = fileupLoadBase
-        if (let Some(i) = ctx) {
+        if (let Some(i) <- ctx) {
             let contentType: Option<String> = i.getContentType()
-            if (let Some(j) = contentType) {
+            if (let Some(j) <- contentType) {
                 if (!j.toAsciiLower().startsWith(MULTIPART)) {
                     throw InvalidContentTypeException("the request doesn't contain a " + MULTIPART_FORM_DATA + " or " + MULTIPART_MIXED +" stream, content type header is " + j)
                 } else {
@@ -79,12 +79,12 @@ public class FileItemIteratorImpl <: FileItemIterator {
                         input = i.getInputStream()
                     }
                     var charEncoding: Option<String> = headerEncoding
-                    if (let Some(_) = charEncoding) {}
+                    if (let Some(_) <- charEncoding) {}
                     else {
                         charEncoding = i.getCharacterEncoding()
                     }
                     boundary = getBoundary(j)
-                    if (let Some(_) = boundary) {
+                    if (let Some(_) <- boundary) {
                         notifier = ProgressNotifier(mfileuploadBase.getOrThrow().getProgressListener(), requestSize)
                         try {
                             multi = MultipartStream(input.getOrThrow(), boundary, notifier.getOrThrow())
@@ -118,7 +118,7 @@ public class FileItemIteratorImpl <: FileItemIterator {
     }
 
     private func doResetCurrentItem(){
-         if (let Some(_) = currentItem) {
+         if (let Some(_) <- currentItem) {
             currentItem.getOrThrow().close()
             currentItem = Option<FileItemStreamImpl>.None
         }
@@ -133,7 +133,7 @@ public class FileItemIteratorImpl <: FileItemIterator {
         while (true) {
             var nextPart: Bool = calcNextPart()
             if (!nextPart) {
-                if (let Some(_) = currentFieldName) {}
+                if (let Some(_) <- currentFieldName) {}
                 else {
                     eof = true
                     return false
@@ -143,9 +143,9 @@ public class FileItemIteratorImpl <: FileItemIterator {
                 continue
             }
             let headers: FileItemHeaders = mfileuploadBase.getOrThrow().getParsedHeaders(multi.getOrThrow().readHeaders())
-            if (let Some(j) = currentFieldName) {
+            if (let Some(j) <- currentFieldName) {
                 let fileName: Option<String> = mfileuploadBase.getOrThrow().getFileName(headers)
-                if (let Some(n) = fileName) {
+                if (let Some(n) <- fileName) {
                     currentItem = FileItemStreamImpl(n,j,headers.getHeader(CONTENT_TYPE),false,getContentLength(headers),mfileuploadBase,this)
                     currentItem.getOrThrow().setHeaders(headers)
                     notifier.getOrThrow().noteItem()
@@ -154,9 +154,9 @@ public class FileItemIteratorImpl <: FileItemIterator {
                 }
             } else {
                 let fieldName: Option<String> = mfileuploadBase.getOrThrow().getFieldName(headers)
-                if (let Some(k) = fieldName) {
+                if (let Some(k) <- fieldName) {
                     let subContentType: Option<String> = headers.getHeader(CONTENT_TYPE)
-                    if (let Some(l) = subContentType) {
+                    if (let Some(l) <- subContentType) {
                         let nameLower: String = l.toAsciiLower()
                         if (nameLower.startsWith(MULTIPART_MIXED)) {
                             currentFieldName = fieldName
@@ -180,7 +180,7 @@ public class FileItemIteratorImpl <: FileItemIterator {
     private func doLogic(headersTemp: FileItemHeaders,fieldNameTmep:String){
         let fileName: Option<String> = mfileuploadBase.getOrThrow().getFileName(headersTemp)
         var isfileNameNull: Bool = false
-        if (let Some(_) = fileName) {
+        if (let Some(_) <- fileName) {
             isfileNameNull = false
         } else {
             isfileNameNull = true
@@ -200,8 +200,8 @@ public class FileItemIteratorImpl <: FileItemIterator {
         let charArray = Array<Char>([';', ','])
         let params: Map<String, Option<String>> = parser.parse(contentType, charArray)
         let boundaryStr: Option<Option<String>> = params.get("boundary")
-        if (let Some(k) = boundaryStr) {
-            if (let Some(_) = k) {
+        if (let Some(k) <- boundaryStr) {
+            if (let Some(_) <- k) {
                 var boundary: Array<UInt8>
                 try {
                     //仓颉目前只支持utf-8

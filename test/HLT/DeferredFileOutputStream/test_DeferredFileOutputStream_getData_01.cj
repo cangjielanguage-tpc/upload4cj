@@ -29,7 +29,7 @@ public class TestDeferredFileOutputStream {
         var flag = 0
         let dfos:DeferredFileOutputStream = DeferredFileOutputStream(16, file, Option<Directory>.None)
         var res = dfos.getData()
-        if (let None = res) {
+        if (let None <- res) {
             flag = 1
         }
         @Assert(flag, 0)

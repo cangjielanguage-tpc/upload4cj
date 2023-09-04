@@ -16,7 +16,7 @@ class LimitedInputStreamImpl <: LimitedInputStream {
     }
 
     protected override func raiseError(pSizeMax: Int64, pCount: Int64): Unit {
-        if (let Some(i) = itemStream) {
+        if (let Some(i) <- itemStream) {
             i.close(true)
             throw FileSizeLimitExceededException(
                 "The field exceeds its maximum permitted size of " + pSizeMax.toString() + " bytes. actual " +

@@ -66,7 +66,7 @@ public class FileItemStreamImpl <: FileItemStream {
      * @return String - The contentType
      */
     public override func getContentType(): String {
-        if (let Some(i) = contentType) {
+        if (let Some(i) <- contentType) {
             return i
         } else {
             return ""

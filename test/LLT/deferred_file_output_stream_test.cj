@@ -158,7 +158,7 @@ public class DeferredFileOutputStreamTest{
         let testFieldValueBytes:Array<UInt8> = textFieldValue.toUtf8Array()
         dfos.write(testFieldValueBytes)
         var isNull= false
-        if(let Some(_) = dfos.getData()){
+        if(let Some(_) <- dfos.getData()){
             isNull = false
         }else{
             isNull = true
