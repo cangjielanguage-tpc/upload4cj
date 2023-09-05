@@ -97,11 +97,11 @@ public class DiskFileItemTest {
         @Assert(item.getString(),textFieldValue)
 
         let diskFileItem = item as DiskFileItem
-        if(let Some(i) = diskFileItem){
+        if(let Some(i) <- diskFileItem){
             //i就是diskFileItem
             let file:Option<File> = i.getStoreLocation()
             var isFileExists = false
-            if(let Some(_) = file){
+            if(let Some(_) <- file){
                 isFileExists = true
             }else{
                 isFileExists = false
@@ -173,7 +173,7 @@ public class DiskFileItemTest {
         @Assert(item.getName(),"")
 
         let diskFileItem = item as DiskFileItem
-        if(let Some(i) = diskFileItem){
+        if(let Some(i) <- diskFileItem){
             i.setDefaultCharset("UTF-8")
             @Assert(i.getDefaultCharset(),"UTF-8")
             @Assert(i.getCharSet(),"UTF-8")

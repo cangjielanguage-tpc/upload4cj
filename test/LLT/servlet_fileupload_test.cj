@@ -119,7 +119,7 @@ public class ServletFileUploadTest {
         upload.setProgressListener(Option<ProgressListener>.None)
         let proListener = upload.getProgressListener()
         var isNull = false
-        if (let Some(_) = proListener) {
+        if (let Some(_) <- proListener) {
             isNull = false
         } else {
             isNull = true

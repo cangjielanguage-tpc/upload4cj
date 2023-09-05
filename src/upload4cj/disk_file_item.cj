@@ -74,13 +74,13 @@ public class DiskFileItem <: FileItem {
     public override func getInputStream(): Option<InputStream> {
         if (!this.isInMemory()) {
             let optFile: Option<File> = this.dfos.getOrThrow().getFile()
-            if (let Some(j) = optFile) {
+            if (let Some(j) <- optFile) {
                 return j
             } else {
                 return Option<InputStream>.None
             }
         } else {
-            if (let Some(_) = cachedContent) {}
+            if (let Some(_) <- cachedContent) {}
             else {
                 cachedContent = this.dfos.getOrThrow().getData()
             }
@@ -126,7 +126,7 @@ public class DiskFileItem <: FileItem {
      * @return Bool - is InMemory or not
      */
     public override func isInMemory(): Bool {
-        if (let Some(_) = cachedContent) {
+        if (let Some(_) <- cachedContent) {
             return true
         }
         return this.dfos.getOrThrow().isInMemory()
@@ -156,7 +156,7 @@ public class DiskFileItem <: FileItem {
         }
 
         let optFile = this.dfos.getOrThrow().getFile()
-        if (let Some(i) = optFile) {
+        if (let Some(i) <- optFile) {
             return i.info.length
         } else {
             return 0
@@ -351,7 +351,7 @@ public class DiskFileItem <: FileItem {
      * @return String - toString
      */
     public func toString(): String {
-        if (let Some(_) = getStoreLocation()) {
+        if (let Some(_) <- getStoreLocation()) {
             return "name=" + getName() + " StoreLocation=" + getStoreLocation().getOrThrow().info.path.toString() + " size="+
                 getSize().toString() + " bytes isFormField=" + isGetFormField().toString() + " FieldName=" +
                 getFieldName()

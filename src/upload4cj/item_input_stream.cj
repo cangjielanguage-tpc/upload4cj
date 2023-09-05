@@ -139,20 +139,14 @@ class ItemInputStream <: InterInputStream {
         mMultiPartStream.getOrThrow().tail = pad
 
         while (true) {
-            var bufferTemp = mMultiPartStream.getOrThrow().buffer[mMultiPartStream.getOrThrow().tail..mMultiPartStream.
-                getOrThrow().bufSize]
-            var bytesRead: Int64 = mMultiPartStream.getOrThrow().input.read(bufferTemp)
-            bufferTemp.copyTo(
-                mMultiPartStream.getOrThrow().buffer,
-                0,
-                mMultiPartStream.getOrThrow().tail,
-                mMultiPartStream.getOrThrow().bufSize - mMultiPartStream.getOrThrow().tail
-            )
+            var bytesRead: Int64 = mMultiPartStream.getOrThrow().input.read(mMultiPartStream.getOrThrow().buffer[mMultiPartStream.getOrThrow().tail..mMultiPartStream.
+                getOrThrow().bufSize])
+
             if (bytesRead <= 0) {
                 throw MalformedStreamException("Stream ended unexpectedly");
             }
 
-            if (let Some(i) = mMultiPartStream.getOrThrow().notifier) {
+            if (let Some(i) <- mMultiPartStream.getOrThrow().notifier) {
                 i.noteBytesRead(bytesRead)
             }
 

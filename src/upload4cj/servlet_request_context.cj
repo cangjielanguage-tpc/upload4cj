@@ -37,7 +37,7 @@ public class ServletRequestContext <: RequestContext {
      */
     public override func getContentType(): Option<String> {
         let conTypeList = request.headers.get(FileUploadBase.CONTENT_TYPE)
-        if(let Some(i) = conTypeList){
+        if(let Some(i) <- conTypeList){
             if(i.size == 0){
                 return Option<String>.None
             }else{

@@ -38,7 +38,7 @@ public class ProgressNotifier {
     }
 
     private func notifyListener() {
-        if (let Some(i) = listener) {
+        if (let Some(i) <- listener) {
             i.update(bytesRead, contentLength, items)
         }
     }
