@@ -6,7 +6,7 @@
 <img alt="" src="https://img.shields.io/badge/release-v0.0.1-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/build-pass-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/cjc-v0.39.7-brightgreen" style="display: inline-block;" />
-<img alt="" src="https://img.shields.io/badge/cjcov-91.1%25-brightgreen" style="display: inline-block;" />
+<img alt="" src="https://img.shields.io/badge/cjcov-90.9%25-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/project-open-brightgreen" style="display: inline-block;" />
 </p>
 
@@ -27,6 +27,10 @@ upload4cj是用于处理浏览器或者其他客户端上传上来的单个或�
 - 🌍 支持解析字段和文件一起上传上来的报文
 
 ## <img alt="" src="./doc/assets/readme-icon-framework.png" style="display: inline-block;" width=3%/> 架构
+
+### 架构图
+
+![design](./doc/assets/uploadcjjgt.png)
 
 ### 源码目录
 
@@ -89,43 +93,67 @@ upload4cj是用于处理浏览器或者其他客户端上传上来的单个或�
 
 ### 编译
 
+(1). upload4cj 依赖 uuid4cj，请下载指定uuid4cj版本到 upload4cj的根目录进行编译，编译方式参考各自库的编译方式,地址
+
+https://gitee.com/HW-PLLab/uuid4cj
+
 ```
-cjpm build
+cd upload4cj
+git clone https://gitee.com/HW-PLLab/uuid4cj.git
+```
+
+(2). 编译upload4cj
+
+```
+cd upload4cj
+cjpm build -V
+
 ```
 
 ### 功能示例
 
-#### 解析参数内容的消息头
+#### 通过parseRequest解析请求报文获取fileItem
 
 ```cangjie
 from upload4cj import upload4cj.*
+from net import http.*
+from std import io.*
 from std import collection.*
+from std import unittest.*
+from std import unittest.testmacro.*
 
 main(){
-    let s: String = "test; test1 =  stuff   ; test2 =  \"stuff; stuff\"; test3=\"stuff"
-    var parser: ParameterParser = ParameterParser()
-    let s1: Option<String> = s
-    var map: Map<String, Option<String>> = parser.parse(s1, ';')
-    let isTest: Bool = match(map.get("test").getOrThrow()) {
-        case None =>
-            false
-        case Some(v) =>
-            true
-    }
-    if (isTest) {
-        return -1
-    }
-    if (map.get("test1").getOrThrow().getOrThrow() != "stuff") {
-        return -2
-    }
-    if (map.get("test2").getOrThrow().getOrThrow() != "stuff; stuff") {
-        return -3
-    }
-    if (map.get("test3").getOrThrow().getOrThrow() != "\"stuff") {
-        return -4
-    }
-    println("pass")
-    return 0
+      let text =
+            "-----1234\r\n" +
+            "content-disposition: form-data; name=\"field1\"\r\n" +
+            "\r\n" +
+            "Joe Blow\r\n" +
+            "-----1234\r\n" +
+            "content-disposition: form-data; name=\"pics\"\r\n" +
+            "Content-type: multipart/mixed, boundary=---9876\r\n" +
+            "\r\n" +
+            "-----9876\r\n" +
+            "Content-disposition: attachment; filename=\"file1.txt\"\r\n" +
+            "Content-Type: text/plain\r\n" +
+            "\r\n" +
+            "... contents of file1.txt ...\r\n" +
+            "-----9876--\r\n" +
+            "-----1234--\r\n"
+
+        let bytes: Array<UInt8> = text.toUtf8Array()
+        var output = ByteArrayStream()
+        output.write(bytes)
+        var req1 = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/")
+                   .body(output).build()
+        req1.headers.add("Content-Type", CONTENT_TYPE)
+        let fileItemFactory: DiskFileItemFactory = DiskFileItemFactory()
+        let upload: ServletFileUpload = ServletFileUpload(fileItemFactory)
+        let fileItems: ArrayList<FileItem> = upload.parseRequest(req1).getOrThrow()
+        let field: FileItem = fileItems.get(0).getOrThrow()
+        @Assert(field.getFieldName(),"field1")
+        @Assert(field.isGetFormField(),true)
+        @Assert(field.getString(),"Joe Blow")
+        println("pass")
 }
 ```
 执行结果如下：
@@ -134,65 +162,55 @@ main(){
 pass
 ```
 
-#### 文件上传请求解析器
+#### 通过parseParameterMap解析请求报文获取fileItem
 
 ```cangjie
 from upload4cj import upload4cj.*
 from net import http.*
 from std import io.*
 from std import collection.*
+from std import unittest.*
+from std import unittest.testmacro.*
 
 main(){
 
-    let text = "-----1234\r\n" +
-                    "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
-                    "Content-Type: text/whatever\r\n" +
-                    "\r\n" +
-                    "This is the content of the file\n" +
-                    "\r\n" +
-                    "-----1234\r\n" +
-                    "Content-Disposition: form-data; name=\"field\"\r\n" +
-                    "\r\n" +
-                    "fieldValue\r\n" +
-                    "-----1234\r\n" +
-                    "Content-Disposition: form-data; name=\"multi\"\r\n" +
-                    "\r\n" +
-                    "value1\r\n" +
-                    "-----1234\r\n" +
-                    "Content-Disposition: form-data; name=\"multi\"\r\n" +
-                    "\r\n" +
-                    "value2\r\n" +
-                    "-----1234--\r\n"
+      let text =
+            "-----1234\r\n" +
+            "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
+            "Content-Type: text/whatever\r\n" +
+            "\r\n" +
+            "This is the content of the file\n" +
+            "\r\n" +
+            "-----1234\r\n" +
+            "Content-Disposition: form-data; name=\"field\"\r\n" +
+            "\r\n" +
+            "fieldValue\r\n" +
+            "-----1234\r\n" +
+            "Content-Disposition: form-data; name=\"multi\"\r\n" +
+            "\r\n" +
+            "value1\r\n" +
+            "-----1234\r\n" +
+            "Content-Disposition: form-data; name=\"multi\"\r\n" +
+            "\r\n" +
+            "value2\r\n" +
+            "-----1234--\r\n"
 
-    let bytes:Array<UInt8> = text.toUtf8Array()
-    var output = ByteArrayStream()
-    output.write(bytes)
-    var req1: Request = Request(RequestMethod.POST, "http://127.0.0.1/", output)
-    req1.header.add("Content-Type","multipart/form-data; boundary=---1234")
-    let upload:ServletFileUpload = ServletFileUpload(DiskFileItemFactory())
-    let mappedParameters: Map<String, ArrayList<FileItem>> = upload.parseParameterMap(req1)
+        let bytes: Array<UInt8> = text.toUtf8Array()
+        var output = ByteArrayStream()
+        output.write(bytes)
+        var req1 = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/")
+                   .body(output).build()
+        req1.headers.add("Content-Type", CONTENT_TYPE)
+        let upload: ServletFileUpload = ServletFileUpload(DiskFileItemFactory())
+        let mappedParameters: Map<String, ArrayList<FileItem>> = upload.parseParameterMap(req1)
+        @Assert(mappedParameters.contains("file"),true)
+        @Assert(mappedParameters.get("file").getOrThrow().size,1)
+        @Assert(mappedParameters.contains("field"),true)
+        @Assert(mappedParameters.get("field").getOrThrow().size,1)
+        @Assert(mappedParameters.contains("multi"),true)
+        @Assert(mappedParameters.get("multi").getOrThrow().size,2)
+        println("pass")
 
-    if (!mappedParameters.contains("file")) {
-        return -1
-    }
-    if (mappedParameters.get("file").getOrThrow().size != 1) {
-        return -2
-    }
-    if (!mappedParameters.contains("field")) {
-        return -3
-    }
-    if (mappedParameters.get("field").getOrThrow().size != 1) {
-        return -4
-    }
-    if (!mappedParameters.contains("multi")) {
-        return -5
-    }
-    if (mappedParameters.get("multi").getOrThrow().size != 2) {
-        return -6
-    }
-
-    println("pass")
-    return 0
 }
 ```
 执行结果如下：
