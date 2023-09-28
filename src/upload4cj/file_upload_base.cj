@@ -176,7 +176,7 @@ public abstract class FileUploadBase {
                 } catch (e: FileUploadException) {
                     throw FileUploadException("ParseRequest Fail")
                 } catch (e: ReadWriteException) {
-                    throw ReadWriteException("Processing of " + MULTIPART_FORM_DATA + " request failed. " + e.message)
+                    throw ReadWriteException("Processing of " + MULTIPART_FORM_DATA + " request failed.")
                 }
                 let fih: FileItemHeaders = item.getHeaders()
                 fileItem.setHeaders(fih)
@@ -186,7 +186,7 @@ public abstract class FileUploadBase {
         } catch (e: FileUploadException) {
             throw FileUploadException("ParseRequest Fail!")
         } catch (e: ReadWriteException) {
-            throw ReadWriteException(e.message)
+            throw ReadWriteException("read write exception")
         } finally {
             doFinally(successful,items)
         }
