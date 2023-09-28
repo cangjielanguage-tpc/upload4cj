@@ -15,3 +15,5 @@ test/HLT/DeferredFileOutputStream/testMB10.cj
 test/HLT/DeferredFileOutputStream/test_parseParameterMap_RequestBody_GB1.cj
 test/LLT/test_xn2.cj
 output/
+.cjpm-history
+module-lock.json

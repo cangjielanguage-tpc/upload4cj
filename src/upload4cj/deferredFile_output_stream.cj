@@ -24,6 +24,7 @@ public class DeferredFileOutputStream <: ThresholdingOutputStream {
     private static let UID: String = Generators.randomBasedGenerator().generate().toString().replace('-', '_')
     private static let COUNTER = AtomicInt64(0)
 
+    static let mtx = ReentrantMutex()
     /**
      * DeferredFileOutputStream init
      *
@@ -109,9 +110,11 @@ public class DeferredFileOutputStream <: ThresholdingOutputStream {
             if (let Some(j) <- tempDir) {
                 pathDir = j.info.path
             } else {
+                mtx.lock()
                 if (!Directory.exists(pathDir)) {
                     tempDir = Directory.create(pathDir)
                 }
+                mtx.unlock()
             }
             let tempFileName: String = "upload_" + UID + getUniqueId() + ".tmp"
             let path: Path = pathDir.join(tempFileName)

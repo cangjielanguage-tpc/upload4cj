@@ -122,7 +122,20 @@ from std import collection.*
 from std import unittest.*
 from std import unittest.testmacro.*
 
-main(){
+main() {
+    let ccc = Test_ReadMe()
+    ccc.execute()
+    ccc.printResult()
+    0
+}
+
+@Test
+public class Test_ReadMe{
+
+    let CONTENT_TYPE: String = "multipart/form-data; boundary=---1234"
+
+    @TestCase
+    func test_readme_01 () {
       let text =
             "-----1234\r\n" +
             "content-disposition: form-data; name=\"field1\"\r\n" +
@@ -153,13 +166,14 @@ main(){
         @Assert(field.getFieldName(),"field1")
         @Assert(field.isGetFormField(),true)
         @Assert(field.getString(),"Joe Blow")
-        println("pass")
+    }
 }
+
 ```
 执行结果如下：
 
 ```
-pass
+[ PASSED ] CASE: test_readme_01
 ```
 
 #### 通过parseParameterMap解析请求报文获取fileItem
@@ -172,8 +186,20 @@ from std import collection.*
 from std import unittest.*
 from std import unittest.testmacro.*
 
-main(){
+main() {
+    let ccc = Test_ReadMe()
+    ccc.execute()
+    ccc.printResult()
+    0
+}
 
+@Test
+public class Test_ReadMe{
+
+    let CONTENT_TYPE: String = "multipart/form-data; boundary=---1234"
+
+    @TestCase
+    func test_readme_02 () {
       let text =
             "-----1234\r\n" +
             "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
@@ -209,14 +235,16 @@ main(){
         @Assert(mappedParameters.get("field").getOrThrow().size,1)
         @Assert(mappedParameters.contains("multi"),true)
         @Assert(mappedParameters.get("multi").getOrThrow().size,2)
-        println("pass")
+    }
 
 }
+
+
 ```
 执行结果如下：
 
 ```
-pass
+[ PASSED ] CASE: test_readme_02
 ```
 
 ## 开源协议
