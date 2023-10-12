@@ -70,9 +70,10 @@ upload4cj是用于处理浏览器或者其他客户端上传上来的单个或�
 │            ├──streams.cj
 │            └──thresholding_output_stream.cj
 └── test
+│   ├── DOC
+│   ├── FUZZ
 │   ├── HLT
-│   ├── LLT
-│   └── UT
+│   └── LLT
 ├── CHANGELOG.md
 ├── gitee_gate.cfg
 ├── LICENSE.txt
@@ -83,7 +84,7 @@ upload4cj是用于处理浏览器或者其他客户端上传上来的单个或�
 
 - `doc` 存放库的feature_api文档
 - `src` 是库源码目录
-- `test` 存放 HLT 测试用例、LLT 自测用例和 UT 单元测试用例
+- `test` 存放 DOC 测试用例、FUZZ 测试用例 HLT 测试用例、LLT 自测用例
 
 ### 接口说明
 
@@ -92,6 +93,27 @@ upload4cj是用于处理浏览器或者其他客户端上传上来的单个或�
 ## <img alt="" src="./doc/assets/readme-icon-compile.png" style="display: inline-block;" width=3%/> 使用说明
 
 ### 编译
+
+Linux编译
+
+(1). upload4cj 依赖 uuid4cj，请下载指定uuid4cj版本到 upload4cj的根目录进行编译，编译方式参考各自库的编译方式,地址
+
+https://gitee.com/HW-PLLab/uuid4cj
+
+```
+cd upload4cj
+git clone https://gitee.com/HW-PLLab/uuid4cj.git
+```
+
+(2). 编译upload4cj
+
+```
+cd upload4cj
+cjpm build -V
+
+```
+
+Windows编译
 
 (1). upload4cj 依赖 uuid4cj，请下载指定uuid4cj版本到 upload4cj的根目录进行编译，编译方式参考各自库的编译方式,地址
 
