@@ -15,8 +15,15 @@ public class FileUploadException <: Exception {
      *
      * @param messages - String the message
      */
+    private var mMessage = ""
+
     public init(messages: String) {
         super(messages)
+        this.mMessage = messages
+    }
+
+    public func toString():String{
+        return "FileUploadException: "+ mMessage
     }
 }
 
@@ -29,8 +36,15 @@ public class IllegalBoundaryException <: Exception {
      *
      * @param messages - String the message
      */
+    private var mMessage = ""
+
     public init(messages: String) {
         super(messages)
+        this.mMessage = messages
+    }
+
+    public func toString():String{
+        return "IllegalBoundaryException: "+ mMessage
     }
 }
 
@@ -43,9 +57,18 @@ public class MalformedStreamException <: Exception {
      *
      * @param messages - String the message
      */
+    private var mMessage = ""
+
     public init(messages: String) {
         super(messages)
+        this.mMessage = messages
     }
+
+    public func toString():String{
+        return "MalformedStreamException: "+ mMessage
+    }
+
+
 }
 
 /**
@@ -57,8 +80,15 @@ public class NullPointerException <: Exception {
      *
      * @param messages - String the message
      */
+    private var mMessage = ""
+
     public init(messages: String) {
         super(messages)
+        this.mMessage = messages
+    }
+
+    public func toString():String{
+        return "NullPointerException: "+ mMessage
     }
 }
 
@@ -71,8 +101,15 @@ public class InvalidContentTypeException <: Exception {
      *
      * @param messages - String the message
      */
+      private var mMessage = ""
+
     public init(messages: String) {
         super(messages)
+        this.mMessage = messages
+    }
+
+    public func toString():String{
+        return "InvalidContentTypeException: "+ mMessage
     }
 }
 
@@ -85,8 +122,15 @@ public class SizeLimitExceededException <: Exception {
      *
      * @param messages - String the message
      */
+    private var mMessage = ""
+
     public init(messages: String) {
         super(messages)
+        this.mMessage = messages
+    }
+
+    public func toString():String{
+        return "SizeLimitExceededException: "+ mMessage
     }
 }
 
@@ -99,8 +143,15 @@ public class UnsupportedEncodingException <: Exception {
      *
      * @param messages - String the message
      */
+    private var mMessage = ""
+
     public init(messages: String) {
         super(messages)
+        this.mMessage = messages
+    }
+
+    public func toString():String{
+        return "UnsupportedEncodingException: "+ mMessage
     }
 }
 
@@ -113,8 +164,15 @@ public class IllegalStateException <: Exception {
      *
      * @param messages - String the message
      */
+    private var mMessage = ""
+
     public init(messages: String) {
         super(messages)
+        this.mMessage = messages
+    }
+
+    public func toString():String{
+        return "IllegalStateException: "+ mMessage
     }
 }
 
@@ -127,8 +185,15 @@ public class NoSuchElementException <: Exception {
      *
      * @param messages - String the message
      */
+    private var mMessage = ""
+
     public init(messages: String) {
         super(messages)
+        this.mMessage = messages
+    }
+
+    public func toString():String{
+        return "NoSuchElementException: "+ mMessage
     }
 }
 
@@ -137,6 +202,7 @@ public class NoSuchElementException <: Exception {
  */
 public class FileCountLimitExceededException <: Exception {
     private let mLimit: Int64
+    private var mMessage = ""
 
     /**
      * init
@@ -147,8 +213,12 @@ public class FileCountLimitExceededException <: Exception {
     public init(messages: String, limit: Int64) {
         super(messages)
         this.mLimit = limit
+        this.mMessage = messages
     }
 
+    public func toString():String{
+        return "FileCountLimitExceededException: "+ mMessage
+    }
     /**
      * init
      *
@@ -168,8 +238,15 @@ public class FileSizeLimitExceededException <: Exception {
      *
      * @param messages - String the message
      */
+    private var mMessage = ""
+
     public init(messages: String) {
         super(messages)
+        this.mMessage = messages
+    }
+
+    public func toString():String{
+        return "FileSizeLimitExceededException: "+ mMessage
     }
 }
 
@@ -182,8 +259,15 @@ public class InvalidFileNameException <: Exception {
      *
      * @param messages - String the message
      */
+    private var mMessage = ""
+
     public init(messages: String) {
         super(messages)
+        this.mMessage = messages
+    }
+
+    public func toString():String{
+        return "InvalidFileNameException: "+ mMessage
     }
 }
 
@@ -196,8 +280,15 @@ public class ItemSkippedException <: Exception {
      *
      * @param messages - String the message
      */
+    private var mMessage = ""
+
     public init(messages: String) {
         super(messages)
+        this.mMessage = messages
+    }
+
+    public func toString():String{
+        return "ItemSkippedException: "+ mMessage
     }
 }
 
@@ -210,8 +301,15 @@ public class ParseException <: Exception {
      *
      * @param messages - String the message
      */
+     private var mMessage = ""
+
     public init(messages: String) {
         super(messages)
+        this.mMessage = messages
+    }
+
+    public func toString():String{
+        return "ParseException: "+ mMessage
     }
 }
 
@@ -224,8 +322,15 @@ public class QDecoderException <: Exception {
      *
      * @param messages - String the message
      */
+    private var mMessage = ""
+
     public init(messages: String) {
         super(messages)
+        this.mMessage = messages
+    }
+
+    public func toString():String{
+        return "QDecoderException: "+ mMessage
     }
 }
 
@@ -238,7 +343,15 @@ public class ReadWriteException <: Exception {
      *
      * @param messages - String the message
      */
+
+    private var mMessage = ""
+
     public init(messages: String) {
         super(messages)
+        this.mMessage = messages
+    }
+
+    public func toString():String{
+        return "ReadWriteException: "+ mMessage
     }
 }

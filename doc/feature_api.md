@@ -17,6 +17,8 @@ public abstract class FileUploadBase {
      *
      * 参数 ctx - RequestContext 请求对象
      * 返回值 - Option<ArrayList<FileItem>> 解析出来的FileItem集合
+     * 异常:当FileItemFactory为空的时候会抛出NullPointerException;当Fileitem的数量超过最大限制数时候会抛出FileCountLimitExceededException
+     *      当解析出错的时候会抛出FileUploadException,当IO流读取写入发生异常时候会抛出ReadWriteException
      */
     public func parseRequest(ctx: RequestContext): Option<ArrayList<FileItem>>
 
@@ -422,6 +424,7 @@ public class DiskFileItem implements FileItem{
     * 把fileItem的内容写入file
     *
     * 参数 file - File 要写入的文件
+    * 异常:当文件写入内容出现异常的时候会抛出ParseException；如果是硬盘缓存类型，并且没有对应的本地可写入file,就会抛出FileUploadException
     /
     public override func write(file:File)
 
@@ -566,6 +569,7 @@ public class FileItemIteratorImpl <: FileItemIterator {
      * 是否还有下一个FileItemStream
      *
      * 返回值 - Bool true有 false没有
+     * 异常 解析出来fileItem失败的时候会抛 FileUploadException异常
      */
     public override func hasNext(): Bool
 
@@ -573,6 +577,7 @@ public class FileItemIteratorImpl <: FileItemIterator {
      * 获取下一个FileItemStream
      *
      * 返回值 - FileItemStream 下一个FileItemStream
+     * 异常 当没有更多可用的item的时候会报这个NoSuchElementException异常
      */
     public override func next(): FileItemStream
 
@@ -638,6 +643,7 @@ public class FileItemStreamImpl <: FileItemStream {
      * 获取FileItemStream的InputStream
      *
      * 返回值 - InputStream FileItemStream的InputStream
+     * 异常 当流已经打开的时候再去打开就会抛IllegalStateException异常
      */
     public override func openStream(): InputStream
 
@@ -814,6 +820,8 @@ public abstract class FileUploadBase {
      *
      * 参数 ctx - RequestContext 请求对象
      * 返回值 - Option<ArrayList<FileItem>> 解析出来的FileItem集合
+     * 异常:当FileItemFactory为空的时候会抛出NullPointerException;当Fileitem的数量超过最大限制数时候会抛出FileCountLimitExceededException
+     *      当解析出错的时候会抛出FileUploadException,当IO流读取写入发生异常时候会抛出ReadWriteException
      */
     public func parseRequest(ctx: RequestContext): Option<ArrayList<FileItem>>
 
@@ -830,6 +838,7 @@ public abstract class FileUploadBase {
      *
      * 参数 ctx - RequestContext 请求对象
      * 返回值 - FileItemIterator FileItem的迭代器
+     * 异常:如果读取或者解析出现问题的时候会抛出FileUploadException
      */
     public func getItemIterator(ctx: RequestContext): FileItemIterator
 
@@ -1033,6 +1042,7 @@ public class MultipartStream {
      * 参数 boundary - Option<Array<UInt8>> 分隔符
      * 参数 bufSize - Int64 读取size
      * 参数 pNotifier - Option<ProgressNotifier> 监听器
+     * 异常:如果缓冲区小于boundaryLength+1会抛出IllegalArgumentException
      */
     public init (input: InputStream, boundary: Option<Array<UInt8>>, bufSize: Int64, pNotifier: Option<ProgressNotifier>)
 
@@ -1063,6 +1073,7 @@ public class MultipartStream {
      * 读取文件
      *
      * 返回值 UInt8 - 下一个从流中读取的字节
+     * 异常:如果没有更多可用的数据。会抛出ReadWriteException
      */
     public func readByte(): UInt8
 
@@ -1070,6 +1081,7 @@ public class MultipartStream {
      * 读取分隔符
      *
      * 返回值 Bool - 是否还有分隔符
+     * 异常:如果流意外结束，或者未能遵循所需的语法会抛出MalformedStreamException；如果从流中读取的字节超过大小限制会抛出FileUploadIOException
      */
     public func readBoundary(): Bool
 
@@ -1077,6 +1089,7 @@ public class MultipartStream {
      * 设置分隔符
      *
      * 参数 boundary - Array<UInt8> 分隔符
+     * 异常:如果当前正在解析一个不同的长度的boundary边界就会抛出IllegalBoundaryException
      */
     public func setBoundary(boundary: Array<UInt8>)
 
@@ -1084,6 +1097,7 @@ public class MultipartStream {
      * 读取文件头
      *
      * 返回值 String 文件头
+     * 异常:如果从流中读取的字节超过了大小限制会抛出FileUploadIOException，如果流意外结束，会抛出MalformedStreamException
      */
     public func readHeaders(): String
 
@@ -1387,6 +1401,7 @@ public class Streams {
      *
      * 参数 fileName - 文件名
      * 返回值 - Option<String> 检查后的文件名
+     * 异常: 如果发现文件名无效会抛出InvalidFileNameException
      */
     public static func checkFileName(fileName:Option<String>):Option<String>
 
