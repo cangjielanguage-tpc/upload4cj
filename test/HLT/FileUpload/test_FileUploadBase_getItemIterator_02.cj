@@ -29,7 +29,7 @@ public class TestFileUploadBase {
         req.headers.add("Content-Type", CONTENT_TYPE)
         try {
             fu.getItemIterator(ServletRequestContext(req))
-        } catch (e: Exception) {
+        } catch (e: InvalidContentTypeException) {
             flag= 0
         }
         @Assert(flag, 0)
