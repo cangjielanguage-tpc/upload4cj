@@ -51,7 +51,7 @@ public class IllegalBoundaryException <: Exception {
 /**
  * MalformedStreamException
  */
-public class MalformedStreamException <: Exception {
+public class MalformedStreamException <: ReadWriteException {
     /**
      * init
      *
@@ -337,7 +337,7 @@ public class QDecoderException <: Exception {
 /**
  * ReadWriteException
  */
-public class ReadWriteException <: Exception {
+public open class ReadWriteException <: Exception {
     /**
      * init
      *
@@ -351,7 +351,7 @@ public class ReadWriteException <: Exception {
         this.mMessage = messages
     }
 
-    public func toString():String{
+    public open func toString():String{
         return "ReadWriteException: "+ mMessage
     }
 }

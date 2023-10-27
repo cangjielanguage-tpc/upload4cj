@@ -17,8 +17,10 @@ public abstract class FileUploadBase {
      *
      * 参数 ctx - RequestContext 请求对象
      * 返回值 - Option<ArrayList<FileItem>> 解析出来的FileItem集合
-     * 异常:当FileItemFactory为空的时候会抛出NullPointerException;当Fileitem的数量超过最大限制数时候会抛出FileCountLimitExceededException
-     *      当解析出错的时候会抛出FileUploadException,当IO流读取写入发生异常时候会抛出ReadWriteException
+     * NullPointerException异常:当FileItemFactory为空的时候会抛出该异常
+     * FileCountLimitExceededException异常:当Fileitem的数量超过最大限制数时候会抛出该异常
+     * FileUploadException异常:当解析出错的时候会抛出该异常
+     * ReadWriteException异常:当IO流读取写入发生异常时候会抛出该异常
      */
     public func parseRequest(ctx: RequestContext): Option<ArrayList<FileItem>>
 
@@ -326,6 +328,7 @@ public class DiskFileItem implements FileItem{
     * 是否保存在内存
     *
     * 返回值 Bool - 是否保存在内存
+    * NoneValueException异常:当前diskFileItem对象未获取对应的输出流对象时候，会抛此异常
     /
     public override func isInMemory(): Bool
 
@@ -333,6 +336,7 @@ public class DiskFileItem implements FileItem{
     * 获取文本大小
     *
     * 返回值 Int64 - 文本大小
+    * NoneValueException异常:当前diskFileItem对象未获取对应的输出流对象时候，会抛此异常
     /
     public override func getSize(): Int64
 
@@ -340,6 +344,7 @@ public class DiskFileItem implements FileItem{
     * 获取文本的字节数组
     *
     * 返回值 Option<Array<UInt8>> - 文本的字节数组
+    * NoneValueException异常:当前diskFileItem对象未获取对应的输出流对象时候，会抛此异常
     /
     public override func get(): Option<Array<UInt8>>
 
@@ -347,6 +352,7 @@ public class DiskFileItem implements FileItem{
     * 获取文本
     *
     * 返回值 String - 文本
+    * NoneValueException异常:当前diskFileItem对象未获取对应的输出流对象时候，会抛此异常
     /
     public override func getString(): String
 
@@ -417,6 +423,7 @@ public class DiskFileItem implements FileItem{
     * 获取fileItem的输入流对象
     *
     * 返回值 Option<InputStream> - fileItem的输入流对象
+    * NoneValueException异常:当前diskFileItem对象未获取对应的输出流对象时候，会抛此异常
     /
     public override func getInputStream(): Option<InputStream>
 
@@ -424,7 +431,9 @@ public class DiskFileItem implements FileItem{
     * 把fileItem的内容写入file
     *
     * 参数 file - File 要写入的文件
-    * 异常:当文件写入内容出现异常的时候会抛出ParseException；如果是硬盘缓存类型，并且没有对应的本地可写入file,就会抛出FileUploadException
+    * ParseException异常:当文件写入内容出现异常的时候会抛出该异常；
+    * FileUploadException异常:如果是硬盘缓存类型，并且没有对应的本地可写入file,就会抛出该异常
+    * NoneValueException异常:当前diskFileItem对象未获取对应的输出流对象时候，会抛此异常
     /
     public override func write(file:File)
 
@@ -445,6 +454,7 @@ public class DiskFileItem implements FileItem{
     * fileItem的toString表示
     *
     * 返回值 String - fileItem的toString表示
+    * NoneValueException异常:当前diskFileItem对象未获取对应的输出流对象时候，会抛此异常
     /
     public func toString():String
 
@@ -569,7 +579,7 @@ public class FileItemIteratorImpl <: FileItemIterator {
      * 是否还有下一个FileItemStream
      *
      * 返回值 - Bool true有 false没有
-     * 异常 解析出来fileItem失败的时候会抛 FileUploadException异常
+     * FileUploadException异常: 分析或处理fileitem失败的时候会抛该异常
      */
     public override func hasNext(): Bool
 
@@ -577,7 +587,7 @@ public class FileItemIteratorImpl <: FileItemIterator {
      * 获取下一个FileItemStream
      *
      * 返回值 - FileItemStream 下一个FileItemStream
-     * 异常 当没有更多可用的item的时候会报这个NoSuchElementException异常
+     * NoSuchElementException异常:当没有更多可用的item的时候会报该异常
      */
     public override func next(): FileItemStream
 
@@ -643,7 +653,7 @@ public class FileItemStreamImpl <: FileItemStream {
      * 获取FileItemStream的InputStream
      *
      * 返回值 - InputStream FileItemStream的InputStream
-     * 异常 当流已经打开的时候再去打开就会抛IllegalStateException异常
+     * IllegalStateException异常:当流已经打开的时候再去打开就会抛该异常
      */
     public override func openStream(): InputStream
 
@@ -820,8 +830,10 @@ public abstract class FileUploadBase {
      *
      * 参数 ctx - RequestContext 请求对象
      * 返回值 - Option<ArrayList<FileItem>> 解析出来的FileItem集合
-     * 异常:当FileItemFactory为空的时候会抛出NullPointerException;当Fileitem的数量超过最大限制数时候会抛出FileCountLimitExceededException
-     *      当解析出错的时候会抛出FileUploadException,当IO流读取写入发生异常时候会抛出ReadWriteException
+     * NullPointerException异常:当FileItemFactory为空的时候会抛出该异常
+     * FileCountLimitExceededException异常:当Fileitem的数量超过最大限制数时候会抛出该异常
+     * FileUploadException异常:当解析出错的时候会抛出该异常
+     * ReadWriteException异常:当IO流读取写入发生异常时候会抛出该异常
      */
     public func parseRequest(ctx: RequestContext): Option<ArrayList<FileItem>>
 
@@ -838,7 +850,8 @@ public abstract class FileUploadBase {
      *
      * 参数 ctx - RequestContext 请求对象
      * 返回值 - FileItemIterator FileItem的迭代器
-     * 异常:如果读取或者解析出现问题的时候会抛出FileUploadException
+     * FileUploadException异常:如果读取或者解析出现问题的时候会抛出该异常
+     * InvalidContentTypeException异常:当contentType为空或者不是以multipart/开头的时候会报这个异常
      */
     public func getItemIterator(ctx: RequestContext): FileItemIterator
 
@@ -1042,7 +1055,7 @@ public class MultipartStream {
      * 参数 boundary - Option<Array<UInt8>> 分隔符
      * 参数 bufSize - Int64 读取size
      * 参数 pNotifier - Option<ProgressNotifier> 监听器
-     * 异常:如果缓冲区小于boundaryLength+1会抛出IllegalArgumentException
+     * IllegalArgumentException异常:如果boundary为Option<Array<UInt8>>.None 或者 bufSize小于boundary解构后内容的长度+5 会抛出该异常
      */
     public init (input: InputStream, boundary: Option<Array<UInt8>>, bufSize: Int64, pNotifier: Option<ProgressNotifier>)
 
@@ -1073,7 +1086,7 @@ public class MultipartStream {
      * 读取文件
      *
      * 返回值 UInt8 - 下一个从流中读取的字节
-     * 异常:如果没有更多可用的数据。会抛出ReadWriteException
+     * ReadWriteException异常:读取不到数据的时候会抛出该异常
      */
     public func readByte(): UInt8
 
@@ -1081,15 +1094,16 @@ public class MultipartStream {
      * 读取分隔符
      *
      * 返回值 Bool - 是否还有分隔符
-     * 异常:如果流意外结束，或者未能遵循所需的语法会抛出MalformedStreamException；如果从流中读取的字节超过大小限制会抛出FileUploadIOException
+     * MalformedStreamException异常:如果流意外结束，或者未能遵循所需的语法会抛出该异常
+     * FileUploadIOException异常:如果从流中读取的字节超过大小限制会抛出该异常
      */
     public func readBoundary(): Bool
 
     /**
      * 设置分隔符
      *
-     * 参数 boundary - Array<UInt8> 分隔符
-     * 异常:如果当前正在解析一个不同的长度的boundary边界就会抛出IllegalBoundaryException
+     * 参数 boundary - Array<UInt8> 分隔符的字节数组形式
+     * IllegalBoundaryException异常:如果设置的新的boundary的长度和原来的boundary的长度不一致，就会抛出此异常
      */
     public func setBoundary(boundary: Array<UInt8>)
 
@@ -1097,7 +1111,8 @@ public class MultipartStream {
      * 读取文件头
      *
      * 返回值 String 文件头
-     * 异常:如果从流中读取的字节超过了大小限制会抛出FileUploadIOException，如果流意外结束，会抛出MalformedStreamException
+     * MalformedStreamException异常:如果从流中读取的字节数超过了大小限制或者流意外结束，会抛出该异常,
+     * FileUploadException异常：获取readers逻辑失败的时候会抛出该异常
      */
     public func readHeaders(): String
 
@@ -1113,6 +1128,7 @@ public class MultipartStream {
      * 丢弃读取的文件体
      *
      * 返回值 Int64 丢弃的字节大小
+     * MalformedStreamException异常:当MultipartStream的input参数调用read方法读取不到要丢弃的数据时候，就会抛出该异常
      */
     public func discardBodyData():Int64
 
@@ -1130,6 +1146,7 @@ public class MultipartStream {
      * 参数 b - Array<UInt8> 要比较的第二个数组
      * 参数 count - Int64 要比较几个字节
      * 返回值 Bool 是否一致
+     * IndexOutOfBoundsException异常,当count比数组a或者数组b长度最小的那个长度大的时候，就会抛出该异常
      */
     public static func arrayequals(a: Array<UInt8>, b: Array<UInt8>, count: Int64): Bool
 
@@ -1181,6 +1198,7 @@ public class ParameterParser {
      * 参数 length - Int64 长度
      * 参数 separator - Char 做分隔的Char 一般是';',':'等
      * 返回值 - Map<String, Option<String>> 解析后的map
+     * IndexOutOfBoundsException异常：当offset索引超过charArray长度的时候会抛出该异常
      */
     public func parse(charArray: Option<Array<Char>>, offset: Int64, length: Int64, separator: Char): Map<String, Option<String>>
 
@@ -1382,6 +1400,7 @@ public class Streams {
      * 参数 outputStream - 输出流
      * 参数 closeOutputStream - 是否关闭流
      * 返回值 - Int64 一共写了多少字节
+     * NoneValueException异常：当inputStream为空的时候会抛出该异常
      */
     public static func copy(inputStream:Option<InputStream>,outputStream:Option<OutputStream>,closeOutputStream:Bool):Int64
 
@@ -1393,6 +1412,7 @@ public class Streams {
      * 参数 closeOutputStream - 是否关闭流
      * 参数 buffer - 读写缓冲区
      * 返回值 - Int64 一共写了多少字节
+     * NoneValueException异常：当inputStream为空的时候会抛出该异常
      */
     public static func copy(inputStream:Option<InputStream>,outputStream:Option<OutputStream>,closeOutputStream:Bool,buffer:Array<UInt8>):Int64
 
@@ -1401,7 +1421,7 @@ public class Streams {
      *
      * 参数 fileName - 文件名
      * 返回值 - Option<String> 检查后的文件名
-     * 异常: 如果发现文件名无效会抛出InvalidFileNameException
+     * InvalidFileNameException异常: 如果发现文件名无效会抛出该异常
      */
     public static func checkFileName(fileName:Option<String>):Option<String>
 
@@ -1469,6 +1489,13 @@ public class FileUploadException <: Exception {
      */
     public init(messages: String)
 
+    /**
+     * 重写toString
+     *
+     * 返回值 - String 重写的字符串内容
+     */
+    public func toString():String
+
 }
 ```
 
@@ -1484,13 +1511,20 @@ public class IllegalBoundaryException <: Exception {
      */
     public init(messages: String)
 
+    /**
+     * 重写toString
+     *
+     * 返回值 - String 重写的字符串内容
+     */
+    public func toString():String
+
 }
 ```
 
 #### 2.29 MalformedStreamException
 
 ```
-public class MalformedStreamException <: Exception {
+public class MalformedStreamException <: ReadWriteException {
 
     /**
      * 初始化
@@ -1498,6 +1532,13 @@ public class MalformedStreamException <: Exception {
      * 参数 messages 异常信息
      */
     public init(messages: String)
+
+    /**
+     * 重写toString
+     *
+     * 返回值 - String 重写的字符串内容
+     */
+    public func toString():String
 
 }
 ```
@@ -1514,6 +1555,13 @@ public class NullPointerException <: Exception {
      */
     public init(messages: String)
 
+    /**
+     * 重写toString
+     *
+     * 返回值 - String 重写的字符串内容
+     */
+    public func toString():String
+
 }
 ```
 
@@ -1528,6 +1576,13 @@ public class InvalidContentTypeException <: Exception {
      * 参数 messages 异常信息
      */
     public init(messages: String)
+
+    /**
+     * 重写toString
+     *
+     * 返回值 - String 重写的字符串内容
+     */
+    public func toString():String
 
 }
 ```
@@ -1544,6 +1599,13 @@ public class SizeLimitExceededException <: Exception {
      */
     public init(messages: String)
 
+    /**
+     * 重写toString
+     *
+     * 返回值 - String 重写的字符串内容
+     */
+    public func toString():String
+
 }
 ```
 
@@ -1558,6 +1620,13 @@ public class UnsupportedEncodingException <: Exception {
      * 参数 messages 异常信息
      */
     public init(messages: String)
+
+    /**
+     * 重写toString
+     *
+     * 返回值 - String 重写的字符串内容
+     */
+    public func toString():String
 
 }
 ```
@@ -1574,6 +1643,13 @@ public class IllegalStateException <: Exception {
      */
     public init(messages: String)
 
+    /**
+     * 重写toString
+     *
+     * 返回值 - String 重写的字符串内容
+     */
+    public func toString():String
+
 }
 ```
 
@@ -1588,6 +1664,13 @@ public class NoSuchElementException <: Exception {
      * 参数 messages 异常信息
      */
     public init(messages: String)
+
+    /**
+     * 重写toString
+     *
+     * 返回值 - String 重写的字符串内容
+     */
+    public func toString():String
 
 }
 ```
@@ -1611,6 +1694,13 @@ public class FileCountLimitExceededException <: Exception {
      */
     public func getLimit(): Int64
 
+    /**
+     * 重写toString
+     *
+     * 返回值 - String 重写的字符串内容
+     */
+    public func toString():String
+
 }
 ```
 
@@ -1625,6 +1715,13 @@ public class FileSizeLimitExceededException <: Exception {
      * 参数 messages 异常信息
      */
     public init(messages: String)
+
+    /**
+     * 重写toString
+     *
+     * 返回值 - String 重写的字符串内容
+     */
+    public func toString():String
 
 }
 ```
@@ -1641,6 +1738,13 @@ public class InvalidFileNameException <: Exception {
      */
     public init(messages: String)
 
+    /**
+     * 重写toString
+     *
+     * 返回值 - String 重写的字符串内容
+     */
+    public func toString():String
+
 }
 ```
 
@@ -1655,6 +1759,13 @@ public class ItemSkippedException <: Exception {
      * 参数 messages 异常信息
      */
     public init(messages: String)
+
+    /**
+     * 重写toString
+     *
+     * 返回值 - String 重写的字符串内容
+     */
+    public func toString():String
 
 }
 ```
@@ -1671,6 +1782,13 @@ public class ParseException <: Exception {
      */
     public init(messages: String)
 
+    /**
+     * 重写toString
+     *
+     * 返回值 - String 重写的字符串内容
+     */
+    public func toString():String
+
 }
 ```
 
@@ -1686,13 +1804,20 @@ public class QDecoderException <: Exception {
      */
     public init(messages: String)
 
+    /**
+     * 重写toString
+     *
+     * 返回值 - String 重写的字符串内容
+     */
+    public func toString():String
+
 }
 ```
 
 #### 2.42 ReadWriteException
 
 ```
-public class ReadWriteException <: Exception {
+public open class ReadWriteException <: Exception {
 
     /**
      * 初始化
@@ -1700,6 +1825,13 @@ public class ReadWriteException <: Exception {
      * 参数 messages 异常信息
      */
     public init(messages: String)
+
+    /**
+     * 重写toString
+     *
+     * 返回值 - String 重写的字符串内容
+     */
+    public open func toString():String
 
 }
 ```
