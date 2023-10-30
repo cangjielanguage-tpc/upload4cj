@@ -43,8 +43,10 @@ public class TestFileItemIteratorImpl {
         var flag = 1
         try {
             iterator.next()
-        } catch (e: Exception) {
-            flag = 0
+        } catch (e: NoSuchElementException) {
+            if(e.toString().contains("NoSuchElementException") && e.toString().contains("No Such Element")){
+                flag = 0
+            }
         }
         @Assert(flag, 0)
     }

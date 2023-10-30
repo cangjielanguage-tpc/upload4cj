@@ -26,7 +26,7 @@ public class TestDiskFileItem {
         var flag = 1
         try {
             dfs.toString()
-        } catch (e: Exception) {
+        } catch (e: NoneValueException) {
             flag = 0
         }
         @Assert(flag, 0)

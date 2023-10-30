@@ -33,6 +33,7 @@ public class TestServletFileUpload{
         try{
             servletFileUpload.parseRequest(request)
         }catch(e:NullPointerException){
+            println(e.toString())
             if(e.toString().contains("No FileItemFactory has been set")){
                 re_flag=0
             }

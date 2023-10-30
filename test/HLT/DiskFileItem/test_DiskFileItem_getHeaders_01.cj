@@ -28,7 +28,7 @@ public class TestDiskFileItem {
         var flag = 1
         try {
             headerName.next().getOrThrow()
-        } catch (e: Exception) {
+        } catch (e: NoneValueException) {
             flag = 0
         }
         @Assert(flag, 0)

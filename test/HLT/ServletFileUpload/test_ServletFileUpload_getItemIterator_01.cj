@@ -36,6 +36,7 @@ public class TestThresholdingOutputStream{
         try{
             re.next()
         }catch(e:Exception){
+            println(e.toString())
             re_flag=0
         }
         @Assert(re_flag,0)

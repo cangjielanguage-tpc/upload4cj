@@ -21,8 +21,7 @@ public class TestStreams{
         try{
             Streams.checkFileName(fileName)
         }catch(e:InvalidFileNameException){
-            println(e.toString())
-            if(e.toString().contains("Invalid file name: file\\0Name")){
+            if(e.toString().contains("InvalidFileNameException: Invalid file name: file\\0Name")){
                 re_flag=0
             }
         }

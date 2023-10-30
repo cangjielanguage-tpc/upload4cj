@@ -12,6 +12,7 @@
 public class TestMultipartStream{
     /***
         public func setBoundary(boundary: Array<UInt8>)
+        public func readBoundary(): Bool
         测试场景:boundary非空,boundary前后长度一致
     ***/
     @TestCase
@@ -30,6 +31,5 @@ public class TestMultipartStream{
             re_flag=0
         }
         @Assert(re_flag,1)
-
     }
 }

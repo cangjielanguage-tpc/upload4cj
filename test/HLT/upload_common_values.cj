@@ -33,9 +33,7 @@ public class SubLimitedInputStream <: LimitedInputStream{
         super(inputStream,pSizeMax)
     }
     protected func raiseError(pSizeMax: Int64, pCount: Int64): Unit{
-		println(pSizeMax)
-		println(pCount)
-		throw IOException("raiseError")
+		throw IOException("raiseError,pCount=${pCount},pSizeMax=${pSizeMax}")
     }
 }
 

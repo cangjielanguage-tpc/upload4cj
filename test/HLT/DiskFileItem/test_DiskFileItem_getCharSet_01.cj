@@ -24,7 +24,6 @@ public class TestDiskFileItem {
     func testDiskFileItemGetCharSet01(): Unit {
         let dfs = DiskFileItem("a1" , "text/html; charset=utf16" , false, "testfile" , 129 , Option<Directory>.None)
         let res = dfs.getCharSet()
-        println(res)
         @Assert(res, "utf16")
     }
 }

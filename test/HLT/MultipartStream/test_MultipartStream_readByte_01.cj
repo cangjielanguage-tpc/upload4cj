@@ -25,7 +25,7 @@ public class TestMultipartStream{
         var re_flag=1
         try{
             multipartStream.readByte()
-        }catch(e:Exception){
+        }catch(e:ReadWriteException){
             if(e.toString().contains("No more data is available")){
                 re_flag=0
             }
