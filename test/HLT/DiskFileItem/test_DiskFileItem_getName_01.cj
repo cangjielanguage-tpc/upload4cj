@@ -24,7 +24,6 @@ public class TestDiskFileItem {
     func testDiskFileItemgetName01(): Unit {
         let dfs = DiskFileItem("a1" , "text/html; charset=utf16" , false, "testfile" , 129 , Option<Directory>.None)
         let res = dfs.getName()
-        println(res)
         @Assert(res, "testfile")
     }
 }

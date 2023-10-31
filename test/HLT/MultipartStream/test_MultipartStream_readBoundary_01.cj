@@ -29,15 +29,14 @@ public class TestMultipartStream{
         let boundary: Option<Array<UInt8>> = boundaryString.toUtf8Array()
         let notifier = Option<ProgressNotifier>.None
         var multipartStream: MultipartStream = MultipartStream(input, boundary, notifier)
-        var re_flag=1
+        var flag=1
         try{
             multipartStream.readBoundary()
         }catch(e:MalformedStreamException){
-            println(e.toString())
             if(e.toString().contains("Stream ended unexpectedly")){
-                re_flag=0
+                flag=0
             }
         }
-        @Assert(re_flag,0)
+        @Assert(flag,0)
     }
 }

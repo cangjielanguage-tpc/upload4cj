@@ -25,16 +25,11 @@ public class TestMultipartStream{
     @TestCase
     func testMultipartStreamReadHeaders02(): Unit {
         let boundaryString = "-----1234"
-
         var input = ByteArrayStream()
         input.write(text.toUtf8Array())
-
         let boundary: Option<Array<UInt8>> = boundaryString.toUtf8Array()
-
         let notifier = Option<ProgressNotifier>.None
-
         var multipartStream: MultipartStream = MultipartStream(input, boundary, notifier)
-
         let re = multipartStream.readHeaders()
         @Assert(re, exp_header)
     }

@@ -26,7 +26,7 @@ public class TestMultipartStream{
         try{
             multipartStream.setBoundary(Array<UInt8>())
         }catch(e:IllegalBoundaryException){
-            if(e.toString().contains("The length of a boundary token cannot be changed")){
+            if(e.toString().contains("IllegalBoundaryException") && e.toString().contains("The length of a boundary token cannot be changed")){
                 re_flag=0
             }
         }

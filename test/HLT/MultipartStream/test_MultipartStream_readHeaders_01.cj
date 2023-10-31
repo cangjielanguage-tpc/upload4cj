@@ -25,8 +25,10 @@ public class TestMultipartStream{
         var re_flag=1
         try{
             multipartStream.readHeaders()
-        }catch(e:Exception){
-            re_flag=0
+        }catch(e:MalformedStreamException){
+            if(e.toString().contains("MalformedStreamException") && e.toString().contains("Stream ended unexpectedly") ){
+                 re_flag=0
+            }
         }
         @Assert(re_flag,0)
     }
