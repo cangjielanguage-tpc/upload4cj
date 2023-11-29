@@ -28,7 +28,7 @@ public class StreamsTest{
             File.create(fileIn.info.path)
          }
          let content = "01234567890123456789"
-         fileIn.write(content.toUtf8Array())
+         fileIn.write(content.toArray())
          fileIn.seek(SeekPosition.Begin(0))
 
         let filePathOutput:Path = Path("./streamtestoutputtemp")

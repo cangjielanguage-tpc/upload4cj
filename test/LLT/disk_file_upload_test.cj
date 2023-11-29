@@ -25,10 +25,10 @@ public class DiskFileUploadTest{
     @TestCase
     public func test1(): Unit {
         var expected:Bool = false
-        let bytes:Array<UInt8> = "foobar".toUtf8Array()
+        let bytes:Array<UInt8> = "foobar".toArray()
         var output = ByteArrayStream()
         output.write(bytes)
-        var req1 = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(output).build()
+        var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type",FileUploadBase.MULTIPART_FORM_DATA)
         let upload:ServletFileUpload = ServletFileUpload(DiskFileItemFactory())
         try{
@@ -43,10 +43,10 @@ public class DiskFileUploadTest{
     @TestCase
     public func test2(): Unit {
         var expected:Bool = false
-        let bytes:Array<UInt8> = "foobar".toUtf8Array()
+        let bytes:Array<UInt8> = "foobar".toArray()
         var output = ByteArrayStream()
         output.write(bytes)
-        var req1 = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(output).build()
+        var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type","")
         let upload:ServletFileUpload = ServletFileUpload(DiskFileItemFactory())
         try{
@@ -61,10 +61,10 @@ public class DiskFileUploadTest{
     @TestCase
     public func test3(): Unit {
         var expected:Bool = false
-        let bytes:Array<UInt8> = "foobar".toUtf8Array()
+        let bytes:Array<UInt8> = "foobar".toArray()
         var output = ByteArrayStream()
         output.write(bytes)
-        var req1 = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(output).build()
+        var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type",FileUploadBase.MULTIPART_FORM_DATA)
         let upload:ServletFileUpload = ServletFileUpload()
         upload.setFileItemFactory(DiskFileItemFactory())
@@ -81,10 +81,10 @@ public class DiskFileUploadTest{
     public func test4(): Unit {
         let CONTENT_TYPE:String = "multipart/form-data; boundary=---1234"
         let text = "-----1234\r\nContent-Disposition: form-data; name=\"file\";filename=\"foo.tab\"\r\nContent-Type: text/whatever\r\n\r\nThis is the content of the file oo\n\r\n-----1234--\r\n"
-        let bytes:Array<UInt8> = text.toUtf8Array()
+        let bytes:Array<UInt8> = text.toArray()
         var output = ByteArrayStream()
         output.write(bytes)
-        var req1 = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(output).build()
+        var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type",CONTENT_TYPE)
         let upload:ServletFileUpload = ServletFileUpload(DiskFileItemFactory(0,Option<Directory>.None))
         let items:ArrayList<FileItem> = upload.parseRequest(req1).getOrThrow()

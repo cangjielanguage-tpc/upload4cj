@@ -25,18 +25,19 @@ public class TestMultipartStream{
     @TestCase
     func testMultipartStreamReadBoundary01(): Unit {
         var input = ByteArrayStream()
-        input.write(text.toUtf8Array())
-        let boundary: Option<Array<UInt8>> = boundaryString.toUtf8Array()
+        input.write(text.toArray())
+        let boundary: Option<Array<UInt8>> = boundaryString.toArray()
         let notifier = Option<ProgressNotifier>.None
         var multipartStream: MultipartStream = MultipartStream(input, boundary, notifier)
-        var flag=1
+        var re_flag=1
         try{
             multipartStream.readBoundary()
         }catch(e:MalformedStreamException){
+            println(e.toString())
             if(e.toString().contains("Stream ended unexpectedly")){
-                flag=0
+                re_flag=0
             }
         }
-        @Assert(flag,0)
+        @Assert(re_flag,0)
     }
 }

@@ -62,7 +62,7 @@ public class DiskFileItemTest {
         let factory:FileItemFactory = createFactory(Option<Directory>.None)
         let textFieldName:String = "textField"
         let textFieldValue:String = "0123456789"
-        let testFieldValueBytes:Array<UInt8> = textFieldValue.toUtf8Array()
+        let testFieldValueBytes:Array<UInt8> = textFieldValue.toArray()
 
         let item:FileItem = factory.createItem(textFieldName,textContentType,true,"")
 
@@ -84,7 +84,7 @@ public class DiskFileItemTest {
         let factory:FileItemFactory = createFactory(dir)
         let textFieldName:String = "textField"
         let textFieldValue:String = "01234567890123456789"
-        let testFieldValueBytes:Array<UInt8> = textFieldValue.toUtf8Array()
+        let testFieldValueBytes:Array<UInt8> = textFieldValue.toArray()
 
         let item:FileItem = factory.createItem(textFieldName,textContentType,true,"")
 
@@ -147,7 +147,7 @@ public class DiskFileItemTest {
         let item:FileItem = factory.createItem("doesnotmatter","text/plain; charset=" + CHARSET_UTF8,true,"")
         let outstream:OutputStream = item.getOutputStream()
         let str2 = constructString()
-        outstream.write(str2.toUtf8Array())
+        outstream.write(str2.toArray())
         @Assert(teststr,item.getString())
         println("Pass5")
     }
@@ -160,7 +160,7 @@ public class DiskFileItemTest {
         let textFieldName:String = ""
         let textFieldValue:String = "0123456789"
         let newtextContentType = "text/plain; Charset=UTF-8"
-        let testFieldValueBytes:Array<UInt8> = textFieldValue.toUtf8Array()
+        let testFieldValueBytes:Array<UInt8> = textFieldValue.toArray()
         let item:FileItem = factory.createItem(textFieldName,newtextContentType,false,"")
         item.setFieldName("textField")
         item.setFormField(true)

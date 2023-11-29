@@ -24,10 +24,10 @@ public class TestFileUploadBase {
     func testFileUploadBaseIsParseRequest01(): Unit {
         let text ="contentTEXT\r\ntest"
         let CONTENT_TYPE: String = "multipart/form-data; boundary=---1234"
-        let bytes: Array<UInt8> = text.toUtf8Array()
+        let bytes: Array<UInt8> = text.toArray()
         var output = ByteArrayStream()
         output.write(bytes)
-        let req1 = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(output).build()
+        let req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
         let fileItemFactory: DiskFileItemFactory = DiskFileItemFactory()
         fileItemFactory.setDefaultCharset("UTF-8")

@@ -33,7 +33,7 @@ public class TestDeferredFileOutputStream {
         }
         var dir = Directory(dirPath)
         let dfos:DeferredFileOutputStream = DeferredFileOutputStream(16, file,dir)
-         dfos.write(("01234567890123456789").toUtf8Array())
+         dfos.write(("01234567890123456789").toArray())
         var res: File = dfos.getFile().getOrThrow()
         if (!refEq(file, res)) {
             flag = 1

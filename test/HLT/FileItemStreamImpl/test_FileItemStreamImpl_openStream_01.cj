@@ -30,10 +30,10 @@ public class TestFileItemStreamImpl {
                         "This is the content of the file\n" +
                         "\r\n" +
                         "-----1234\r\n"
-        let bytes: Array<UInt8> = text.toUtf8Array()
+        let bytes: Array<UInt8> = text.toArray()
         var output = ByteArrayStream()
         output.write(bytes)
-        let req = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(output).build()
+        let req = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req.headers.add("Content-Type", CONTENT_TYPE)
         let fileItemFactory: DiskFileItemFactory = DiskFileItemFactory()
         let upload: ServletFileUpload = ServletFileUpload(fileItemFactory)

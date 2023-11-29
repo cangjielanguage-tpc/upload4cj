@@ -24,10 +24,10 @@ public class TestServletFileUpload{
                     "\r\n" +
                     "-----1234--\r\n"
         var body_in=ByteArrayStream()
-        body_in.write(content.toUtf8Array())
+        body_in.write(content.toArray())
         let fileItemFactory=DiskFileItemFactory()
         let servletFileUpload=ServletFileUpload(fileItemFactory)
-        let request = HttpRequestBuilder.new().method("GET").url("http://www.baidu.com").body(body_in).build()
+        let request = HttpRequestBuilder().method("GET").url("http://www.baidu.com").body(body_in).build()
         request.headers.add("Content-Type","multipart/form-data; boundary=---1234")
         var re=servletFileUpload.parseParameterMap(request)
         @Assert(re.size,1)

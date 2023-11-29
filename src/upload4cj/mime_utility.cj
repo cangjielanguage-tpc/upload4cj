@@ -35,11 +35,11 @@ public class MimeUtility {
         var decodedText: StringBuilder = StringBuilder()
         var previousTokenEncoded: Bool = false
         while (offset < endOffset) {
-            var ch = text.get(offset).getOrThrow()
+            var ch = text.toRuneArray().get(offset).getOrThrow()
             if (LINEAR_WHITESPACE.indexOf(ch) != Option<Int64>.None) {
                 startWhiteSpace = offset
                 while (offset < endOffset) {
-                    ch = text.get(offset).getOrThrow()
+                    ch = text.toRuneArray().get(offset).getOrThrow()
                     if (LINEAR_WHITESPACE.indexOf(ch) != Option<Int64>.None) { // whitespace found
                         offset++
                     } else {
@@ -50,7 +50,7 @@ public class MimeUtility {
             } else {
                 var wordStart: Int64 = offset
                 while (offset < endOffset) {
-                    ch = text.get(offset).getOrThrow()
+                    ch = text.toRuneArray().get(offset).getOrThrow()
                     if (LINEAR_WHITESPACE.indexOf(ch) == Option<Int64>.None) {offset++} else {break}
                 }
                 let word: String = text.substring(wordStart, offset - wordStart)
@@ -82,24 +82,28 @@ public class MimeUtility {
             throw ParseException("Invalid RFC 2047 encoded-word: " + word)
         }
 
-        if (word.indexOf('?', 2) == Option<Int64>.None) {
+        if (word.indexOf("?", 2) == Option<Int64>.None) {
             throw ParseException("Missing charset in RFC 2047 encoded-word: " + word)
         }
-        var charsetPos: Int64 = word.indexOf('?', 2).getOrThrow()
+        //var charsetPos: Int64 = word.indexOf("?", 2).getOrThrow() //TODOTODO
+        var charsetPos: Int64 = Utils.indexOfRune(word.toRuneArray(),"?".toRuneArray(),fromIndex:2).getOrThrow()
 
         word.substring(2, charsetPos - 2).toAsciiLower() // diff java, cj -> substring(beginIndex, length)
 
-        if (word.indexOf('?', charsetPos + 1) == Option<Int64>.None) {
+        if (word.indexOf("?", charsetPos + 1) == Option<Int64>.None) {
             throw ParseException("Missing encoding in RFC 2047 encoded-word: " + word);
         }
-        var encodingPos: Int64 = word.indexOf('?', charsetPos + 1).getOrThrow()
+
+        //var encodingPos: Int64 = word.indexOf("?", charsetPos + 1).getOrThrow() //TODOTODO
+        var encodingPos: Int64 = Utils.indexOfRune(word.toRuneArray(),"?".toRuneArray(),fromIndex:charsetPos + 1).getOrThrow()
 
         let encoding: String = word.substring(charsetPos + 1, encodingPos - charsetPos - 1)
 
         if (word.indexOf(ENCODED_TOKEN_FINISHER, encodingPos + 1) == Option<Int64>.None) {
             throw ParseException("Missing encoded text in RFC 2047 encoded-word: " + word)
         }
-        var encodedTextPos: Int64 = word.indexOf(ENCODED_TOKEN_FINISHER, encodingPos + 1).getOrThrow()
+        //var encodedTextPos: Int64 = word.indexOf(ENCODED_TOKEN_FINISHER, encodingPos + 1).getOrThrow() //TODOTODO
+        var encodedTextPos: Int64 =  Utils.indexOfRune(word.toRuneArray(),ENCODED_TOKEN_FINISHER.toRuneArray(),fromIndex:encodingPos + 1).getOrThrow()
 
         let encodedText: String = word.substring(encodingPos + 1, encodedTextPos - encodingPos - 1)
         if (encodedText.size == 0) {

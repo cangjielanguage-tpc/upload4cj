@@ -5,7 +5,7 @@
 <p align="center">
 <img alt="" src="https://img.shields.io/badge/release-v0.0.1-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/build-pass-brightgreen" style="display: inline-block;" />
-<img alt="" src="https://img.shields.io/badge/cjc-v0.39.8-brightgreen" style="display: inline-block;" />
+<img alt="" src="https://img.shields.io/badge/cjc-v0.45.2-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/cjcov-90.9%25-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/project-open-brightgreen" style="display: inline-block;" />
 </p>
@@ -178,7 +178,7 @@ public class Test_ReadMe{
         let bytes: Array<UInt8> = text.toUtf8Array()
         var output = ByteArrayStream()
         output.write(bytes)
-        var req1 = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/")
+        var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/")
                    .body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
         let fileItemFactory: DiskFileItemFactory = DiskFileItemFactory()
@@ -246,7 +246,7 @@ public class Test_ReadMe{
         let bytes: Array<UInt8> = text.toUtf8Array()
         var output = ByteArrayStream()
         output.write(bytes)
-        var req1 = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/")
+        var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/")
                    .body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
         let upload: ServletFileUpload = ServletFileUpload(DiskFileItemFactory())

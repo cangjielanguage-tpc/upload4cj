@@ -21,14 +21,14 @@ func test1(): Unit {
     for (i in 0..3) {
         let header: String = "-----1234\r\nContent-Disposition: form-data; name=\"field\"\r\n\r\n"
 
-        baos.write(header.toUtf8Array())
+        baos.write(header.toArray())
         for (j in 0..1000 + i) {
             baos.write([UInt8(j)])
         }
-        baos.write("\r\n".toUtf8Array())
+        baos.write("\r\n".toArray())
     }
-    baos.write("-----1234--\r\n".toUtf8Array())
-    var req1: HttpRequest = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(baos).build()
+    baos.write("-----1234--\r\n".toArray())
+    var req1: HttpRequest = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(baos).build()
     req1.headers.add("Content-Type", CONTENT_TYPE)
 
     var servletRequestContext: ServletRequestContext = ServletRequestContext(req1)

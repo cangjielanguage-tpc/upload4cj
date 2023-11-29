@@ -17,7 +17,7 @@ public class TestMultipartStream{
     @TestCase
     func testMultipartStreamReadBoundary01(): Unit {
         let input=ByteArrayStream()
-        var boundary_arr="8888888888".toUtf8Array()
+        var boundary_arr="8888888888".toArray()
         var boundary=Option<Array<UInt8>>.Some(boundary_arr)
         let bufSize=100
         let pNotifier=Option<ProgressNotifier>.None
@@ -26,7 +26,7 @@ public class TestMultipartStream{
         try{
             multipartStream.setBoundary(Array<UInt8>())
         }catch(e:IllegalBoundaryException){
-            if(e.toString().contains("IllegalBoundaryException") && e.toString().contains("The length of a boundary token cannot be changed")){
+            if(e.toString().contains("The length of a boundary token cannot be changed")){
                 re_flag=0
             }
         }

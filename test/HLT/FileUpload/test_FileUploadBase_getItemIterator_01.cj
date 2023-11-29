@@ -25,10 +25,10 @@ public class TestFileUploadBase {
         var flag = 0
         var fu = FileUpload()
         var text ="-----1234"
-        let bytes: Array<UInt8> = text.toUtf8Array()
+        let bytes: Array<UInt8> = text.toArray()
         var output = ByteArrayStream()
         output.write(bytes)
-        let req = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(output).build()
+        let req = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         let CONTENT_TYPE: String = "multipart/form-data; boundary=---1234"
         req.headers.add("Content-Type", CONTENT_TYPE)
         try {

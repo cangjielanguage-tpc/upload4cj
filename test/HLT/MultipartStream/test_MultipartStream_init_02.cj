@@ -15,7 +15,7 @@ public class TestMultipartStream{
         测试场景:boundary非Option<Array<UInt8>>.None，但是bufSize<boundary.size+4
     ***/
     let input=ByteArrayStream()
-    var boundary_arr="8888888888".toUtf8Array()
+    var boundary_arr="8888888888".toArray()
     var boundary=Option<Array<UInt8>>.Some(boundary_arr)
     let bufSize=boundary_arr.size+4
     let pNotifier=Option<ProgressNotifier>.None

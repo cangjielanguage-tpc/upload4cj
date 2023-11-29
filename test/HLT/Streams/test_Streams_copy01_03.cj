@@ -14,7 +14,7 @@ public class TestStreams{
         public static func copy(inputStream:Option<InputStream>,outputStream:Option<OutputStream>,closeOutputStream:Bool,buffer:Array<UInt8>):Int64
         测试场景:inputStream,outputStream非Option.None,但流中有内容,仅inputStream有,仅outputStream有,均有
     ***/
-    let content="8888888888".toUtf8Array()
+    let content="8888888888".toArray()
     @TestCase
     func testStreamsCopy010301(): Unit {
         let in_byteArrayStream=ByteArrayStream()
@@ -56,7 +56,7 @@ public class TestStreams{
         let re=Streams.copy(inputStream,outputStream,closeOutputStream,buffer)
         @Assert(re,10)
         let re_arr=(outputStream.getOrThrow() as ByteArrayStream).getOrThrow().readToEnd()
-        let exp_content="88888888888888888888".toUtf8Array()
+        let exp_content="88888888888888888888".toArray()
         @Assert(re_arr,exp_content)
     }
 }

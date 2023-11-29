@@ -36,10 +36,10 @@ public class Test_FeatureApi{
             "-----9876--\r\n" +
             "-----1234--\r\n"
 
-        let bytes: Array<UInt8> = text.toUtf8Array()
+        let bytes: Array<UInt8> = text.toArray()
         var output = ByteArrayStream()
         output.write(bytes)
-        var req1 = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/")
+        var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/")
                    .body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
         let fileItemFactory: DiskFileItemFactory = DiskFileItemFactory()
@@ -73,10 +73,10 @@ public class Test_FeatureApi{
 					  "value2\r\n" +
 					  "-----1234--\r\n"
 
-		let bytes:Array<UInt8> = text.toUtf8Array()
+		let bytes:Array<UInt8> = text.toArray()
 		var output = ByteArrayStream()
 		output.write(bytes)
-		var req1 = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(output).build()
+		var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
 		req1.headers.add("Content-Type",CONTENT_TYPE)
 		let upload:ServletFileUpload = ServletFileUpload(DiskFileItemFactory())
 		let mappedParameters: Map<String, ArrayList<FileItem>> = upload.parseParameterMap(req1)
