@@ -28,12 +28,12 @@ public class TestFileUploadBase {
             "\r\n" +
             "This is the content of the file\n" +
             "\r\n" +
-            "-----1234--\r\n").toUtf8Array();
+            "-----1234--\r\n").toArray();
         let CONTENT_TYPE: String = "multipart/form-data; boundary=---1234"
         let bytes: Array<UInt8> = text
         var output = ByteArrayStream()
         output.write(bytes)
-        let req1 = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(output).build()
+        let req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
         let fileItemFactory: DiskFileItemFactory = DiskFileItemFactory()
         fileItemFactory.setDefaultCharset("UTF-8")

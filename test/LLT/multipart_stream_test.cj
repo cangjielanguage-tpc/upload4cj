@@ -22,9 +22,9 @@ public class MultipartStreamTest {
         var threw: Bool = false
         try {
             var input = ByteArrayStream()
-            input.write("foobar".toUtf8Array())
+            input.write("foobar".toArray())
 
-            let boundary: Option<Array<UInt8>> = "myboundary".toUtf8Array()
+            let boundary: Option<Array<UInt8>> = "myboundary".toArray()
 
             let iBufSize = 1
 
@@ -46,9 +46,9 @@ public class MultipartStreamTest {
         var threw: Bool = true
         try {
             var input = ByteArrayStream()
-            input.write("foobar".toUtf8Array())
+            input.write("foobar".toArray())
 
-            let boundary: Option<Array<UInt8>> = "myboundary".toUtf8Array()
+            let boundary: Option<Array<UInt8>> = "myboundary".toArray()
 
             let notifier = Option<ProgressNotifier>.None
 
@@ -67,7 +67,7 @@ public class MultipartStreamTest {
 
         try {
             var input = ByteArrayStream()
-            input.write("foobar".toUtf8Array())
+            input.write("foobar".toArray())
 
             let boundary = Option<Array<UInt8>>.None
 

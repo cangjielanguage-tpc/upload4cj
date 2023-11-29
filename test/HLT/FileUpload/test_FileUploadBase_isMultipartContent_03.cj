@@ -22,7 +22,7 @@ public class TestFileUploadBase {
     @TestCase
     func testFileUploadBaseIsMultipartContent03(): Unit {
         let CONTENT_TYPE: String = "text/form-data; boundary=---1234"
-        let req = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(ByteArrayStream()).build()
+        let req = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(ByteArrayStream()).build()
         req.headers.add("Content-Type", CONTENT_TYPE)
         let res = FileUpload.isMultipartContent(ServletRequestContext(req))
         @Assert(res, false)

@@ -33,7 +33,9 @@ public class SubLimitedInputStream <: LimitedInputStream{
         super(inputStream,pSizeMax)
     }
     protected func raiseError(pSizeMax: Int64, pCount: Int64): Unit{
-		throw IOException("raiseError,pCount=${pCount},pSizeMax=${pSizeMax}")
+		println(pSizeMax)
+		println(pCount)
+		throw IOException("raiseError")
     }
 }
 
@@ -65,7 +67,7 @@ public class SubThresholdingOutputStream<:ThresholdingOutputStream & InputStream
     }
     protected func getStream(): OutputStream{
         let byte=ByteArrayStream()
-        byte.write("origin".toUtf8Array())
+        byte.write("origin".toArray())
         return byte
     }
     protected func thresholdReached(): Unit{}

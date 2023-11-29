@@ -20,7 +20,7 @@ public class TestStreams{
         let body_in=ByteArrayStream()
         let body_arr=Array<UInt8>(100,item:9)
         body_in.write(body_arr)
-        var request = HttpRequestBuilder.new().method("GET").url("http://www.baidu.com").body(body_in).build()
+        var request = HttpRequestBuilder().method("GET").url("http://www.baidu.com").body(body_in).build()
         let servletRequestContext=ServletRequestContext(request)
         var re=servletRequestContext.toString()
         let exp_re="ContentLength = ${servletRequestContext.contentLength()}, ContentType = ${servletRequestContext.getContentType()}"

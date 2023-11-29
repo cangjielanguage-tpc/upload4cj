@@ -17,7 +17,7 @@ public class TestMultipartStream{
     @TestCase
     func testMultipartStreamReadByte01(): Unit {
         let input=ByteArrayStream()
-        var boundary_arr="8888888888".toUtf8Array()
+        var boundary_arr="8888888888".toArray()
         var boundary=Option<Array<UInt8>>.Some(boundary_arr)
         let bufSize=100
         let pNotifier=Option<ProgressNotifier>.None
@@ -25,7 +25,7 @@ public class TestMultipartStream{
         var re_flag=1
         try{
             multipartStream.readByte()
-        }catch(e:ReadWriteException){
+        }catch(e:Exception){
             if(e.toString().contains("No more data is available")){
                 re_flag=0
             }

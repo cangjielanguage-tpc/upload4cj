@@ -21,7 +21,7 @@ public class DeferredFileOutputStream <: ThresholdingOutputStream {
     private var directory: ?File = Option<File>.None
     private var closed: Bool
 
-    private static let UID: String = Generators.randomBasedGenerator().generate().toString().replace('-', '_')
+    private static let UID: String = Generators.randomBasedGenerator().generate().toString().replace("-", "_")
     private static let COUNTER = AtomicInt64(0)
 
     static let mtx = ReentrantMutex()

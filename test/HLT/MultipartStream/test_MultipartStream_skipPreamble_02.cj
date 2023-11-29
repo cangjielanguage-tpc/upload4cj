@@ -24,10 +24,14 @@ public class TestMultipartStream{
     @TestCase
     func testMultipartStreamSkipPreamble02(): Unit {
         var input = ByteArrayStream()
-        input.write(text.toUtf8Array())
-        let boundary: Option<Array<UInt8>> = boundaryString.toUtf8Array()
+        input.write(text.toArray())
+
+        let boundary: Option<Array<UInt8>> = boundaryString.toArray()
+
         let notifier = Option<ProgressNotifier>.None
+
         var multipartStream: MultipartStream = MultipartStream(input, boundary, notifier)
+
         @Assert(multipartStream.skipPreamble(),true)
     }
 }

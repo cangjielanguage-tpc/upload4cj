@@ -31,10 +31,10 @@ main(){
                     "\r\n" +
                     "-----1234--\r\n"
         var body_in=ByteArrayStream()
-        body_in.write(content.toUtf8Array())
+        body_in.write(content.toArray())
         let fileItemFactory=DiskFileItemFactory()
         let servletFileUpload=ServletFileUpload(fileItemFactory)
-        let request = HttpRequestBuilder.new().method("GET").url("http://www.baidu.com").body(body_in).build()
+        let request = HttpRequestBuilder().method("GET").url("http://www.baidu.com").body(body_in).build()
         request.headers.add("Content-Type","multipart/form-data; boundary=---1234")
         var re=servletFileUpload.parseRequest(request).getOrThrow()
         @Assert(re.size,1)
@@ -53,10 +53,10 @@ main(){
                     "\r\n" +
                     "-----1234--\r\n"
         var body_in=ByteArrayStream()
-        body_in.write(content.toUtf8Array())
+        body_in.write(content.toArray())
         let fileItemFactory=DiskFileItemFactory()
         let servletFileUpload=ServletFileUpload(fileItemFactory)
-        let request = HttpRequestBuilder.new().method("GET").url("http://www.baidu.com").body(body_in).build()
+        let request = HttpRequestBuilder().method("GET").url("http://www.baidu.com").body(body_in).build()
         request.headers.add("Content-Type", CONTENT_TYPE)
         var re=servletFileUpload.parseRequest(request).getOrThrow()
         @Assert(re.size,1)
@@ -76,10 +76,10 @@ main(){
                         "This is the content of the file\n" +
                         "\r\n" +
                         "-----1234\r\n"
-        let bytes: Array<UInt8> = text.toUtf8Array()
+        let bytes: Array<UInt8> = text.toArray()
         var output = ByteArrayStream()
         output.write(bytes)
-        let req = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(output).build()
+        let req = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req.headers.add("Content-Type", CONTENT_TYPE)
         let fileItemFactory: DiskFileItemFactory = DiskFileItemFactory()
         let upload: ServletFileUpload = ServletFileUpload(fileItemFactory)
@@ -116,9 +116,9 @@ main(){
                     "\r\n" +
                     "-----1234--\r\n"
         var body_in=ByteArrayStream()
-        body_in.write(content.toUtf8Array())
+        body_in.write(content.toArray())
         let servletFileUpload=ServletFileUpload()
-        let request = HttpRequestBuilder.new().method("GET").url("http://www.baidu.com").body(body_in).build()
+        let request = HttpRequestBuilder().method("GET").url("http://www.baidu.com").body(body_in).build()
         request.headers.add("Content-Type", CONTENT_TYPE)
         var re_flag=1
         try{
@@ -135,10 +135,10 @@ main(){
  func test6(): Unit {
         let text ="contentTEXT\r\ntest"
         let CONTENT_TYPE: String = "multipart/form-data; boundary=---1234"
-        let bytes: Array<UInt8> = text.toUtf8Array()
+        let bytes: Array<UInt8> = text.toArray()
         var output = ByteArrayStream()
         output.write(bytes)
-        let req1 = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(output).build()
+        let req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
         let fileItemFactory: DiskFileItemFactory = DiskFileItemFactory()
         fileItemFactory.setDefaultCharset("UTF-8")
@@ -154,10 +154,10 @@ main(){
         var fu = FileUpload()
         let CONTENT_TYPE: String = "multipart/form-data; boundary=---1234"
         var text ="-----1234"
-        let bytes: Array<UInt8> = text.toUtf8Array()
+        let bytes: Array<UInt8> = text.toArray()
         var output = ByteArrayStream()
         output.write(bytes)
-        let req = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(output).build()
+        let req = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req.headers.add("Content-Type", CONTENT_TYPE)
         try {
             fu.getItemIterator(ServletRequestContext(req))
@@ -173,10 +173,10 @@ main(){
         var flag = 0
         var fu = FileUpload()
         var text ="-----1234"
-        let bytes: Array<UInt8> = text.toUtf8Array()
+        let bytes: Array<UInt8> = text.toArray()
         var output = ByteArrayStream()
         output.write(bytes)
-        let req = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(output).build()
+        let req = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         try {
             fu.getItemIterator(ServletRequestContext(req))
         } catch (e: Exception){

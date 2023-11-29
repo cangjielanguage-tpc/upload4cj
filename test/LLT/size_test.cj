@@ -35,10 +35,10 @@ public class SizeTest {
         let text: String =
             "-----1234\r\n" + "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
             "Content-Type: text/whatever\r\n" + "\r\n" + "This is the content of the file\n" + "\r\n" + "-----1234--\r\n"
-        let bytes: Array<UInt8> = text.toUtf8Array()
+        let bytes: Array<UInt8> = text.toArray()
         var output = ByteArrayStream()
         output.write(bytes)
-        var req1: HttpRequest = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(output).build()
+        var req1: HttpRequest = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
         let upload: ServletFileUpload = ServletFileUpload(DiskFileItemFactory())
         upload.setFileSizeMax(-1)
@@ -54,10 +54,10 @@ public class SizeTest {
         let text: String =
             "-----1234\r\n" + "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
             "Content-Type: text/whatever\r\n" + "\r\n" + "This is the content of the file\n" + "\r\n" + "-----1234--\r\n"
-        let bytes2: Array<UInt8> = text.toUtf8Array()
+        let bytes2: Array<UInt8> = text.toArray()
         var output2 = ByteArrayStream()
         output2.write(bytes2)
-        var req2: HttpRequest = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(output2).build()
+        var req2: HttpRequest = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output2).build()
         req2.headers.add("Content-Type", CONTENT_TYPE)
         let upload2: ServletFileUpload = ServletFileUpload(DiskFileItemFactory())
         upload2.setFileSizeMax(40)
@@ -73,10 +73,10 @@ public class SizeTest {
         let text: String =
             "-----1234\r\n" + "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
             "Content-Type: text/whatever\r\n" + "\r\n" + "This is the content of the file\n" + "\r\n" + "-----1234--\r\n"
-        let bytes3: Array<UInt8> = text.toUtf8Array()
+        let bytes3: Array<UInt8> = text.toArray()
         var output3 = ByteArrayStream()
         output3.write(bytes3)
-        var req3: HttpRequest = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(output3).build()
+        var req3: HttpRequest = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output3).build()
         req3.headers.add("Content-Type", CONTENT_TYPE)
         let upload3: ServletFileUpload = ServletFileUpload(DiskFileItemFactory())
         upload3.setFileSizeMax(30)
@@ -96,10 +96,10 @@ public class SizeTest {
             "-----1234\r\n" + "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
             "Content-Type: text/whatever\r\n" + "Content-Length: 10\r\n" + "\r\n" + "This is the content of the file\n" +
             "\r\n" + "-----1234--\r\n"
-        let bytes: Array<UInt8> = text.toUtf8Array()
+        let bytes: Array<UInt8> = text.toArray()
         var output = ByteArrayStream()
         output.write(bytes)
-        var req1: HttpRequest = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(output).build()
+        var req1: HttpRequest = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
         let upload: ServletFileUpload = ServletFileUpload(DiskFileItemFactory())
         upload.setFileSizeMax(-1)
@@ -117,10 +117,10 @@ public class SizeTest {
             "-----1234\r\n" + "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
             "Content-Type: text/whatever\r\n" + "Content-Length: 10\r\n" + "\r\n" + "This is the content of the file\n" +
             "\r\n" + "-----1234--\r\n"
-        let bytes2: Array<UInt8> = text.toUtf8Array()
+        let bytes2: Array<UInt8> = text.toArray()
         var output2 = ByteArrayStream()
         output2.write(bytes2)
-        var req2: HttpRequest = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(output2).build()
+        var req2: HttpRequest = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output2).build()
         req2.headers.add("Content-Type", CONTENT_TYPE)
         let upload2: ServletFileUpload = ServletFileUpload(DiskFileItemFactory())
         upload2.setFileSizeMax(40)
@@ -140,10 +140,10 @@ public class SizeTest {
             "-----1234\r\n" + "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
             "Content-Type: text/whatever\r\n" + "Content-Length: 10\r\n" + "\r\n" + "This is the content of the file\n" +
             "\r\n" + "-----1234--\r\n"
-        let bytes3: Array<UInt8> = text.toUtf8Array()
+        let bytes3: Array<UInt8> = text.toArray()
         var output3 = ByteArrayStream()
         output3.write(bytes3)
-        var req3: HttpRequest = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(output3).build()
+        var req3: HttpRequest = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output3).build()
         req3.headers.add("Content-Type", CONTENT_TYPE)
         let upload3: ServletFileUpload = ServletFileUpload(DiskFileItemFactory())
         upload3.setFileSizeMax(5)
@@ -164,10 +164,10 @@ public class SizeTest {
             "-----1234\r\n" + "Content-Disposition: form-data; name=\"file\"; filename=\"foo.tab\"\r\n" +
             "Content-Type: text/whatever\r\n" + "Content-Length: 10\r\n" + "\r\n" + "This is the content of the file\n" +
             "\r\n" + "-----1234--\r\n"
-        let bytes4: Array<UInt8> = text.toUtf8Array()
+        let bytes4: Array<UInt8> = text.toArray()
         var output4 = ByteArrayStream()
         output4.write(bytes4)
-        var req4: HttpRequest = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(output4).build()
+        var req4: HttpRequest = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output4).build()
         req4.headers.add("Content-Type", CONTENT_TYPE)
         let upload4: ServletFileUpload = ServletFileUpload(DiskFileItemFactory())
         upload4.setFileSizeMax(15)
@@ -188,10 +188,10 @@ public class SizeTest {
             "Content-Type: text/whatever\r\n" + "Content-Length: 10\r\n" + "\r\n" + "This is the content of the file\n" +
             "\r\n" + "-----1234\r\n" + "Content-Disposition: form-data; name=\"file2\"; filename=\"foo2.tab\"\r\n" +
             "Content-Type: text/whatever\r\n" + "\r\n" + "This is the content of the file\n" + "\r\n" + "-----1234--\r\n"
-        let bytes: Array<UInt8> = text.toUtf8Array()
+        let bytes: Array<UInt8> = text.toArray()
         var output = ByteArrayStream()
         output.write(bytes)
-        var req1: HttpRequest = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(output).build()
+        var req1: HttpRequest = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
         let upload: ServletFileUpload = ServletFileUpload(DiskFileItemFactory())
         upload.setFileSizeMax(-1)
@@ -215,10 +215,10 @@ public class SizeTest {
             "Content-Type: text/whatever\r\n" + "Content-Length: 10\r\n" + "\r\n" + "This is the content of the file\n" +
             "\r\n" + "-----1234\r\n" + "Content-Disposition: form-data; name=\"file2\"; filename=\"foo2.tab\"\r\n" +
             "Content-Type: text/whatever\r\n" + "\r\n" + "This is the content of the file\n" + "\r\n" + "-----1234--\r\n"
-        let bytes: Array<UInt8> = text.toUtf8Array()
+        let bytes: Array<UInt8> = text.toArray()
         var output = ByteArrayStream()
         output.write(bytes)
-        var req1: HttpRequest = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(output).build()
+        var req1: HttpRequest = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
         req1.headers.add("Content-Length", "-1")
         let upload: ServletFileUpload = ServletFileUpload(DiskFileItemFactory())
@@ -241,10 +241,10 @@ public class SizeTest {
             "Content-Type: text/whatever\r\n" + "\r\n" + "This is the content of the file\n" + "\r\n" + "-----1234\r\n" +
             "Content-Disposition: form-data; name=\"file2\"; filename=\"foo2.tab\"\r\n" +
             "Content-Type: text/whatever\r\n" + "\r\n" + "This is the content of the file\n" + "\r\n" + "-----1234--\r\n"
-        let bytes: Array<UInt8> = text.toUtf8Array()
+        let bytes: Array<UInt8> = text.toArray()
         var output = ByteArrayStream()
         output.write(bytes)
-        var req1: HttpRequest = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(output).build()
+        var req1: HttpRequest = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
         let upload: ServletFileUpload = ServletFileUpload(DiskFileItemFactory())
         upload.setFileCountMax(1)

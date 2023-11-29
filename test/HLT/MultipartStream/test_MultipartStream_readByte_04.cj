@@ -17,7 +17,7 @@ public class TestMultipartStream{
     @TestCase
     func testMultipartStreamReadByte04(): Unit {
         let input=ByteArrayStream()
-        var boundary_arr="8888888888".toUtf8Array()
+        var boundary_arr="8888888888".toArray()
         input.write(boundary_arr)
         var boundary=Option<Array<UInt8>>.Some(boundary_arr)
         let bufSize=100

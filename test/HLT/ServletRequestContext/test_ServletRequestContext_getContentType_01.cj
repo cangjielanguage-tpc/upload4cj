@@ -17,7 +17,7 @@ public class TestStreams{
     ***/
     @TestCase
     func testServletRequestContextGetContentType01(): Unit {
-        let request = HttpRequestBuilder.new().method("GET").url("http://www.baidu.com").build()
+        let request = HttpRequestBuilder().method("GET").url("http://www.baidu.com").build()
         request.headers.add("Content-type","Content-type-value")
         let servletRequestContext=ServletRequestContext(request)
         var re=servletRequestContext.getContentType().getOrThrow()
@@ -25,7 +25,7 @@ public class TestStreams{
     }
     @TestCase
     func testServletRequestContextGetContentType02(): Unit {
-        let request = HttpRequestBuilder.new().method("GET").url("http://www.baidu.com").build()
+        let request = HttpRequestBuilder().method("GET").url("http://www.baidu.com").build()
         let servletRequestContext=ServletRequestContext(request)
         var re_flag=1
         try{

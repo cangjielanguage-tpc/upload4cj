@@ -10,10 +10,10 @@ from std import io.*
 from std import io.*
 
 public func fuzzFunc_MultipartStream_setBoundary(dp:DataProvider):Int32 {
-    var boundary_arr="8888888888".toUtf8Array()
+    var boundary_arr="8888888888".toArray()
     let mutil=MultipartStream(ByteArrayStream(),Option<Array<UInt8>>.Some(boundary_arr),1024,Option<ProgressNotifier>.None)
     try{
-        mutil.setBoundary(dp.consumeString(1000).toUtf8Array())
+        mutil.setBoundary(dp.consumeString(1000).toArray())
     }catch(e:Exception){}
     return 0
 }

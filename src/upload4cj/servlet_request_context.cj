@@ -37,15 +37,11 @@ public class ServletRequestContext <: RequestContext {
      */
     public override func getContentType(): Option<String> {
         let conTypeList = request.headers.get(FileUploadBase.CONTENT_TYPE)
-        if(let Some(i) <- conTypeList){
-            if(i.size == 0){
-                return Option<String>.None
-            }else{
-                let contentType = request.headers.get(FileUploadBase.CONTENT_TYPE).getOrThrow().get(0).getOrThrow()
-                return Option<String>.Some(contentType)
-            }
-        }else{
+        if(conTypeList.size == 0){
             return Option<String>.None
+        }else{
+            let contentType = request.headers.get(FileUploadBase.CONTENT_TYPE).iterator().next().getOrThrow()
+            return Option<String>.Some(contentType)
         }
     }
 
@@ -57,7 +53,7 @@ public class ServletRequestContext <: RequestContext {
     public override func contentLength(): Int64 {
         var size: Int64
         try {
-            let contentLength: String = request.headers.get(FileUploadBase.CONTENT_LENGTH).getOrThrow().get(0).getOrThrow()
+            let contentLength: String = request.headers.get(FileUploadBase.CONTENT_LENGTH).iterator().next().getOrThrow()
             size = Int64.parse(contentLength)
         } catch (e: Exception) {
             size = request.bodySize.getOrThrow()

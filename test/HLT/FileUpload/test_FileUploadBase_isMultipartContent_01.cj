@@ -21,7 +21,7 @@ public class TestFileUploadBase {
     ***/
     @TestCase
     func testFileUploadBaseIsMultipartContent01(): Unit {
-        let req = HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(ByteArrayStream()).build()
+        let req = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(ByteArrayStream()).build()
         //req1.header.add("Content-Type", CONTENT_TYPE)
         let res = FileUpload.isMultipartContent(ServletRequestContext(req))
         @Assert(res, false)

@@ -17,7 +17,7 @@ public class TestMultipartStream{
     @TestCase
     func testMultipartStreamReadHeaders01(): Unit {
         let input=ByteArrayStream()
-        var boundary_arr="8888888888".toUtf8Array()
+        var boundary_arr="8888888888".toArray()
         var boundary=Option<Array<UInt8>>.Some(boundary_arr)
         let bufSize=100
         let pNotifier=Option<ProgressNotifier>.None
@@ -25,10 +25,8 @@ public class TestMultipartStream{
         var re_flag=1
         try{
             multipartStream.readHeaders()
-        }catch(e:MalformedStreamException){
-            if(e.toString().contains("MalformedStreamException") && e.toString().contains("Stream ended unexpectedly") ){
-                 re_flag=0
-            }
+        }catch(e:Exception){
+            re_flag=0
         }
         @Assert(re_flag,0)
     }

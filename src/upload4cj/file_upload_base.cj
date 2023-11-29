@@ -300,7 +300,7 @@ public abstract class FileUploadBase {
             while (start < len) {
                 var nonWs = start
                 while (nonWs < len) {
-                    let c: Char = headerPart.get(nonWs).getOrThrow()
+                    let c: Char = headerPart.toRuneArray().get(nonWs).getOrThrow()
                     if (c != ' ' && c != '\t') {
                         break
                     }
@@ -312,7 +312,8 @@ public abstract class FileUploadBase {
 
                 // Continuation line found
                 end = parseEndOfLine(headerPart, nonWs)
-                header.append(" ").append(headerPart.substring(nonWs, end - nonWs))
+                header.append(" ")
+                header.append(headerPart.substring(nonWs, end - nonWs))
                 start = end + 2
             }
             parseHeaderLine(headers, header.toString())
@@ -323,7 +324,9 @@ public abstract class FileUploadBase {
     private func parseEndOfLine(headerPart: String, end: Int64): Int64 {
         var index: Int64 = end
         while (true) {
-            let offset: Option<Int64> = headerPart.indexOf('\r', index)
+            //let offset: Option<Int64> = headerPart.indexOf("\r", index) //TODOTODO
+            let offset: Option<Int64> = Utils.indexOfRune(headerPart.toRuneArray(),"\r".toRuneArray(),fromIndex:index)
+
             if (let Some(i) <- offset) {
                 if (i + 1 >= headerPart.size) {
                     throw IllegalStateException("Expected headers to be terminated by an empty line.")
@@ -331,7 +334,7 @@ public abstract class FileUploadBase {
             } else {
                 throw IllegalStateException("Expected headers to be terminated by an empty line.")
             }
-            if (headerPart.get(offset.getOrThrow() + 1).getOrThrow() == '\n') {
+            if (headerPart.toRuneArray().get(offset.getOrThrow() + 1).getOrThrow() == '\n') {
                 return offset.getOrThrow()
             }
             index = offset.getOrThrow() + 1
@@ -340,7 +343,8 @@ public abstract class FileUploadBase {
     }
 
     private func parseHeaderLine(headers: FileItemHeadersImpl, header: String): Unit {
-        let colonOffset: Option<Int64> = header.indexOf(':')
+        //let colonOffset: Option<Int64> = header.indexOf(':') //TODOTODO
+        let colonOffset: Option<Int64> = header.indexOfSelf(':'.toString())
         if (let Some(i) <- colonOffset) {
             var headerName: String = header.substring(0, i).trimAscii()
             let headerValue: String = header.substring(i + 1).trimAscii()
