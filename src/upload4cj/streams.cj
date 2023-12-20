@@ -82,8 +82,7 @@ public class Streams {
      */
     public static func checkFileName(fileName: Option<String>): Option<String> {
         if (let Some(i) <- fileName) {
-            //let index: Option<Int64> = i.indexOf('\u{0}') //TODOTODO
-            let index: Option<Int64> = i.indexOfSelf('\u{0}'.toString())
+            let index: Option<Int64> = i.indexOf('\u{0}')
             if (let Some(_) <- index) {
                 let sb: StringBuilder = StringBuilder()
                 for (k in 0..i.size) {

@@ -324,8 +324,7 @@ public abstract class FileUploadBase {
     private func parseEndOfLine(headerPart: String, end: Int64): Int64 {
         var index: Int64 = end
         while (true) {
-            //let offset: Option<Int64> = headerPart.indexOf("\r", index) //TODOTODO
-            let offset: Option<Int64> = Utils.indexOfRune(headerPart.toRuneArray(),"\r".toRuneArray(),fromIndex:index)
+            let offset: Option<Int64> = headerPart.indexOf("\r", index)
 
             if (let Some(i) <- offset) {
                 if (i + 1 >= headerPart.size) {
@@ -343,8 +342,7 @@ public abstract class FileUploadBase {
     }
 
     private func parseHeaderLine(headers: FileItemHeadersImpl, header: String): Unit {
-        //let colonOffset: Option<Int64> = header.indexOf(':') //TODOTODO
-        let colonOffset: Option<Int64> = header.indexOfSelf(':'.toString())
+        let colonOffset: Option<Int64> = header.indexOf(':')
         if (let Some(i) <- colonOffset) {
             var headerName: String = header.substring(0, i).trimAscii()
             let headerValue: String = header.substring(i + 1).trimAscii()
