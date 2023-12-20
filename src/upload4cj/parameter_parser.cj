@@ -59,8 +59,7 @@ public class ParameterParser {
         if (isStr) {
             var idx: Int64 = str.getOrThrow().size
             for (separatorChar in separators.getOrThrow()) {
-                //var tmp: Option<Int64> = str.getOrThrow().indexOf(separatorChar) //TODOTODO
-                var tmp: Option<Int64> = str.getOrThrow().indexOfSelf(separatorChar.toString())
+                var tmp: Option<Int64> = str.getOrThrow().indexOf(separatorChar)
                 let isTmp = match (tmp) {
                     case None => false
                     case Some(_) => true
