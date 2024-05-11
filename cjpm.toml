@@ -1,8 +1,8 @@
 [dependencies]
-  uuid4cj = {branch = "develop", git = "https://gitee.com/HW-PLLab/uuid4cj.git", version = "0.0.1"}
+  uuid4cj = {branch = "v0.0.1.B007", git = "https://gitee.com/HW-PLLab/uuid4cj.git", version = "0.0.1"}
 
 [package]
-  cjc-version = "0.49.2"
+  cjc-version = "0.51.4"
   compile-option = "-O2"
   description = ""
   link-option = ""
