@@ -1,5 +1,8 @@
-package upload4cj
+/*
+ * Copyright (c) Huawei Technologies Co., Ltd. 2023-2024. All rights resvered.
+ */
 
+package upload4cj
 
 extend String{
     prop utf8View: Array<UInt8> {
