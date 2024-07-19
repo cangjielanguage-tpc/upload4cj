@@ -37,12 +37,12 @@ public abstract class FileUploadBase {
 #### 1.1.1 示例
 
 ```cangjie
-from upload4cj import upload4cj.*
-from net import http.*
-from std import io.*
-from std import collection.*
-from std import unittest.*
-from std import unittest.testmacro.*
+import upload4cj.*
+import net.http.*
+import std.io.*
+import std.collection.*
+import std.unittest.*
+import std.unittest.testmacro.*
 
 main() {
     let ccc = Test_FeatureApi()
@@ -100,12 +100,12 @@ public class Test_FeatureApi{
 #### 1.1.2 示例
 
 ```cangjie
-from upload4cj import upload4cj.*
-from net import http.*
-from std import io.*
-from std import collection.*
-from std import unittest.*
-from std import unittest.testmacro.*
+import upload4cj.*
+import net.http.*
+import std.io.*
+import std.collection.*
+import std.unittest.*
+import std.unittest.testmacro.*
 
 main() {
     let ccc = Test_FeatureApi()

@@ -7,14 +7,13 @@
 // 3rd_party_lib:upload4cj/build/uuid4cj
 // 3rd_party_lib_ohos:upload4cj/build/aarch64-linux-ohos/uuid4cj
 
-from std import unittest.*
-from std import unittest.testmacro.*
-from upload4cj import upload4cj.*
-from std import fs.*
-from std import io.*
-from std import math.*
-from std import collection.*
-from net import http.*
+
+protected import upload4cj.*
+protected import std.fs.*
+protected import std.io.*
+protected import std.math.*
+protected import std.collection.*
+protected import net.http.*
 
 public func getRepository(path:String):Option<Directory>{
     var repository=Option<Directory>.None

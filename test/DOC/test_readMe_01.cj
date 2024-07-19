@@ -1,12 +1,12 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from upload4cj import upload4cj.*
-from net import http.*
-from std import io.*
-from std import collection.*
-from std import unittest.*
-from std import unittest.testmacro.*
+import upload4cj.*
+import net.http.*
+import std.io.*
+import std.collection.*
+import std.unittest.*
+import std.unittest.testmacro.*
 main() {
     let ccc = Test_ReadMe()
     ccc.execute()

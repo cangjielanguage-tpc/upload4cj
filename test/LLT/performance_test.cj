@@ -2,14 +2,14 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from upload4cj import upload4cj.*
-from std import fs.*
-from std import io.*
-from std import collection.*
-from net import http.*
-from std import time.*
-from std import unittest.*
-from std import unittest.testmacro.*
+import upload4cj.*
+import std.fs.*
+import std.io.*
+import std.collection.*
+import net.http.*
+import std.time.*
+import std.unittest.*
+import std.unittest.testmacro.*
 
 main(){
     test1()

@@ -1,12 +1,12 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from upload4cj import upload4cj.*
-from std import unittest.*
-from std import unittest.testmacro.*
-from std import fs.*
-from std import io.*
-from std import collection.*
+import upload4cj.*
+import std.unittest.*
+import std.unittest.testmacro.*
+import std.fs.*
+import std.io.*
+import std.collection.*
 
 
 main(){
@@ -134,7 +134,7 @@ public class DiskFileItemTest {
     public func constructString():String{
         let buffer:StringBuilder = StringBuilder()
         for(i in 0..SWISS_GERMAN_STUFF_UTF8.size){
-            buffer.append(Char(SWISS_GERMAN_STUFF_UTF8[i]))
+            buffer.append(Rune(SWISS_GERMAN_STUFF_UTF8[i]))
         }
         return buffer.toString()
     }

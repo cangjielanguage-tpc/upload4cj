@@ -2,10 +2,10 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from upload4cj import upload4cj.*
-from std import unittest.*
-from std import unittest.testmacro.*
-from std import collection.*
+import upload4cj.*
+import std.unittest.*
+import std.unittest.testmacro.*
+import std.collection.*
 
 main(){
     let parameterTest = parameterTest()
@@ -34,7 +34,7 @@ public class parameterTest {
         let s: String = "test; test1 =  stuff   ; test2 =  \"stuff; stuff\"; test3=\"stuff"
         var parser: ParameterParser = ParameterParser()
         let s1: Option<String> = s
-        var map: Map<String, Option<String>> = parser.parse(s1, ';')
+        var map: Map<String, Option<String>> = parser.parse(s1, r';')
 
         let isTest: Bool = match(map.get("test").getOrThrow()) {
             case None =>
@@ -57,7 +57,7 @@ public class parameterTest {
         let s: String = "test; test1 =  stuff   ; test2 =  \"stuff; stuff\"; test3=\"stuff"
         var parser: ParameterParser = ParameterParser()
         let s1: Option<String> = s
-        var arrayChar: Option<Array<Char>> = [',', ';']
+        var arrayChar: Option<Array<Rune>> = [r',', r';']
         var map: Map<String, Option<String>> = parser.parse(s1, arrayChar)
 
         let isTest: Bool = match(map.get("test").getOrThrow()) {
@@ -81,7 +81,7 @@ public class parameterTest {
         let s: String = "  test  , test1=stuff   ,  , test2=, test3, "
         var parser: ParameterParser = ParameterParser()
         let s1: Option<String> = s
-        var map: Map<String, Option<String>> = parser.parse(s1, ',')
+        var map: Map<String, Option<String>> = parser.parse(s1, r',')
 
         let isTest: Bool = match(map.get("test").getOrThrow()) {
             case None =>
@@ -117,7 +117,7 @@ public class parameterTest {
         let s: String = "  test"
         var parser: ParameterParser = ParameterParser()
         let s1: Option<String> = s
-        var map: Map<String, Option<String>> = parser.parse(s1, ';')
+        var map: Map<String, Option<String>> = parser.parse(s1, r';')
 
         let isTest: Bool = match(map.get("test").getOrThrow()) {
             case None =>
@@ -135,7 +135,7 @@ public class parameterTest {
         let s: String = "  "
         var parser: ParameterParser = ParameterParser()
         let s1: Option<String> = s
-        var map: Map<String, Option<String>> = parser.parse(s1, ';')
+        var map: Map<String, Option<String>> = parser.parse(s1, r';')
 
         @Assert(map.size, 0)
 
@@ -147,7 +147,7 @@ public class parameterTest {
         let s: String = " = stuff "
         var parser: ParameterParser = ParameterParser()
         let s1: Option<String> = s
-        var map: Map<String, Option<String>> = parser.parse(s1, ';')
+        var map: Map<String, Option<String>> = parser.parse(s1, r';')
 
         @Assert(map.size, 0)
 
@@ -161,7 +161,7 @@ public class parameterTest {
         parser.setLowerCaseNames(true)
         let isLowerCaseNames: Bool = parser.isLowerCaseNames()
         let s1: Option<String> = s
-        var map: Map<String, Option<String>> = parser.parse(s1, ';')
+        var map: Map<String, Option<String>> = parser.parse(s1, r';')
         @Assert(isLowerCaseNames, true)
         @Assert(map.get("charset").getOrThrow().getOrThrow(), "UTF-8")
         println("Pass7")
@@ -173,7 +173,7 @@ public class parameterTest {
         var parser: ParameterParser = ParameterParser()
         let s1: Option<String> = s
 
-        var map: Map<String, Option<String>> = parser.parse(s1, ';')
+        var map: Map<String, Option<String>> = parser.parse(s1, r';')
 
         @Assert(map.size, 1)
         @Assert(map.get("param").getOrThrow().getOrThrow(), "stuff\\\"; more stuff")
@@ -187,7 +187,7 @@ public class parameterTest {
         var parser: ParameterParser = ParameterParser()
         let s1: Option<String> = s
 
-        var map: Map<String, Option<String>> = parser.parse(s1, ';')
+        var map: Map<String, Option<String>> = parser.parse(s1, r';')
 
         @Assert(map.size, 2)
         @Assert(map.get("param").getOrThrow().getOrThrow(), "stuff\\\\")
@@ -211,8 +211,8 @@ public class parameterTest {
         let s: Option<String> = "Content-type: multipart/form-data , boundary=AaB03x"
         let s_new: Option<String> = "Content-type: multipart/form-data, boundary=AaB03x"
 
-        var arrayChar: Option<Array<Char>> = [',', ';']
-        var arrayChar_new: Option<Array<Char>> = [';', ',']
+        var arrayChar: Option<Array<Rune>> = [r',', r';']
+        var arrayChar_new: Option<Array<Rune>> = [r';', r',']
 
         var map: Map<String, Option<String>> = parser.parse(s, arrayChar)
         var map_new: Map<String, Option<String>> = parser.parse(s_new, arrayChar_new)
@@ -221,7 +221,7 @@ public class parameterTest {
         @Assert(map_new.get("boundary").getOrThrow().getOrThrow(), "AaB03x")
 
         let s2: Option<String> = "Content-type: multipart/mixed, boundary=BbC04y"
-        var arrayChar2: Option<Array<Char>> = [',', ';']
+        var arrayChar2: Option<Array<Rune>> = [r',', r';']
         var map2: Map<String, Option<String>> = parser.parse(s2, arrayChar2)
 
         @Assert(map2.get("boundary").getOrThrow().getOrThrow(), "BbC04y")
@@ -235,7 +235,7 @@ public class parameterTest {
 
         let s: Option<String> = "Content-Disposition: form-data; name=\"file\"; filename=\"=?UTF-8?B?SWYgeW91IGNhbiByZWFkIHRoaXMgeW8=?= =?UTF-8?B?dSB1bmRlcnN0YW5kIHRoZSBleGFtcGxlLg==?=\"\r\n";
 
-        var arrayChar: Option<Array<Char>> = [',', ';']
+        var arrayChar: Option<Array<Rune>> = [r',', r';']
 
         var map: Map<String, Option<String>> = parser.parse(s, arrayChar)
 
@@ -250,7 +250,7 @@ public class parameterTest {
         parser.setLowerCaseNames(true)
         let isLowerCaseNames: Bool = parser.isLowerCaseNames()
         let s1: Option<String> = s
-        var map: Map<String, Option<String>> = parser.parse(s1, ':')
+        var map: Map<String, Option<String>> = parser.parse(s1, r':')
         @Assert(isLowerCaseNames, true)
         @Assert(map.get("charset").getOrThrow().getOrThrow(), "UTF-8")
         println("Pass12")
@@ -263,7 +263,7 @@ public class parameterTest {
         parser.setLowerCaseNames(true)
         let isLowerCaseNames: Bool = parser.isLowerCaseNames()
         let s1: Option<String> = s
-        var map: Map<String, Option<String>> = parser.parse(s1, ';')
+        var map: Map<String, Option<String>> = parser.parse(s1, r';')
         @Assert(isLowerCaseNames, true)
         @Assert(map.get("charset").getOrThrow().getOrThrow(), "UTF-16")
         println("Pass13")
@@ -276,7 +276,7 @@ public class parameterTest {
         parser.setLowerCaseNames(false)
         let isLowerCaseNames: Bool = parser.isLowerCaseNames()
         let s1: Option<String> = s
-        var map: Map<String, Option<String>> = parser.parse(s1, ';')
+        var map: Map<String, Option<String>> = parser.parse(s1, r';')
         @Assert(isLowerCaseNames, false)
         @Assert(map.get("Charset").getOrThrow().getOrThrow(), "UTF-8")
         println("Pass14")

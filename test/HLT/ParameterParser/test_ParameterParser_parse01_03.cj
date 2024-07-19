@@ -12,15 +12,15 @@
 public class TestParameterParser{
     /***
         public init ()
-        public func parse(charArray: Option<Array<Char>>, offset: Int64, length: Int64, separator: Char): Map<String, Option<String>>
+        public func parse(charArray: Option<Array<Rune>>, offset: Int64, length: Int64, separator: Rune): Map<String, Option<String>>
         测试场景:charArray非Option.None,但是offset<length成立
     ***/
     @TestCase
     func testParameterParserParse010301(): Unit {
         let parameterParser=ParameterParser()
-        let arr_ori=Array<Char>(['A','B','=','e',',','e','=',' ',','])
-        let charArray= Option<Array<Char>>.Some(arr_ori)
-        let re_parse=parameterParser.parse(charArray,1,arr_ori.size,',')
+        let arr_ori=Array<Rune>([r'A',r'B',r'=',r'e',r',',r'e',r'=',r' ',r','])
+        let charArray= Option<Array<Rune>>.Some(arr_ori)
+        let re_parse=parameterParser.parse(charArray,1,arr_ori.size,r',')
         @Assert(re_parse.size,2)
         let ab_value=re_parse.get("B").getOrThrow().getOrThrow()
         @Assert(ab_value,"e")
@@ -35,9 +35,9 @@ public class TestParameterParser{
     @TestCase
     func testParameterParserParse010302(): Unit {
         let parameterParser=ParameterParser()
-        let arr_ori=Array<Char>(['A','B','=','e','e','e','=',' ',' '])
-        let charArray= Option<Array<Char>>.Some(arr_ori)
-        let re_parse=parameterParser.parse(charArray,1,arr_ori.size,',')
+        let arr_ori=Array<Rune>([r'A',r'B',r'=',r'e',r'e',r'e',r'=',r' ',r' '])
+        let charArray= Option<Array<Rune>>.Some(arr_ori)
+        let re_parse=parameterParser.parse(charArray,1,arr_ori.size,r',')
         @Assert(re_parse.size,1)
         var re_flag=1
         try{
@@ -50,11 +50,11 @@ public class TestParameterParser{
     @TestCase
     func testParameterParserParse010303(): Unit {
         let parameterParser=ParameterParser()
-        let arr_ori=Array<Char>()
-        let charArray= Option<Array<Char>>.Some(arr_ori)
+        let arr_ori=Array<Rune>()
+        let charArray= Option<Array<Rune>>.Some(arr_ori)
         var re_flag=1
         try{
-            parameterParser.parse(charArray,1,2,',')
+            parameterParser.parse(charArray,1,2,r',')
         }catch(e:IndexOutOfBoundsException){
             re_flag=0
         }
@@ -64,9 +64,9 @@ public class TestParameterParser{
     func testParameterParserParse010304(): Unit {
         let parameterParser=ParameterParser()
         parameterParser.setLowerCaseNames(true)
-        let arr_ori=Array<Char>(['A','B','=','e',',','e','=',' ',','])
-        let charArray= Option<Array<Char>>.Some(arr_ori)
-        let re_parse=parameterParser.parse(charArray,1,arr_ori.size,',')
+        let arr_ori=Array<Rune>([r'A',r'B',r'=',r'e',r',',r'e',r'=',r' ',r','])
+        let charArray= Option<Array<Rune>>.Some(arr_ori)
+        let re_parse=parameterParser.parse(charArray,1,arr_ori.size,r',')
         @Assert(re_parse.size,2)
         let ab_value=re_parse.get("b").getOrThrow().getOrThrow()
         @Assert(ab_value,"e")

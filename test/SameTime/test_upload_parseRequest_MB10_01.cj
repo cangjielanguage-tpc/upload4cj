@@ -4,13 +4,13 @@
 // 3rd_party_lib:upload4cj/build/uuid4cj
 // data_file: RequestBody_MB10
 
-from upload4cj import upload4cj.*
-from std import fs.*
-from std import io.*
-from std import math.*
-from std import time.*
-from std import collection.*
-from net import http.*
+import upload4cj.*
+import std.fs.*
+import std.io.*
+import std.math.*
+import std.time.*
+import std.collection.*
+import net.http.*
 
 main() {
     let threadCount = 200

@@ -4,14 +4,12 @@
 
 package upload4cj
 
-from std import unicode.*
-from std import collection.*
 
 /**
  * ParameterParser
  */
 public class ParameterParser {
-    private var chars: Array<Char> = []
+    private var chars: Array<Rune> = []
 
     private var pos: Int64 = 0
 
@@ -38,10 +36,10 @@ public class ParameterParser {
      * parse the text
      *
      * @param str - Option<String> The str need to parse
-     * @param separators - Option<Array<Char>> The separator array
+     * @param separators - Option<Array<Rune>> The separator array
      * @return Map<String, Option<String>> - the result
      */
-    public func parse(str: Option<String>, separators: Option<Array<Char>>): Map<String, Option<String>> {
+    public func parse(str: Option<String>, separators: Option<Array<Rune>>): Map<String, Option<String>> {
         match (separators) {
             case None => return HashMap<String, Option<String>>()
             case Some(_) =>
@@ -50,7 +48,7 @@ public class ParameterParser {
                 }
         }
 
-        var separator: Char = separators.getOrThrow()[0]
+        var separator: Rune = separators.getOrThrow()[0]
         let isStr = match (str) {
             case None => false
             case Some(_) => true
@@ -80,11 +78,11 @@ public class ParameterParser {
      * @param separator - Char The separator char
      * @return Map<String, Option<String>> - the result
      */
-    public func parse(str: Option<String>, separator: Char): Map<String, Option<String>> {
+    public func parse(str: Option<String>, separator: Rune): Map<String, Option<String>> {
         match (str) {
             case None => return HashMap<String, Option<String>>()
             case Some(_) =>
-                let charArray: Option<Array<Char>> = str.getOrThrow().toCharArray()
+                let charArray: Option<Array<Rune>> = str.getOrThrow().toCharArray()
                 return this.parse(charArray, separator)
         }
     }
@@ -92,11 +90,11 @@ public class ParameterParser {
     /**
      * parse the Char array
      *
-     * @param charArray - Option<Array<Char>> The char array need to parse
+     * @param charArray - Option<Array<Rune>> The char array need to parse
      * @param separator - Char The separator char
      * @return Map<String, Option<String>> - the result
      */
-    public func parse(charArray: Option<Array<Char>>, separator: Char): Map<String, Option<String>> {
+    public func parse(charArray: Option<Array<Rune>>, separator: Rune): Map<String, Option<String>> {
         match (charArray) {
             case None => return HashMap<String, Option<String>>()
             case Some(_) => return this.parse(charArray, 0, charArray.getOrThrow().size, separator)
@@ -106,13 +104,13 @@ public class ParameterParser {
     /**
      * parse the Char array
      *
-     * @param charArray - Option<Array<Char>> The char array need to parse
+     * @param charArray - Option<Array<Rune>> The char array need to parse
      * @param offset - Int64 The offset
      * @param length - Int64 The length
      * @param separator - Char The separator char
      * @return Map<String, Option<String>> - the result
      */
-    public func parse(charArray: Option<Array<Char>>, offset: Int64, length: Int64, separator: Char): Map<String, Option<String>> {
+    public func parse(charArray: Option<Array<Rune>>, offset: Int64, length: Int64, separator: Rune): Map<String, Option<String>> {
         match (charArray) {
             case None => return HashMap<String, Option<String>>()
             case Some(_) => this.chars = charArray.getOrThrow()
@@ -125,9 +123,9 @@ public class ParameterParser {
         var paramValue: Option<String>
 
         while (hasChar()) {
-            paramName = parseToken('=', separator)
+            paramName = parseToken(r'=', separator)
             paramValue = Option<String>.None
-            if (hasChar() && charArray.getOrThrow()[pos] == '=') {
+            if (hasChar() && charArray.getOrThrow()[pos] == r'=') {
                 pos++
                 paramValue = this.parseQuotedToken(separator)
 
@@ -157,14 +155,14 @@ public class ParameterParser {
         return params
     }
 
-    private func parseToken(ch1:Char,ch2:Char): Option<String> {
+    private func parseToken(ch1:Rune,ch2:Rune): Option<String> {
         this.i1 = this.pos
         this.i2 = this.pos
         while (hasChar()) {
             if(this.pos >= this.chars.size){
                 throw IndexOutOfBoundsException("offset is bigger than charArray size")
             }
-            var ch: Char = this.chars[this.pos]
+            var ch: Rune = this.chars[this.pos]
             if (isOneOf(ch, ch1,ch2)) {
                 break
             }
@@ -186,7 +184,7 @@ public class ParameterParser {
         }
 
         // Strip away quotation marks if necessary
-        if (quoted && ((i2 - i1) >= 2) && (chars[i1] == '\"') && (chars[i2 - 1] == '\"')) {
+        if (quoted && ((i2 - i1) >= 2) && (chars[i1] == r'\"') && (chars[i2 - 1] == r'\"')) {
             i1++
             i2--
         }
@@ -198,11 +196,11 @@ public class ParameterParser {
         return result
     }
 
-    private func isOneOf(ch: Char, ch1: Char,ch2: Char): Bool {
+    private func isOneOf(ch: Rune, ch1: Rune,ch2: Rune): Bool {
         return (ch == ch1 || ch == ch2)
     }
 
-    private func isOneOf(ch: Char, ch1:Char): Bool {
+    private func isOneOf(ch: Rune, ch1:Rune): Bool {
         return ch == ch1
     }
 
@@ -224,23 +222,23 @@ public class ParameterParser {
         this.lowerCaseNames = b
     }
 
-    private func parseQuotedToken(terminators:Char): Option<String> {
+    private func parseQuotedToken(terminators:Rune): Option<String> {
         i1 = pos
         i2 = pos
         var quoted: Bool = false
         var charEscaped: Bool = false
 
         while (hasChar()) {
-            var ch: Char = chars[pos]
+            var ch: Rune = chars[pos]
             if (!quoted && this.isOneOf(ch, terminators)) {
                 break
             }
 
-            if (!charEscaped && ch == '\"') {
+            if (!charEscaped && ch == r'\"') {
                 quoted = !quoted
             }
 
-            charEscaped = (!charEscaped && ch == '\\')
+            charEscaped = (!charEscaped && ch == r'\\')
             i2++
             pos++
         }

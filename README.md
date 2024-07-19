@@ -5,7 +5,7 @@
 <p align="center">
 <img alt="" src="https://img.shields.io/badge/release-v0.0.1-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/build-pass-brightgreen" style="display: inline-block;" />
-<img alt="" src="https://img.shields.io/badge/cjc-v0.51.4-brightgreen" style="display: inline-block;" />
+<img alt="" src="https://img.shields.io/badge/cjc-v0.53.4-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/cjcov-90.9%25-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/project-open-brightgreen" style="display: inline-block;" />
 </p>
@@ -13,10 +13,6 @@
 ## <img alt="" src="./doc/assets/readme-icon-introduction.png" style="display: inline-block;" width=3%/> 介绍
 
 upload4cj是用于处理浏览器或者其他客户端上传上来的单个或者多个文件的一个文件报文解析组件(注:这里的文件指字段和文件两部分)
-
-参考了apache的commons-fileupload
-
-参考地址：https://github.com/apache/commons-fileupload 版本 1.5
 
 **特性**：
 
@@ -137,12 +133,12 @@ cjpm build -V
 #### 通过parseRequest解析请求报文获取fileItem
 
 ```cangjie
-from upload4cj import upload4cj.*
-from net import http.*
-from std import io.*
-from std import collection.*
-from std import unittest.*
-from std import unittest.testmacro.*
+import upload4cj.*
+import net.http.*
+import std.io.*
+import std.collection.*
+import std.unittest.*
+import std.unittest.testmacro.*
 
 main() {
     let ccc = Test_ReadMe()
@@ -201,12 +197,12 @@ public class Test_ReadMe{
 #### 通过parseParameterMap解析请求报文获取fileItem
 
 ```cangjie
-from upload4cj import upload4cj.*
-from net import http.*
-from std import io.*
-from std import collection.*
-from std import unittest.*
-from std import unittest.testmacro.*
+import upload4cj.*
+import net.http.*
+import std.io.*
+import std.collection.*
+import std.unittest.*
+import std.unittest.testmacro.*
 
 main() {
     let ccc = Test_ReadMe()
@@ -270,6 +266,7 @@ public class Test_ReadMe{
 ```
 
 ## 开源协议
+
 
 本项目基于 [Apache License 2.0](./LICENSE) ，请自由的享受和参与开源。
 

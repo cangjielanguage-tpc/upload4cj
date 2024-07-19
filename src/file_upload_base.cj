@@ -251,7 +251,7 @@ public abstract class FileUploadBase {
             if (cdl.startsWith(FORM_DATA)) {
                 let parser: ParameterParser = ParameterParser()
                 parser.setLowerCaseNames(true)
-                let params: Map<String, Option<String>> = parser.parse(i, ';')
+                let params: Map<String, Option<String>> = parser.parse(i, r';')
                 fieldName = params.get("name").getOrThrow()
                 if (let Some(j) <- fieldName) {
                     fieldName = j.trimAscii()
@@ -272,7 +272,7 @@ public abstract class FileUploadBase {
             if (cdl.startsWith(FORM_DATA) || cdl.startsWith(ATTACHMENT)) {
                 let parser: ParameterParser = ParameterParser()
                 parser.setLowerCaseNames(true)
-                let params: Map<String, Option<String>> = parser.parse(i, ';')
+                let params: Map<String, Option<String>> = parser.parse(i, r';')
                 if (params.contains("filename")) {
                     fileName = params.get("filename").getOrThrow()
                     if (let Some(j) <- fileName) {
@@ -300,8 +300,8 @@ public abstract class FileUploadBase {
             while (start < len) {
                 var nonWs = start
                 while (nonWs < len) {
-                    let c: Char = headerPart.toRuneArray().get(nonWs).getOrThrow()
-                    if (c != ' ' && c != '\t') {
+                    let c: Rune = headerPart.toRuneArray().get(nonWs).getOrThrow()
+                    if (c != r' ' && c != r'\t') {
                         break
                     }
                     nonWs++
@@ -333,7 +333,7 @@ public abstract class FileUploadBase {
             } else {
                 throw IllegalStateException("Expected headers to be terminated by an empty line.")
             }
-            if (headerPart.toRuneArray().get(offset.getOrThrow() + 1).getOrThrow() == '\n') {
+            if (headerPart.toRuneArray().get(offset.getOrThrow() + 1).getOrThrow() == r'\n') {
                 return offset.getOrThrow()
             }
             index = offset.getOrThrow() + 1

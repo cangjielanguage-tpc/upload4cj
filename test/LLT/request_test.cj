@@ -2,10 +2,10 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from net import http.*
-from std import io.*
-from std import unittest.*
-from std import unittest.testmacro.*
+import net.http.*
+import std.io.*
+import std.unittest.*
+import std.unittest.testmacro.*
 
 main() {
     test1()

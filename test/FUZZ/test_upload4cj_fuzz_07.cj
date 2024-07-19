@@ -3,11 +3,10 @@
 // 3rd_party_lib:upload4cj/build/upload4cj
 // 3rd_party_lib:upload4cj/build/uuid4cj
 
-from fuzz import fuzz.*
-from upload4cj import upload4cj.*
-from std import collection.*
-from std import io.*
-from std import io.*
+import fuzz.fuzz.*
+import upload4cj.*
+import std.collection.*
+import std.io.*
 
 public func fuzzFunc_MultipartStream_setBoundary(dp:DataProvider):Int32 {
     var boundary_arr="8888888888".toArray()

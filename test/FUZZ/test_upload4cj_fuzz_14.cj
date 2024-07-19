@@ -3,9 +3,9 @@
 // 3rd_party_lib:upload4cj/build/upload4cj
 // 3rd_party_lib:upload4cj/build/uuid4cj
 
-from fuzz import fuzz.*
-from upload4cj import upload4cj.*
-from std import collection.*
+import fuzz.fuzz.*
+import upload4cj.*
+import std.collection.*
 
 public func fuzzFunc_FileItemHeadersImpl_getHeaders(dp:DataProvider):Int32 {
     var fileItemHeadersImpl=FileItemHeadersImpl()

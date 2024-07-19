@@ -4,7 +4,6 @@
 
 package upload4cj
 
-from std import fs.*
 
 /**
  * Provides access to the request information needed for a request made to

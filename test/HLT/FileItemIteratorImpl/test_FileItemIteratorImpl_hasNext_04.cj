@@ -7,11 +7,11 @@
 // 3rd_party_lib:upload4cj/build/uuid4cj
 // 3rd_party_lib_ohos:upload4cj/build/aarch64-linux-ohos/uuid4cj
 
-from upload4cj import upload4cj.*
-from std import fs.*
-from std import io.*
-from std import collection.*
-from net import http.*
+import upload4cj.*
+import std.fs.*
+import std.io.*
+import std.collection.*
+import net.http.*
 
 @Test
 public class TestFileItemIteratorImpl {

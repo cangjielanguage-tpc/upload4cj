@@ -1,13 +1,13 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-from upload4cj import upload4cj.*
-from std import unittest.*
-from std import unittest.testmacro.*
-from std import fs.*
-from std import io.*
-from std import collection.*
-from net import http.*
+import upload4cj.*
+import std.unittest.*
+import std.unittest.testmacro.*
+import std.fs.*
+import std.io.*
+import std.collection.*
+import net.http.*
 
 main(){
     let streamsTest = StreamsTest()
