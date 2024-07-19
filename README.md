@@ -271,9 +271,8 @@ public class Test_ReadMe{
 
 ## 开源协议
 
-```
-This code is under the Apache Licence v2. https://www.apache.org/licenses/LICENSE-2.0
-```
+本项目基于 [Apache License 2.0](./LICENSE) ，请自由的享受和参与开源。
+
 
 ## <img alt="" src="./doc/assets/readme-icon-contribute.png" style="display: inline-block;" width=3%/>参与贡献
 
