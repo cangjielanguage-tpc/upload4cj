@@ -11,14 +11,14 @@
 @Test
 public class TestParameterParser{
     /***
-        public func parse(str: Option<String>, separators: Option<Array<Char>>): Map<String, Option<String>>
+        public func parse(str: Option<String>, separators: Option<Array<Rune>>): Map<String, Option<String>>
         测试场景:str为/非Option.None,separators为/非Option.None
     ***/
     @TestCase
     func testParameterParserParse0401(): Unit {
         let parameterParser=ParameterParser()
         let str=Option<String>.None
-        let separators=Option<Array<Char>>.None
+        let separators=Option<Array<Rune>>.None
         let re_parse=parameterParser.parse(str,separators)
         @Assert(re_parse.size,0)
     }
@@ -26,7 +26,7 @@ public class TestParameterParser{
     func testParameterParserParse0402(): Unit {
         let parameterParser=ParameterParser()
         let str=Option<String>.None
-        let separators=Option<Array<Char>>.Some(Array<Char>(['a','b','c','e']))
+        let separators=Option<Array<Rune>>.Some(Array<Rune>([r'a',r'b',r'c',r'e']))
         let re_parse=parameterParser.parse(str,separators)
         @Assert(re_parse.size,0)
     }
@@ -35,7 +35,7 @@ public class TestParameterParser{
         let parameterParser=ParameterParser()
         let str_ori="AB=e,e= ,f=::,"
         let str= Option<String>.Some(str_ori)
-        let separators=Option<Array<Char>>.Some(Array<Char>([':',',']))
+        let separators=Option<Array<Rune>>.Some(Array<Rune>([r':',r',']))
         let re_parse=parameterParser.parse(str,separators)
         @Assert(re_parse.size,3)
         let ab_value=re_parse.get("AB").getOrThrow().getOrThrow()
@@ -55,7 +55,7 @@ public class TestParameterParser{
         let parameterParser=ParameterParser()
         let str_ori="AB=e,e= ,f=::,"
         let str= Option<String>.Some(str_ori)
-        let separators=Option<Array<Char>>.Some(Array<Char>([':']))
+        let separators=Option<Array<Rune>>.Some(Array<Rune>([r':']))
         let re_parse=parameterParser.parse(str,separators)
         @Assert(re_parse.size,2)
         let ab_value=re_parse.get("AB").getOrThrow().getOrThrow()
@@ -73,7 +73,7 @@ public class TestParameterParser{
         let parameterParser=ParameterParser()
         let str_ori="AB=e,e= ,f=::,"
         let str= Option<String>.Some(str_ori)
-        let separators=Option<Array<Char>>.Some(Array<Char>([',']))
+        let separators=Option<Array<Rune>>.Some(Array<Rune>([r',']))
         let re_parse=parameterParser.parse(str,separators)
         @Assert(re_parse.size,3)
         let ab_value=re_parse.get("AB").getOrThrow().getOrThrow()

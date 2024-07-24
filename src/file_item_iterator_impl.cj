@@ -197,7 +197,7 @@ public class FileItemIteratorImpl <: FileItemIterator {
     protected func getBoundary(contentType: String): Option<Array<UInt8>> {
         let parser: ParameterParser = ParameterParser()
         parser.setLowerCaseNames(true)
-        let charArray = Array<Char>([';', ','])
+        let charArray = Array<Rune>([r';', r','])
         let params: Map<String, Option<String>> = parser.parse(contentType, charArray)
         let boundaryStr: Option<Option<String>> = params.get("boundary")
         if (let Some(k) <- boundaryStr) {

@@ -4,7 +4,6 @@
 
 package upload4cj
 
-from encoding import base64.*
 
 /**
  * MimeUtility

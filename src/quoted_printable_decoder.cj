@@ -4,7 +4,6 @@
 
 package upload4cj
 
-from encoding import hex.*
 
 /**
  * QuotedPrintableDecoder
@@ -22,9 +21,9 @@ class QuotedPrintableDecoder {
         while (off < endOffset) {
             var ch: UInt8 = data[off]
             off++
-            if (Char(ch) == '_') {
-                out.write(String(' ').toUtf8Array())
-            } else if (Char(ch) == '=') {
+            if (Rune(ch) == r'_') {
+                out.write(String(r' ').toUtf8Array())
+            } else if (Rune(ch) == r'=') {
                 if (off + 1 >= endOffset) {
                     throw QDecoderException("Invalid quoted printable encoding; truncated escape sequence")
                 }
@@ -33,8 +32,8 @@ class QuotedPrintableDecoder {
                 let b2: UInt8 = data[off]
                 off++
 
-                if (Char(b1) == '\r') {
-                    if (Char(b2) != '\n') {
+                if (Rune(b1) == r'\r') {
+                    if (Rune(b2) != r'\n') {
                         throw QDecoderException("Invalid quoted printable encoding; CR must be followed by LF")
                     }
                 } else {

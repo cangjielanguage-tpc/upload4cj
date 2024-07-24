@@ -4,11 +4,21 @@
  
 package upload4cj
 
-from std import io.*
-from std import random.*
-from uuid4cj import uuid4cj.*
-from std import sync.*
-from std import convert.Parsable
+protected import std.io.*
+protected import std.random.*
+protected import uuid4cj.*
+protected import uuid4cj.uuid4cj.*
+protected import std.sync.*
+protected import std.convert.Parsable
+protected import std.fs.*
+protected import std.core.*
+protected import encoding.base64.*
+protected import std.math.*
+protected import std.unicode.*
+protected import std.collection.*
+protected import encoding.hex.*
+protected import net.http.*
+
 
 /**
  * create DiskFileItem
@@ -107,7 +117,7 @@ public class DiskFileItem <: FileItem {
     public func getCharSet(): String {
         var parse: ParameterParser = ParameterParser()
         parse.setLowerCaseNames(true)
-        let params: Map<String, Option<String>> = parse.parse(this.getContentType(), ';')
+        let params: Map<String, Option<String>> = parse.parse(this.getContentType(), r';')
         return params.get("charset").getOrThrow().getOrThrow()
     }
 

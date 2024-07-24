@@ -4,7 +4,6 @@
 
 package upload4cj
 
-from net import http.*
 
 /**
  * ServletRequestContext

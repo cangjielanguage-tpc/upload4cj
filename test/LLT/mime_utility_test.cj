@@ -1,14 +1,14 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
-from upload4cj import upload4cj.*
-from std import io.*
-from encoding import base64.*
-from encoding import hex.*
-from std import sync.*
-from std import collection.*
-from std import convert.*
-from std import unittest.*
-from std import unittest.testmacro.*
+import upload4cj.*
+import std.io.*
+import encoding.base64.*
+import encoding.hex.*
+import std.sync.*
+import std.collection.*
+import std.convert.*
+import std.unittest.*
+import std.unittest.testmacro.*
 
 main() {
     let mimeUtilityTest = MimeUtilityTest()

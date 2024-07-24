@@ -12,14 +12,14 @@
 public class TestParameterParser{
     /***
         public init ()
-        public func parse(charArray: Option<Array<Char>>, offset: Int64, length: Int64, separator: Char): Map<String, Option<String>>
+        public func parse(charArray: Option<Array<Rune>>, offset: Int64, length: Int64, separator: Rune): Map<String, Option<String>>
         测试场景:charArray非Option.None,但是offset<length不成立
     ***/
     @TestCase
     func testParameterParserParse0102(): Unit {
         let parameterParser=ParameterParser()
-        let charArray= Option<Array<Char>>.Some(Array<Char>(['a','b','c','e']))
-        let re_parse=parameterParser.parse(charArray,4,3,',')
+        let charArray= Option<Array<Rune>>.Some(Array<Rune>([r'a',r'b',r'c',r'e']))
+        let re_parse=parameterParser.parse(charArray,4,3,r',')
          @Assert(re_parse.size,0)
     }
 }

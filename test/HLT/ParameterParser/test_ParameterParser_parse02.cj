@@ -11,22 +11,22 @@
 @Test
 public class TestParameterParser{
     /***
-        public func parse(charArray: Option<Array<Char>>, separator: Char): Map<String, Option<String>>
+        public func parse(charArray: Option<Array<Rune>>, separator: Rune): Map<String, Option<String>>
         测试场景:charArray为/非Option.None
     ***/
     @TestCase
     func testParameterParserParse0201(): Unit {
         let parameterParser=ParameterParser()
-        let charArray= Option<Array<Char>>.None
-        let re_parse=parameterParser.parse(charArray,',')
+        let charArray= Option<Array<Rune>>.None
+        let re_parse=parameterParser.parse(charArray,r',')
         @Assert(re_parse.size,0)
     }
     @TestCase
     func testParameterParserParse0202(): Unit {
         let parameterParser=ParameterParser()
-        let arr_ori=Array<Char>(['A','B','=','e',',','e','=',' ',','])
-        let charArray= Option<Array<Char>>.Some(arr_ori)
-        let re_parse=parameterParser.parse(charArray,',')
+        let arr_ori=Array<Rune>([r'A',r'B',r'=',r'e',r',',r'e',r'=',r' ',r','])
+        let charArray= Option<Array<Rune>>.Some(arr_ori)
+        let re_parse=parameterParser.parse(charArray,r',')
         @Assert(re_parse.size,2)
         let ab_value=re_parse.get("AB").getOrThrow().getOrThrow()
         @Assert(ab_value,"e")

@@ -25,13 +25,13 @@ extend String{
     func substring(begin:Int64):String{
         this[begin..]
     }
-    func indexOf(char:Char):?Int64{
+    func indexOf(char:Rune):?Int64{
         this.indexOf(char.toString())
     }
-    func lastIndexOf(char:Char):?Int64{
+    func lastIndexOf(char:Rune):?Int64{
         this.lastIndexOf(char.toString())
     }
-    func contains(char:Char):Bool{
+    func contains(char:Rune):Bool{
         this.contains(char.toString())
     }
 

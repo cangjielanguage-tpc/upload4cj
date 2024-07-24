@@ -17,3 +17,6 @@ test/LLT/test_xn2.cj
 output/
 .cjpm-history
 module-lock.json
+test_temp/
+target/
+cjpm.lock
