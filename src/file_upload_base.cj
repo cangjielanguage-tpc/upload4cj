@@ -164,13 +164,14 @@ public abstract class FileUploadBase {
                         fileName = ""
                     }
                 }
-                let fileItem: FileItem = fac.getOrThrow().createItem(item.getFieldName(),item.getContentType(),item.isFormField(),fileName.getOrThrow())
+                let fileItem: FileItem = fac.getOrThrow().createItem(item.getFieldName(), item.getContentType(),
+                    item.isFormField(), fileName.getOrThrow())
                 items.append(fileItem)
                 try {
                     Streams.copy(item.openStream(), fileItem.getOutputStream(), true, buffer)
                     let outputStream = fileItem.getOutputStream()
                     let deferr = outputStream as DeferredFileOutputStream
-                    if(let Some(m) <- deferr){
+                    if (let Some(m) <- deferr) {
                         m.close()
                     }
                 } catch (e: FileUploadException) {
@@ -188,12 +189,11 @@ public abstract class FileUploadBase {
         } catch (e: ReadWriteException) {
             throw ReadWriteException("read write exception")
         } finally {
-            doFinally(successful,items)
+            doFinally(successful, items)
         }
     }
 
-
-    private func doFinally(successful:Bool,items:ArrayList<FileItem>){
+    private func doFinally(successful: Bool, items: ArrayList<FileItem>) {
         if (!successful) {
             for (fileItem in items) {
                 try {
@@ -295,7 +295,7 @@ public abstract class FileUploadBase {
             if (start == end) {
                 break
             }
-            let header: StringBuilder = StringBuilder(headerPart.substring(start, end - start))
+            let header: StringBuilder = StringBuilder(headerPart.toRuneArray().slice(start, end - start))
             start = end + 2
             while (start < len) {
                 var nonWs = start
@@ -313,7 +313,7 @@ public abstract class FileUploadBase {
                 // Continuation line found
                 end = parseEndOfLine(headerPart, nonWs)
                 header.append(" ")
-                header.append(headerPart.substring(nonWs, end - nonWs))
+                header.append(String(headerPart.toRuneArray().slice(nonWs, end - nonWs)))
                 start = end + 2
             }
             parseHeaderLine(headers, header.toString())
@@ -324,7 +324,7 @@ public abstract class FileUploadBase {
     private func parseEndOfLine(headerPart: String, end: Int64): Int64 {
         var index: Int64 = end
         while (true) {
-            let offset: Option<Int64> = headerPart.indexOf("\r", index)
+            let offset: Option<Int64> = StringUtils.indexOfStringReal(headerPart, "\r", index)
 
             if (let Some(i) <- offset) {
                 if (i + 1 >= headerPart.size) {
@@ -344,8 +344,9 @@ public abstract class FileUploadBase {
     private func parseHeaderLine(headers: FileItemHeadersImpl, header: String): Unit {
         let colonOffset: Option<Int64> = header.indexOf(':')
         if (let Some(i) <- colonOffset) {
-            var headerName: String = header.substring(0, i).trimAscii()
-            let headerValue: String = header.substring(i + 1).trimAscii()
+            var headerName: String = String(header.toRuneArray().slice(0, i)).trimAscii()
+            let headerValue: String = String(header.toRuneArray().slice(i + 1, header.toRuneArray().size - i - 1)).
+                trimAscii()
             headers.addHeader(headerName, headerValue)
         } else {
             return

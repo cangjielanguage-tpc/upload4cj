@@ -4,7 +4,6 @@
 
 package upload4cj
 
-
 /**
  * MimeUtility
  */
@@ -26,7 +25,9 @@ public class MimeUtility {
      * @return Option<String> - the Text decoded
      */
     public static func decodeText(text: String): Option<String> {
-        if (text.indexOf(ENCODED_TOKEN_MARKER) == Option<Int64>.None) {return text}
+        if (text.indexOf(ENCODED_TOKEN_MARKER) == Option<Int64>.None) {
+            return text
+        }
         var offset: Int64 = 0
         var endOffset: Int64 = text.size
         var startWhiteSpace: Int64 = -1
@@ -50,14 +51,19 @@ public class MimeUtility {
                 var wordStart: Int64 = offset
                 while (offset < endOffset) {
                     ch = text.toRuneArray().get(offset).getOrThrow()
-                    if (LINEAR_WHITESPACE.indexOf(ch) == Option<Int64>.None) {offset++} else {break}
+                    if (LINEAR_WHITESPACE.indexOf(ch) == Option<Int64>.None) {
+                        offset++
+                    } else {
+                        break
+                    }
                 }
-                let word: String = text.substring(wordStart, offset - wordStart)
+                let word: String = String(text.toRuneArray().slice(wordStart, offset - wordStart))
                 if (word.startsWith(ENCODED_TOKEN_MARKER)) {
                     try {
                         let decodedWord: String = decodeWord(word)
                         if (!previousTokenEncoded && startWhiteSpace != -1) {
-                            decodedText.append(text.substring(startWhiteSpace, endWhiteSpace - startWhiteSpace))
+                            decodedText.append(
+                                String(text.toRuneArray().slice(startWhiteSpace, endWhiteSpace - startWhiteSpace)))
                             startWhiteSpace = -1
                         }
                         previousTokenEncoded = true
@@ -66,7 +72,8 @@ public class MimeUtility {
                     } catch (e: ParseException) {}
                 }
                 if (startWhiteSpace != -1) {
-                    decodedText.append(text.substring(startWhiteSpace, endWhiteSpace - startWhiteSpace))
+                    decodedText.append(String(text.toRuneArray().slice(startWhiteSpace, endWhiteSpace - startWhiteSpace)
+                    ))
                     startWhiteSpace = -1
                 }
                 previousTokenEncoded = false
@@ -94,14 +101,15 @@ public class MimeUtility {
 
         var encodingPos: Int64 = word.indexOf("?", charsetPos + 1).getOrThrow()
 
-        let encoding: String = word.substring(charsetPos + 1, encodingPos - charsetPos - 1)
+        let encoding: String = String(word.toRuneArray().slice(charsetPos + 1, encodingPos - charsetPos - 1))
 
         if (word.indexOf(ENCODED_TOKEN_FINISHER, encodingPos + 1) == Option<Int64>.None) {
             throw ParseException("Missing encoded text in RFC 2047 encoded-word: " + word)
         }
         var encodedTextPos: Int64 = word.indexOf(ENCODED_TOKEN_FINISHER, encodingPos + 1).getOrThrow()
 
-        let encodedText: String = word.substring(encodingPos + 1, encodedTextPos - encodingPos - 1)
+        let encodedText: String = String(word.toRuneArray().slice(encodingPos + 1, encodedTextPos - encodingPos - 1))
+
         if (encodedText.size == 0) {
             return ""
         }
@@ -110,9 +118,9 @@ public class MimeUtility {
             var str: String = ""
             if (encoding.equals(BASE64_ENCODING_MARKER)) {
                 var encodedData: Array<UInt8> = fromBase64String(encodedText).getOrThrow()
-                 unsafe{
+                unsafe {
                     str = String.fromUtf8Unchecked(encodedData)
-                 }
+                }
             } else if (encoding.equals(QUOTEDPRINTABLE_ENCODING_MARKER)) {
                 let encodedData: Array<UInt8> = encodedText.toUtf8Array()
                 str = QuotedPrintableDecoder.decode(encodedData)
