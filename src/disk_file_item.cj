@@ -1,15 +1,12 @@
 /*
  * Copyright (c) Huawei Technologies Co., Ltd. 2023-2024. All rights resvered.
  */
- 
+
 package upload4cj
 
 protected import std.io.*
 protected import std.random.*
-protected import uuid4cj.*
-protected import uuid4cj.uuid4cj.*
 protected import std.sync.*
-protected import std.convert.Parsable
 protected import std.fs.*
 protected import std.core.*
 protected import encoding.base64.*
@@ -18,6 +15,11 @@ protected import std.unicode.*
 protected import std.collection.*
 protected import encoding.hex.*
 protected import net.http.*
+protected import crypto.digest.*
+protected import std.convert.*
+protected import std.crypto.digest.*
+protected import std.time.*
+
 
 
 /**

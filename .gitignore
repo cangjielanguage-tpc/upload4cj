@@ -8,7 +8,6 @@ log/
 module-resolve.json
 report/
 tmp/
-uuid4cj/
 data/
 test/HLT/DeferredFileOutputStream/data/
 test/HLT/DeferredFileOutputStream/testMB10.cj

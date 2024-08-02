@@ -1,5 +1,4 @@
 [dependencies]
-uuid4cj = {branch = "v0.0.1.B001", git = "https://gitcode.com/Cangjie-TPC/uuid4cj.git", version = "0.0.1"}
 
 [package]
   cjc-version = "0.53.4"

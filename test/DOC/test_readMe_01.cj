@@ -9,8 +9,8 @@ import std.unittest.*
 import std.unittest.testmacro.*
 main() {
     let ccc = Test_ReadMe()
-    ccc.execute()
-    ccc.printResult()
+    ccc.test_readme_01()
+    ccc.test_readme_02()
     0
 }
 

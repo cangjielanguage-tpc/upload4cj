@@ -4,7 +4,6 @@
 
 package upload4cj
 
-
 /**
  * Provides access to the request information needed for a request made to
  * an HTTP servlet
@@ -20,7 +19,6 @@ public class DeferredFileOutputStream <: ThresholdingOutputStream {
     private var directory: ?File = Option<File>.None
     private var closed: Bool
 
-    private static let UID: String = Generators.randomBasedGenerator().generate().toString().replace("-", "_")
     private static let COUNTER = AtomicInt64(0)
 
     static let mtx = ReentrantMutex()
@@ -58,7 +56,7 @@ public class DeferredFileOutputStream <: ThresholdingOutputStream {
      * close
      */
     public func close(): Unit {
-        if(let Some(i) <- outputFile){
+        if (let Some(i) <- outputFile) {
             i.close()
         }
         this.closed = true
@@ -115,7 +113,10 @@ public class DeferredFileOutputStream <: ThresholdingOutputStream {
                 }
                 mtx.unlock()
             }
-            let tempFileName: String = "upload_" + UID + getUniqueId() + ".tmp"
+            //生成时间戳
+            let uniId = getUniqueId()
+            let md5Str = createMd5Str(createTimeStamp() + uniId)
+            let tempFileName: String = "upload_" + md5Str + uniId + ".tmp"
             let path: Path = pathDir.join(tempFileName)
             mTempFile = File(path, OpenOption.Create(true))
         }
@@ -130,6 +131,18 @@ public class DeferredFileOutputStream <: ThresholdingOutputStream {
             id = ("00000000000" + id).substring(id.size)
         }
         return id
+    }
+
+    private func createMd5Str(source: String) {
+        var md5Instance = MD5()
+        md5Instance.write(source.toArray())
+        var md: Array<Byte> = md5Instance.finish()
+        var result: String = toHexString(md)
+        return result
+    }
+
+    private func createTimeStamp(): String {
+        return DateTime.now().toUnixTimeStamp().toNanoseconds().toString()
     }
 
     protected override func thresholdReached(): Unit {
