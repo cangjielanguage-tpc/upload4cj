@@ -1,7 +1,4 @@
-// 3rd_party_lib:upload4cj/build/charset
-// 3rd_party_lib:upload4cj/build/crypto4cj
 // 3rd_party_lib:upload4cj/build/upload4cj
-// 3rd_party_lib:upload4cj/build/uuid4cj
 // data_file: RequestBody_MB10
 
 import upload4cj.*

@@ -92,39 +92,15 @@ upload4cj是用于处理浏览器或者其他客户端上传上来的单个或�
 
 Linux编译
 
-(1). upload4cj 依赖 uuid4cj，请下载指定uuid4cj版本到 upload4cj的根目录进行编译，编译方式参考各自库的编译方式,地址
-
-https://gitee.com/HW-PLLab/uuid4cj
-
 ```
-cd upload4cj
-git clone https://gitee.com/HW-PLLab/uuid4cj.git
-```
-
-(2). 编译upload4cj
-
-```
-cd upload4cj
-cjpm build -V
+cjpm build 
 
 ```
 
 Windows编译
 
-(1). upload4cj 依赖 uuid4cj，请下载指定uuid4cj版本到 upload4cj的根目录进行编译，编译方式参考各自库的编译方式,地址
-
-https://gitee.com/HW-PLLab/uuid4cj
-
 ```
-cd upload4cj
-git clone https://gitee.com/HW-PLLab/uuid4cj.git
-```
-
-(2). 编译upload4cj
-
-```
-cd upload4cj
-cjpm build -V
+cjpm build 
 
 ```
 
@@ -142,8 +118,7 @@ import std.unittest.testmacro.*
 
 main() {
     let ccc = Test_ReadMe()
-    ccc.execute()
-    ccc.printResult()
+    ccc.test_readme_01()
     0
 }
 
@@ -206,8 +181,7 @@ import std.unittest.testmacro.*
 
 main() {
     let ccc = Test_ReadMe()
-    ccc.execute()
-    ccc.printResult()
+    ccc.test_readme_02()
     0
 }
 

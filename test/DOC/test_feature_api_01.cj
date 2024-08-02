@@ -9,8 +9,8 @@ import std.unittest.*
 import std.unittest.testmacro.*
 main() {
     let ccc = Test_FeatureApi()
-    ccc.execute()
-    ccc.printResult()
+    ccc.test_featureApi_01()
+    ccc.test_featureApi_02()
     0
 }
 
