@@ -63,8 +63,7 @@ public class Streams {
                 }
             }
 
-            let conInput = input as ItemInputStream
-            if (let Some(k) <- conInput) {
+            if (let Some(k:ItemInputStream) <- input) {
                 k.close()
             }
             return total
@@ -81,19 +80,9 @@ public class Streams {
      * @return Option<String> - the fileName checked
      */
     public static func checkFileName(fileName: Option<String>): Option<String> {
-        if (let Some(i) <- fileName) {
-            let index: Option<Int64> = i.indexOf('\u{0}')
-            if (let Some(_) <- index) {
-                let sb: StringBuilder = StringBuilder()
-                for (k in 0..i.size) {
-                    let c: Rune = i.toRuneArray().get(k).getOrThrow()
-                    if (c == r'\u{0}') {
-                        sb.append("\\0")
-                    } else {
-                        sb.append(c)
-                    }
-                }
-                throw InvalidFileNameException("Invalid file name: " + sb.toString())
+        if (let Some(str) <- fileName) {
+            if (let Some(i) <- str.indexOf("\0")) {
+                throw InvalidFileNameException("Invalid file name: ${str[..i]}\\0${str[i+1..]}")
             }
         }
         return fileName

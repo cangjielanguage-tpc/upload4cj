@@ -287,20 +287,21 @@ public abstract class FileUploadBase {
     }
 
     protected func getParsedHeaders(headerPart: String): FileItemHeaders {
-        let len: Int64 = headerPart.size
+        let headerPartRunes = headerPart.toRuneArray()
+        let len: Int64 = headerPartRunes.size
         let headers: FileItemHeadersImpl = newFileItemHeaders()
         var start: Int64 = 0
         while (true) {
-            var end = parseEndOfLine(headerPart, start)
+            var end = parseEndOfLine(headerPartRunes, start)
             if (start == end) {
                 break
             }
-            let header: StringBuilder = StringBuilder(headerPart.toRuneArray().slice(start, end - start))
+            let header: StringBuilder = StringBuilder(headerPartRunes.slice(start, end - start))
             start = end + 2
             while (start < len) {
                 var nonWs = start
                 while (nonWs < len) {
-                    let c: Rune = headerPart.toRuneArray().get(nonWs).getOrThrow()
+                    let c: Rune = headerPartRunes[nonWs]
                     if (c != r' ' && c != r'\t') {
                         break
                     }
@@ -311,42 +312,41 @@ public abstract class FileUploadBase {
                 }
 
                 // Continuation line found
-                end = parseEndOfLine(headerPart, nonWs)
+                end = parseEndOfLine(headerPartRunes, nonWs)
                 header.append(" ")
-                header.append(String(headerPart.toRuneArray().slice(nonWs, end - nonWs)))
+                header.append(headerPartRunes.slice(nonWs, end - nonWs))
                 start = end + 2
             }
-            parseHeaderLine(headers, header.toString())
+            parseHeaderLine(headers, header.toString().toRuneArray())
         }
         return headers
     }
 
-    private func parseEndOfLine(headerPart: String, end: Int64): Int64 {
+    private func parseEndOfLine(headerPartRunes: Array<Rune>, end: Int64): Int64 {
         var index: Int64 = end
         while (true) {
-            let offset: Option<Int64> = StringUtils.indexOfStringReal(headerPart, "\r", index)
 
+            let offset: Option<Int64> = headerPartRunes.indexOfRune(r'\r', index)
             if (let Some(i) <- offset) {
-                if (i + 1 >= headerPart.size) {
+                if (i + 1 >= headerPartRunes.size) {
                     throw IllegalStateException("Expected headers to be terminated by an empty line.")
                 }
+                if (headerPartRunes[i + 1] == r'\n') {
+                    return i
+                }
+                index = i + 1
             } else {
                 throw IllegalStateException("Expected headers to be terminated by an empty line.")
             }
-            if (headerPart.toRuneArray().get(offset.getOrThrow() + 1).getOrThrow() == r'\n') {
-                return offset.getOrThrow()
-            }
-            index = offset.getOrThrow() + 1
         }
         return 0
     }
 
-    private func parseHeaderLine(headers: FileItemHeadersImpl, header: String): Unit {
-        let colonOffset: Option<Int64> = header.indexOf(':')
+    private func parseHeaderLine(headers: FileItemHeadersImpl, headerArray: Array<Rune>): Unit {
+        let colonOffset: Option<Int64> = headerArray.indexOfRune(r':', 0)
         if (let Some(i) <- colonOffset) {
-            var headerName: String = String(header.toRuneArray().slice(0, i)).trimAscii()
-            let headerValue: String = String(header.toRuneArray().slice(i + 1, header.toRuneArray().size - i - 1)).
-                trimAscii()
+            var headerName: String = String(headerArray.slice(0, i)).trimAscii()
+            let headerValue: String = String(headerArray.slice(i + 1, headerArray.size - i - 1)).trimAscii()
             headers.addHeader(headerName, headerValue)
         } else {
             return

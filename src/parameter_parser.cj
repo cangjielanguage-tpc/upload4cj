@@ -4,7 +4,6 @@
 
 package upload4cj
 
-
 /**
  * ParameterParser
  */
@@ -40,12 +39,9 @@ public class ParameterParser {
      * @return Map<String, Option<String>> - the result
      */
     public func parse(str: Option<String>, separators: Option<Array<Rune>>): Map<String, Option<String>> {
-        match (separators) {
-            case None => return HashMap<String, Option<String>>()
-            case Some(_) =>
-                if (separators.getOrThrow().size == 0) {
-                    return HashMap<String, Option<String>>()
-                }
+
+        if((separators?.size ?? 0) == 0){
+            return HashMap<String, Option<String>>()
         }
 
         var separator: Rune = separators.getOrThrow()[0]
@@ -55,9 +51,11 @@ public class ParameterParser {
         }
 
         if (isStr) {
-            var idx: Int64 = str.getOrThrow().size
+            var strRuneArr = str.getOrThrow().toRuneArray()
+            var idx: Int64 = strRuneArr.size
             for (separatorChar in separators.getOrThrow()) {
-                var tmp: Option<Int64> = str.getOrThrow().indexOf(separatorChar)
+                var tmp: Option<Int64> = strRuneArr.indexOfRune(separatorChar,
+                    0)
                 let isTmp = match (tmp) {
                     case None => false
                     case Some(_) => true
@@ -81,8 +79,8 @@ public class ParameterParser {
     public func parse(str: Option<String>, separator: Rune): Map<String, Option<String>> {
         match (str) {
             case None => return HashMap<String, Option<String>>()
-            case Some(_) =>
-                let charArray: Option<Array<Rune>> = str.getOrThrow().toCharArray()
+            case Some(v) =>
+                let charArray: Option<Array<Rune>> = v.toCharArray()
                 return this.parse(charArray, separator)
         }
     }
@@ -97,7 +95,7 @@ public class ParameterParser {
     public func parse(charArray: Option<Array<Rune>>, separator: Rune): Map<String, Option<String>> {
         match (charArray) {
             case None => return HashMap<String, Option<String>>()
-            case Some(_) => return this.parse(charArray, 0, charArray.getOrThrow().size, separator)
+            case Some(v) => return this.parse(charArray, 0, v.size, separator)
         }
     }
 
@@ -113,7 +111,7 @@ public class ParameterParser {
     public func parse(charArray: Option<Array<Rune>>, offset: Int64, length: Int64, separator: Rune): Map<String, Option<String>> {
         match (charArray) {
             case None => return HashMap<String, Option<String>>()
-            case Some(_) => this.chars = charArray.getOrThrow()
+            case Some(v) => this.chars = v
         }
         var params: HashMap<String, Option<String>> = HashMap<String, Option<String>>()
 
@@ -145,7 +143,7 @@ public class ParameterParser {
                 case Some(_) => true
             }
 
-            if (isParamName && (paramName.getOrThrow().size > 0)) {
+            if (isParamName && (paramName.getOrThrow().toRuneArray().size > 0)) {
                 if (lowerCaseNames) {
                     paramName = paramName.getOrThrow().toAsciiLower()
                 }
@@ -155,15 +153,15 @@ public class ParameterParser {
         return params
     }
 
-    private func parseToken(ch1:Rune,ch2:Rune): Option<String> {
+    private func parseToken(ch1: Rune, ch2: Rune): Option<String> {
         this.i1 = this.pos
         this.i2 = this.pos
         while (hasChar()) {
-            if(this.pos >= this.chars.size){
+            if (this.pos >= this.chars.size) {
                 throw IndexOutOfBoundsException("offset is bigger than charArray size")
             }
             var ch: Rune = this.chars[this.pos]
-            if (isOneOf(ch, ch1,ch2)) {
+            if (isOneOf(ch, ch1, ch2)) {
                 break
             }
             this.i2++
@@ -190,17 +188,17 @@ public class ParameterParser {
         }
         var result = Option<String>.None
         if (i2 > i1) {
-            result = String(chars.slice(i1,i2 - i1))
+            result = String(chars.slice(i1, i2 - i1))
             //result = String(chars, start: i1, length: i2 - i1)
         }
         return result
     }
 
-    private func isOneOf(ch: Rune, ch1: Rune,ch2: Rune): Bool {
+    private func isOneOf(ch: Rune, ch1: Rune, ch2: Rune): Bool {
         return (ch == ch1 || ch == ch2)
     }
 
-    private func isOneOf(ch: Rune, ch1:Rune): Bool {
+    private func isOneOf(ch: Rune, ch1: Rune): Bool {
         return ch == ch1
     }
 
@@ -222,7 +220,7 @@ public class ParameterParser {
         this.lowerCaseNames = b
     }
 
-    private func parseQuotedToken(terminators:Rune): Option<String> {
+    private func parseQuotedToken(terminators: Rune): Option<String> {
         i1 = pos
         i2 = pos
         var quoted: Bool = false
