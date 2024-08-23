@@ -9,7 +9,6 @@ package upload4cj
  * QuotedPrintableDecoder
  */
 class QuotedPrintableDecoder {
-    private static let UPPER_NIBBLE_SHIFT: Int64 = 4
 
     public static func decode(data: Array<UInt8>): String {
         var off: Int64 = 0

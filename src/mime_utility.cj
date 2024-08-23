@@ -25,22 +25,26 @@ public class MimeUtility {
      * @return Option<String> - the Text decoded
      */
     public static func decodeText(text: String): Option<String> {
-        if (text.indexOf(ENCODED_TOKEN_MARKER) == Option<Int64>.None) {
+
+        if (text.indexOf(ENCODED_TOKEN_MARKER).isNone()) {
             return text
         }
+
+        let textRuneArray = text.toRuneArray()
+        
         var offset: Int64 = 0
-        var endOffset: Int64 = text.size
+        var endOffset: Int64 = textRuneArray.size
         var startWhiteSpace: Int64 = -1
         var endWhiteSpace: Int64 = -1
         var decodedText: StringBuilder = StringBuilder()
         var previousTokenEncoded: Bool = false
         while (offset < endOffset) {
-            var ch = text.toRuneArray().get(offset).getOrThrow()
-            if (LINEAR_WHITESPACE.indexOf(ch) != Option<Int64>.None) {
+            var ch = textRuneArray[offset]
+            if (LINEAR_WHITESPACE.indexOf(ch).isSome()) {
                 startWhiteSpace = offset
                 while (offset < endOffset) {
-                    ch = text.toRuneArray().get(offset).getOrThrow()
-                    if (LINEAR_WHITESPACE.indexOf(ch) != Option<Int64>.None) { // whitespace found
+                    ch = textRuneArray[offset]
+                    if (LINEAR_WHITESPACE.indexOf(ch).isSome()) { // whitespace found
                         offset++
                     } else {
                         endWhiteSpace = offset
@@ -50,20 +54,19 @@ public class MimeUtility {
             } else {
                 var wordStart: Int64 = offset
                 while (offset < endOffset) {
-                    ch = text.toRuneArray().get(offset).getOrThrow()
-                    if (LINEAR_WHITESPACE.indexOf(ch) == Option<Int64>.None) {
+                    ch = textRuneArray[offset]
+                    if (LINEAR_WHITESPACE.indexOf(ch).isNone()) {
                         offset++
                     } else {
                         break
                     }
                 }
-                let word: String = String(text.toRuneArray().slice(wordStart, offset - wordStart))
+                let word: String = String(textRuneArray.slice(wordStart, offset - wordStart))
                 if (word.startsWith(ENCODED_TOKEN_MARKER)) {
                     try {
                         let decodedWord: String = decodeWord(word)
                         if (!previousTokenEncoded && startWhiteSpace != -1) {
-                            decodedText.append(
-                                String(text.toRuneArray().slice(startWhiteSpace, endWhiteSpace - startWhiteSpace)))
+                            decodedText.append(textRuneArray.slice(startWhiteSpace, endWhiteSpace - startWhiteSpace))
                             startWhiteSpace = -1
                         }
                         previousTokenEncoded = true
@@ -72,8 +75,7 @@ public class MimeUtility {
                     } catch (e: ParseException) {}
                 }
                 if (startWhiteSpace != -1) {
-                    decodedText.append(String(text.toRuneArray().slice(startWhiteSpace, endWhiteSpace - startWhiteSpace)
-                    ))
+                    decodedText.append(textRuneArray.slice(startWhiteSpace, endWhiteSpace - startWhiteSpace))
                     startWhiteSpace = -1
                 }
                 previousTokenEncoded = false
@@ -84,32 +86,33 @@ public class MimeUtility {
     }
 
     private static func decodeWord(word: String): String {
+
         if (!word.startsWith(ENCODED_TOKEN_MARKER)) {
             throw ParseException("Invalid RFC 2047 encoded-word: " + word)
         }
 
-        if (word.indexOf("?", 2) == Option<Int64>.None) {
+        let wordRuneArray = word.toRuneArray()
+
+        if (wordRuneArray.indexOfRune(r'?', 2) == Option<Int64>.None) {
             throw ParseException("Missing charset in RFC 2047 encoded-word: " + word)
         }
-        var charsetPos: Int64 = word.indexOf("?", 2).getOrThrow()
+        var charsetPos: Int64 = wordRuneArray.indexOfRune(r'?', 2).getOrThrow()
 
-        word.substring(2, charsetPos - 2).toAsciiLower() // diff java, cj -> substring(beginIndex, length)
-
-        if (word.indexOf("?", charsetPos + 1) == Option<Int64>.None) {
+        if (wordRuneArray.indexOfRune(r'?', charsetPos + 1) == Option<Int64>.None) {
             throw ParseException("Missing encoding in RFC 2047 encoded-word: " + word);
         }
 
-        var encodingPos: Int64 = word.indexOf("?", charsetPos + 1).getOrThrow()
+        var encodingPos: Int64 = wordRuneArray.indexOfRune(r'?', charsetPos + 1).getOrThrow()
 
-        let encoding: String = String(word.toRuneArray().slice(charsetPos + 1, encodingPos - charsetPos - 1))
+        let encoding: String = String(wordRuneArray.slice(charsetPos + 1, encodingPos - charsetPos - 1))
 
-        if (word.indexOf(ENCODED_TOKEN_FINISHER, encodingPos + 1) == Option<Int64>.None) {
+        var encodedTextPos:Option<Int64> = wordRuneArray.indexOfRuneArray(ENCODED_TOKEN_FINISHER.toRuneArray(), encodingPos + 1)
+
+        if(encodedTextPos == None){
             throw ParseException("Missing encoded text in RFC 2047 encoded-word: " + word)
         }
-        var encodedTextPos: Int64 = word.indexOf(ENCODED_TOKEN_FINISHER, encodingPos + 1).getOrThrow()
 
-        let encodedText: String = String(word.toRuneArray().slice(encodingPos + 1, encodedTextPos - encodingPos - 1))
-
+        let encodedText: String = String(wordRuneArray.slice(encodingPos + 1, encodedTextPos.getOrThrow() - encodingPos - 1))
         if (encodedText.size == 0) {
             return ""
         }
