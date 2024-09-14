@@ -55,7 +55,7 @@ public func runTest(NUM_ITEM: Int64, pContentLength: Int64, request: ServletRequ
     for (i in 0..3) {
         let stream: FileItemStream = iter.next()
         var istream: InputStream = stream.openStream()
-        var bytes: Array<UInt8> = Array<UInt8>(16384 + i, item: 0)
+        var bytes: Array<UInt8> = Array<UInt8>(16384 + i, repeat: 0)
 
         istream.read(bytes)
 

@@ -38,7 +38,7 @@ public class TestFileItemStreamImpl {
         let item: FileItemStream = iterator.next()
         let asItem = (item as FileItemStreamImpl).getOrThrow()
         let stream = asItem.openStream()
-        let arr = Array<Byte>(100, item: 0)
+        let arr = Array<Byte>(100, repeat: 0)
         let size = stream.read(arr)
         @Assert(size, 32)
     }

@@ -10,16 +10,16 @@ public class TestMultipartStream{
     ***/
     @TestCase
     func testMultipartStreamArrayequals0201(): Unit {
-        let a=Array<UInt8>(8,item:UInt8(0))
-        let b=Array<UInt8>(10,item:UInt8(0))
+        let a=Array<UInt8>(8,repeat:UInt8(0))
+        let b=Array<UInt8>(10,repeat:UInt8(0))
         let count=7
         let re=MultipartStream.arrayequals(a,b,count)
         @Assert(re,true)
     }
     @TestCase
     func testMultipartStreamArrayequals0202(): Unit {
-        let a=Array<UInt8>(8,item:UInt8(0))
-        let b=Array<UInt8>(10,item:UInt8(0))
+        let a=Array<UInt8>(8,repeat:UInt8(0))
+        let b=Array<UInt8>(10,repeat:UInt8(0))
         let count=8
         let re=MultipartStream.arrayequals(a,b,count)
         @Assert(re,true)

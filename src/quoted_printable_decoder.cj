@@ -54,7 +54,7 @@ class QuotedPrintableDecoder {
     }
 
     private static func hexToBinary(b1: UInt8, b2: UInt8): UInt8 {
-        var arr = Array<UInt8>([b1, b2])
+        var arr = [b1, b2]
         var sString = ""
         unsafe{
             sString = String.fromUtf8Unchecked(arr)

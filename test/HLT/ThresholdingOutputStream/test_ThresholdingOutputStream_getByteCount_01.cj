@@ -26,7 +26,7 @@ public class TestThresholdingOutputStream{
     @TestCase
     func testThresholdingOutputStreamGetByteCount02(): Unit {
         let subThresholdingOutputStream=SubThresholdingOutputStream(123,Array<UInt8>(),0,0)
-        var target=Array<UInt8>([1,2,3])
+        var target:Array<UInt8>=[1,2,3]
         subThresholdingOutputStream.write(target)
         subThresholdingOutputStream.flush()
         let re=subThresholdingOutputStream.getByteCount()

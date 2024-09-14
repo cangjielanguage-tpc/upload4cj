@@ -144,7 +144,7 @@ public abstract class FileUploadBase {
         try {
             let iter: FileItemIterator = getItemIterator(ctx)
             let fac: Option<FileItemFactory> = getFileItemFactory()
-            let buffer: Array<UInt8> = Array<UInt8>(Streams.DEFAULT_BUFFER_SIZE, item: 0)
+            let buffer: Array<UInt8> = Array<UInt8>(Streams.DEFAULT_BUFFER_SIZE, repeat: 0)
             if (let Some(_) <- fac) {}
             else {
                 throw NullPointerException("No FileItemFactory has been set.")

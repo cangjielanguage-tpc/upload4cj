@@ -10,8 +10,8 @@ public class TestMultipartStream{
     ***/
     @TestCase
     func testMultipartStreamArrayequals03(): Unit {
-        let a=Array<UInt8>([1,2,3,4,5])
-        let b=Array<UInt8>([3,4,5])
+        let a:Array<UInt8>=[1,2,3,4,5]
+        let b:Array<UInt8>=[3,4,5]
         let count=3
         let re=MultipartStream.arrayequals(a,b,count)
         @Assert(re,false)

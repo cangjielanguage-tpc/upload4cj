@@ -24,7 +24,7 @@ public class TestDiskFileItem {
             let out = dfs.getOutputStream()
             out.write([45,87,45,88])
             let res = dfs.getInputStream().getOrThrow()
-            let arr = Array<Byte>([0,0,0,0])
+            let arr:Array<UInt8> = [0,0,0,0]
             res.read(arr)
             @Assert(arr.toString(), "[45, 87, 45, 88]")
         } catch (e: NoneValueException) {

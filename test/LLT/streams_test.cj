@@ -38,7 +38,7 @@ public class StreamsTest{
         }
         Streams.copy(fileIn,fileOut,true)
         fileOut.seek(SeekPosition.Begin(0))
-        let bytesArray:Array<UInt8> = Array<UInt8>(20,item:0)
+        let bytesArray:Array<UInt8> = Array<UInt8>(20,repeat:0)
         fileOut.read(bytesArray)
         @Assert(String.fromUtf8(bytesArray),content)
         println("Pass1")

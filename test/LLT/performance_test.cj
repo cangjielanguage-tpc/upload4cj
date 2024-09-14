@@ -88,7 +88,7 @@ main(){
         let item: FileItemStream = iterator.next()
         let asItem = (item as FileItemStreamImpl).getOrThrow()
         let stream = asItem.openStream()
-        var arr = Array<Byte>(100, item: 0)
+        var arr = Array<Byte>(100, repeat: 0)
         let readByteCount = stream.read(arr)
         @Assert(readByteCount, 32)
         println("pass3")

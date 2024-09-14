@@ -70,11 +70,11 @@ public class MultipartStream {
         this.input = input
         this.bufSize = max(bufSize, boundaryLength * 2)
 
-        this.buffer = Array<UInt8>(this.bufSize, item: 0)
+        this.buffer = Array<UInt8>(this.bufSize, repeat: 0)
         this.notifier = pNotifier
 
-        this.boundary = Array<UInt8>(this.boundaryLength, item: 0)
-        this.boundaryTable = Array<Int64>(this.boundaryLength + 1, item: 0)
+        this.boundary = Array<UInt8>(this.boundaryLength, repeat: 0)
+        this.boundaryTable = Array<Int64>(this.boundaryLength + 1, repeat: 0)
         this.keepRegion = this.boundary.size
 
         BOUNDARY_PREFIX.copyTo(this.boundary, 0, 0, BOUNDARY_PREFIX.size)
@@ -150,7 +150,7 @@ public class MultipartStream {
      * @return Bool - ok or fault
      */
     public func readBoundary(): Bool {
-        //var BoundaryMarker: Array<UInt8> = Array<UInt8>(2, item: 0)
+        //var BoundaryMarker: Array<UInt8> = Array<UInt8>(2, repeat: 0)
         var BoundaryMarker1:UInt8 = 0
         var BoundaryMarker2:UInt8 = 0
         var nextChunk: Bool = false

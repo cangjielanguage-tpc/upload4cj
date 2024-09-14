@@ -18,7 +18,7 @@ public class TestStreams{
         let out_byteArrayStream=ByteArrayStream()
         let inputStream=Option<InputStream>.Some(in_byteArrayStream)
         let outputStream=Option<OutputStream>.Some(out_byteArrayStream)
-        let buffer=Array<UInt8>(10,item:UInt8(1))
+        let buffer=Array<UInt8>(10,repeat:UInt8(1))
         let closeOutputStream=true
         let re=Streams.copy(inputStream,outputStream,closeOutputStream,buffer)
         @Assert(re,10)
@@ -32,7 +32,7 @@ public class TestStreams{
         out_byteArrayStream.write(content)
         let inputStream=Option<InputStream>.Some(in_byteArrayStream)
         let outputStream=Option<OutputStream>.Some(out_byteArrayStream)
-        let buffer=Array<UInt8>(10,item:UInt8(1))
+        let buffer=Array<UInt8>(10,repeat:UInt8(1))
         let closeOutputStream=true
         let re=Streams.copy(inputStream,outputStream,closeOutputStream,buffer)
         @Assert(re,0)
@@ -47,7 +47,7 @@ public class TestStreams{
         out_byteArrayStream.write(content)
         let inputStream=Option<InputStream>.Some(in_byteArrayStream)
         let outputStream=Option<OutputStream>.Some(out_byteArrayStream)
-        let buffer=Array<UInt8>(10,item:UInt8(1))
+        let buffer=Array<UInt8>(10,repeat:UInt8(1))
         let closeOutputStream=true
         let re=Streams.copy(inputStream,outputStream,closeOutputStream,buffer)
         @Assert(re,10)
