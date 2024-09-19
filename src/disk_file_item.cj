@@ -198,7 +198,7 @@ public class DiskFileItem <: FileItem {
             return this.cachedContent
         }
 
-        var fileData: Option<Array<UInt8>> = Array<UInt8>(this.getSize(), item: 0)
+        var fileData: Option<Array<UInt8>> = Array<UInt8>(this.getSize(), repeat: 0)
 
         // read file to Array<Unit8>
         try {

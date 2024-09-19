@@ -13,7 +13,7 @@ public class TestThresholdingOutputStream{
     @TestCase
     func testThresholdingOutputStreamIsThresholdExceeded01(): Unit {
         let subThresholdingOutputStream=SubThresholdingOutputStream(123,Array<UInt8>(),0,0)
-        var target=Array<UInt8>(123,item:UInt8(0))
+        var target=Array<UInt8>(123,repeat:UInt8(0))
         subThresholdingOutputStream.write(target)
         let re=subThresholdingOutputStream.isThresholdExceeded()
         @Assert(re,false)
@@ -21,7 +21,7 @@ public class TestThresholdingOutputStream{
     @TestCase
     func testThresholdingOutputStreamIsThresholdExceeded02(): Unit {
         let subThresholdingOutputStream=SubThresholdingOutputStream(123,Array<UInt8>(),0,0)
-        var target=Array<UInt8>(124,item:UInt8(0))
+        var target=Array<UInt8>(124,repeat:UInt8(0))
         subThresholdingOutputStream.write(target)
         let re=subThresholdingOutputStream.isThresholdExceeded()
         @Assert(re,true)

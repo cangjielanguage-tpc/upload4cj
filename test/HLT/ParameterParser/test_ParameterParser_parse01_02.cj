@@ -13,7 +13,7 @@ public class TestParameterParser{
     @TestCase
     func testParameterParserParse0102(): Unit {
         let parameterParser=ParameterParser()
-        let charArray= Option<Array<Rune>>.Some(Array<Rune>([r'a',r'b',r'c',r'e']))
+        let charArray= Option<Array<Rune>>.Some([r'a',r'b',r'c',r'e'])
         let re_parse=parameterParser.parse(charArray,4,3,r',')
          @Assert(re_parse.size,0)
     }

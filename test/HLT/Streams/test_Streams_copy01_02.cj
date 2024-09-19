@@ -27,7 +27,7 @@ public class TestStreams{
         let out_byteArrayStream=ByteArrayStream()
         let inputStream=Option<InputStream>.Some(in_byteArrayStream)
         let outputStream=Option<OutputStream>.Some(out_byteArrayStream)
-        let buffer=Array<UInt8>(200,item:UInt8(0))
+        let buffer=Array<UInt8>(200,repeat:UInt8(0))
         let closeOutputStream=false
         let re=Streams.copy(inputStream,outputStream,closeOutputStream,buffer)
         @Assert(re,0)

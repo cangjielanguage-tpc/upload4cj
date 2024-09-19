@@ -14,7 +14,7 @@ public class TestParameterParser{
     @TestCase
     func testParameterParserParse010301(): Unit {
         let parameterParser=ParameterParser()
-        let arr_ori=Array<Rune>([r'A',r'B',r'=',r'e',r',',r'e',r'=',r' ',r','])
+        let arr_ori=[r'A',r'B',r'=',r'e',r',',r'e',r'=',r' ',r',']
         let charArray= Option<Array<Rune>>.Some(arr_ori)
         let re_parse=parameterParser.parse(charArray,1,arr_ori.size,r',')
         @Assert(re_parse.size,2)
@@ -31,7 +31,7 @@ public class TestParameterParser{
     @TestCase
     func testParameterParserParse010302(): Unit {
         let parameterParser=ParameterParser()
-        let arr_ori=Array<Rune>([r'A',r'B',r'=',r'e',r'e',r'e',r'=',r' ',r' '])
+        let arr_ori=[r'A',r'B',r'=',r'e',r'e',r'e',r'=',r' ',r' ']
         let charArray= Option<Array<Rune>>.Some(arr_ori)
         let re_parse=parameterParser.parse(charArray,1,arr_ori.size,r',')
         @Assert(re_parse.size,1)
@@ -60,7 +60,7 @@ public class TestParameterParser{
     func testParameterParserParse010304(): Unit {
         let parameterParser=ParameterParser()
         parameterParser.setLowerCaseNames(true)
-        let arr_ori=Array<Rune>([r'A',r'B',r'=',r'e',r',',r'e',r'=',r' ',r','])
+        let arr_ori=[r'A',r'B',r'=',r'e',r',',r'e',r'=',r' ',r',']
         let charArray= Option<Array<Rune>>.Some(arr_ori)
         let re_parse=parameterParser.parse(charArray,1,arr_ori.size,r',')
         @Assert(re_parse.size,2)

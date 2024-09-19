@@ -23,8 +23,8 @@ public class TestMultipartStream{
     }
     @TestCase
     func testMultipartStreamArrayequals0102(): Unit {
-        let a=Array<UInt8>(8,item:UInt8(0))
-        let b=Array<UInt8>(10,item:UInt8(0))
+        let a=Array<UInt8>(8,repeat:UInt8(0))
+        let b=Array<UInt8>(10,repeat:UInt8(0))
         let count=9
         var re_flag=1
         try{
