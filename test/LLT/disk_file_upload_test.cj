@@ -26,7 +26,7 @@ public class DiskFileUploadTest{
     public func test1(): Unit {
         var expected:Bool = false
         let bytes:Array<UInt8> = "foobar".toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type",FileUploadBase.MULTIPART_FORM_DATA)
@@ -44,7 +44,7 @@ public class DiskFileUploadTest{
     public func test2(): Unit {
         var expected:Bool = false
         let bytes:Array<UInt8> = "foobar".toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type","")
@@ -62,7 +62,7 @@ public class DiskFileUploadTest{
     public func test3(): Unit {
         var expected:Bool = false
         let bytes:Array<UInt8> = "foobar".toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type",FileUploadBase.MULTIPART_FORM_DATA)
@@ -82,7 +82,7 @@ public class DiskFileUploadTest{
         let CONTENT_TYPE:String = "multipart/form-data; boundary=---1234"
         let text = "-----1234\r\nContent-Disposition: form-data; name=\"file\";filename=\"foo.tab\"\r\nContent-Type: text/whatever\r\n\r\nThis is the content of the file oo\n\r\n-----1234--\r\n"
         let bytes:Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type",CONTENT_TYPE)
@@ -91,7 +91,7 @@ public class DiskFileUploadTest{
         let item0:FileItem = items.get(0).getOrThrow()
         let filePath:Path = Path("./uploadtest2temp")
         let file = File(filePath,OpenOption.Create(true))
-        if(!File.exists(file.info.path)){
+        if(!exists(file.info.path)){
             File.create(file.info.path)
         }
         item0.write(file)

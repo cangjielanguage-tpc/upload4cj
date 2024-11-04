@@ -9,7 +9,7 @@ public class TestMultipartStream{
         public init (input: InputStream, boundary: Option<Array<UInt8>>, pNotifier: Option<ProgressNotifier>)
         测试场景:boundary为Option<Array<UInt8>>.None
     ***/
-    let input=ByteArrayStream()
+    let input=ByteBuffer()
     let boundary=Option<Array<UInt8>>.None
     let bufSize=100
     let pNotifier=Option<ProgressNotifier>.None

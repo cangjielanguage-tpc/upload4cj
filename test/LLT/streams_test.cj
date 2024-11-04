@@ -24,7 +24,7 @@ public class StreamsTest{
     public func test1(): Unit {
          let filePathInput:Path = Path("./streamtestinputtemp")
          let fileIn = File(filePathInput,OpenOption.Create(true))
-         if(!File.exists(fileIn.info.path)){
+         if(!exists(fileIn.info.path)){
             File.create(fileIn.info.path)
          }
          let content = "01234567890123456789"
@@ -33,7 +33,7 @@ public class StreamsTest{
 
         let filePathOutput:Path = Path("./streamtestoutputtemp")
         let fileOut = File(filePathOutput,OpenOption.Create(true))
-        if(!File.exists(fileOut.info.path)){
+        if(!exists(fileOut.info.path)){
             File.create(fileOut.info.path)
         }
         Streams.copy(fileIn,fileOut,true)

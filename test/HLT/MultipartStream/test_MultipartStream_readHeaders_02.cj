@@ -21,7 +21,7 @@ public class TestMultipartStream{
     func testMultipartStreamReadHeaders02(): Unit {
         let boundaryString = "-----1234"
 
-        var input = ByteArrayStream()
+        var input = ByteBuffer()
         input.write(text.toArray())
 
         let boundary: Option<Array<UInt8>> = boundaryString.toArray()

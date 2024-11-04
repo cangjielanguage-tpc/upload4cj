@@ -21,7 +21,7 @@ public class MultipartStreamTest {
     public func test1(): Unit {
         var threw: Bool = false
         try {
-            var input = ByteArrayStream()
+            var input = ByteBuffer()
             input.write("foobar".toArray())
 
             let boundary: Option<Array<UInt8>> = "myboundary".toArray()
@@ -45,7 +45,7 @@ public class MultipartStreamTest {
     public func test2(): Unit {
         var threw: Bool = true
         try {
-            var input = ByteArrayStream()
+            var input = ByteBuffer()
             input.write("foobar".toArray())
 
             let boundary: Option<Array<UInt8>> = "myboundary".toArray()
@@ -66,7 +66,7 @@ public class MultipartStreamTest {
         var threw: Bool = false
 
         try {
-            var input = ByteArrayStream()
+            var input = ByteBuffer()
             input.write("foobar".toArray())
 
             let boundary = Option<Array<UInt8>>.None

@@ -20,7 +20,7 @@ public class TestMultipartStream{
     ***/
     @TestCase
     func testMultipartStreamReadBodyData03(): Unit {
-        let input=ByteArrayStream()
+        let input=ByteBuffer()
         input.write(text.toArray())
         var boundary_arr=boundaryString.toArray()
         var boundary=Option<Array<UInt8>>.Some(boundary_arr)

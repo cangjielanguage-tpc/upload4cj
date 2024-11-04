@@ -35,7 +35,7 @@ public class DeferredFileOutputStreamTest{
         var sizeThreshold:Int64 = 16
         let filePath:Path = Path("./deffertemp1")
         let file = File(filePath,OpenOption.Create(true))
-        if(!File.exists(file.info.path)){
+        if(!exists(file.info.path)){
             File.create(file.info.path)
         }
         let dfos:DeferredFileOutputStream = DeferredFileOutputStream(sizeThreshold, Option<File>.None,Option<Directory>.None)
@@ -54,7 +54,7 @@ public class DeferredFileOutputStreamTest{
         var sizeThreshold:Int64 = 16
         let filePath:Path = Path("./deffertemp2")
         let file = File(filePath,OpenOption.Create(true))
-        if(!File.exists(file.info.path)){
+        if(!exists(file.info.path)){
             File.create(file.info.path)
         }
         let dfos:DeferredFileOutputStream = DeferredFileOutputStream(sizeThreshold, Option<File>.None,Option<Directory>.None)
@@ -74,7 +74,7 @@ public class DeferredFileOutputStreamTest{
         var sizeThreshold:Int64 = 16
         let filePath:Path = Path("./deffertemp3")
         let file = File(filePath,OpenOption.Create(true))
-        if(!File.exists(file.info.path)){
+        if(!exists(file.info.path)){
             File.create(file.info.path)
         }
         let dfos:DeferredFileOutputStream = DeferredFileOutputStream(sizeThreshold, Option<File>.None,Option<Directory>.None)
@@ -93,7 +93,7 @@ public class DeferredFileOutputStreamTest{
         var sizeThreshold:Int64 = 16
         let filePath:Path = Path("./deffertemp4")
         let file = File(filePath,OpenOption.Create(true))
-        if(!File.exists(file.info.path)){
+        if(!exists(file.info.path)){
             File.create(file.info.path)
         }
         let dfos:DeferredFileOutputStream = DeferredFileOutputStream(sizeThreshold, Option<File>.None,Option<Directory>.None)
@@ -112,7 +112,7 @@ public class DeferredFileOutputStreamTest{
         var sizeThreshold:Int64 = 16
         let filePath:Path = Path("./deffertemp5")
         let file = File(filePath,OpenOption.Create(true))
-        if(!File.exists(file.info.path)){
+        if(!exists(file.info.path)){
             File.create(file.info.path)
         }
         let dfos:DeferredFileOutputStream = DeferredFileOutputStream(sizeThreshold, Option<File>.None,Option<Directory>.None)
@@ -131,7 +131,7 @@ public class DeferredFileOutputStreamTest{
         var sizeThreshold:Int64 = 16
         let filePath:Path = Path("./deffertemp6")
         let file = File(filePath,OpenOption.Create(true))
-        if(!File.exists(file.info.path)){
+        if(!exists(file.info.path)){
             File.create(file.info.path)
         }
         let dfos:DeferredFileOutputStream = DeferredFileOutputStream(sizeThreshold, Option<File>.None,Option<Directory>.None)
@@ -150,7 +150,7 @@ public class DeferredFileOutputStreamTest{
         var sizeThreshold:Int64 = 16
         let filePath:Path = Path("./deffertemp7")
         let file = File(filePath,OpenOption.Create(true))
-        if(!File.exists(file.info.path)){
+        if(!exists(file.info.path)){
             File.create(file.info.path)
         }
         let dfos:DeferredFileOutputStream = DeferredFileOutputStream(sizeThreshold, Option<File>.None,Option<Directory>.None)
@@ -174,14 +174,14 @@ public class DeferredFileOutputStreamTest{
         var sizeThreshold:Int64 = 16
         let filePath:Path = Path("./deffertemp8")
         let file = File(filePath,OpenOption.Create(true))
-        if(!File.exists(file.info.path)){
+        if(!exists(file.info.path)){
             File.create(file.info.path)
         }
         let dfos:DeferredFileOutputStream = DeferredFileOutputStream(sizeThreshold, Option<File>.None,Option<Directory>.None)
         let textFieldValue:String = "01234567890123456789"
         let testFieldValueBytes:Array<UInt8> = textFieldValue.toArray()
         dfos.write(testFieldValueBytes)
-        let size = dfos.getFile().getOrThrow().info.length
+        let size = dfos.getFile().getOrThrow().info.size
         @Assert(size,20)
         dfos.flush()
         dfos.close()
@@ -193,7 +193,7 @@ public class DeferredFileOutputStreamTest{
         var sizeThreshold:Int64 = 16
         let filePath:Path = Path("./deffertemp9")
         let file = File(filePath,OpenOption.Create(true))
-        if(!File.exists(file.info.path)){
+        if(!exists(file.info.path)){
             File.create(file.info.path)
         }
         let dfos:DeferredFileOutputStream = DeferredFileOutputStream(sizeThreshold, Option<File>.None,Option<Directory>.None)
@@ -212,7 +212,7 @@ public class DeferredFileOutputStreamTest{
         var sizeThreshold:Int64 = 16
         let filePath:Path = Path("./deffertemp10")
         let file = File(filePath,OpenOption.Create(true))
-        if(!File.exists(file.info.path)){
+        if(!exists(file.info.path)){
             File.create(file.info.path)
         }
         let dfos:DeferredFileOutputStream = DeferredFileOutputStream(sizeThreshold, Option<File>.None,Option<Directory>.None)
@@ -231,7 +231,7 @@ public class DeferredFileOutputStreamTest{
         var sizeThreshold:Int64 = 16
         let filePath:Path = Path("./deffertemp11")
         let file = File(filePath,OpenOption.Create(true))
-        if(!File.exists(file.info.path)){
+        if(!exists(file.info.path)){
             File.create(file.info.path)
         }
         let dfos:DeferredFileOutputStream = DeferredFileOutputStream(sizeThreshold, Option<File>.None,Option<Directory>.None)

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Huawei Technologies Co., Ltd. 2023-2024. All rights resvered.
+ * Copyright (c) Huawei Technologies Co., Ltd. 2023-2024. All rights reserved.
  */
 
 package upload4cj
@@ -96,7 +96,7 @@ public class DiskFileItem <: FileItem {
             else {
                 cachedContent = this.dfos.getOrThrow().getData()
             }
-            var b = ByteArrayStream()
+            var b = ByteBuffer()
             b.write(this.cachedContent.getOrThrow())
             return b
         }
@@ -169,7 +169,7 @@ public class DiskFileItem <: FileItem {
 
         let optFile = this.dfos.getOrThrow().getFile()
         if (let Some(i) <- optFile) {
-            return i.info.length
+            return i.info.size
         } else {
             return 0
         }
@@ -246,7 +246,7 @@ public class DiskFileItem <: FileItem {
 
             if (isOutputFile) {
                 // Save the length of the file
-                size = outputFile.getOrThrow().info.length
+                size = outputFile.getOrThrow().info.size
                 file.write(get().getOrThrow())
                 /*
                  * The uploaded file is being stored on disk
@@ -269,7 +269,7 @@ public class DiskFileItem <: FileItem {
     /**
      * delete the file
      */
-    public override func delete() {
+    public override func delete():Unit {
         cachedContent = Option<Array<UInt8>>.None
         var outputFile: Option<File> = getStoreLocation()
 
@@ -280,8 +280,8 @@ public class DiskFileItem <: FileItem {
             case None => false
         }
 
-        if (isOutputFile && File.exists(outputFile.getOrThrow().info.path)) {
-            File.delete(outputFile.getOrThrow().info.path)
+        if (isOutputFile && exists(outputFile.getOrThrow().info.path)) {
+            remove(outputFile.getOrThrow().info.path)
         }
     }
 

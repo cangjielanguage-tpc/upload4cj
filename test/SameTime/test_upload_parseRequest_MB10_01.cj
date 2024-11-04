@@ -55,7 +55,7 @@ main() {
 public func testParseRequest():Int64 {
     let file=File("RequestBody_MB10",OpenOption.Open(true,false))
     let bytes: Array<UInt8> = file.readToEnd()
-    var output = ByteArrayStream()
+    var output = ByteBuffer()
     output.write(bytes)
     var req1= HttpRequestBuilder.new().method("POST").url("http://127.0.0.1/").body(output).build()
     req1.headers.add("Content-Type", "multipart/form-data; boundary=---1234")

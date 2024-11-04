@@ -11,11 +11,11 @@ public class TestLimitedInputStream{
     ***/
     @TestCase
     func testLimitedInputStreamRead01(): Unit {
-        let byteArrayStream=ByteArrayStream()
-        let subLimitedInputStream=SubLimitedInputStream(byteArrayStream,234)
+        let byteBuffer=ByteBuffer()
+        let subLimitedInputStream=SubLimitedInputStream(byteBuffer,234)
         let re_int=subLimitedInputStream.read(Array<UInt8>())
         @Assert(re_int,0)
-        let re_array=byteArrayStream.readToEnd()
+        let re_array=readToEnd(byteBuffer)
         @Assert(re_array.size,0)
     }
 }

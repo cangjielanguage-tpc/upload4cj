@@ -75,7 +75,7 @@ public class ServletFileUploadTest {
             "Content-Disposition: form-data; name=\"multi\"\r\n" + "\r\n" + "value1\r\n" + "-----1234\r\n" +
             "Content-Disposition: form-data; name=\"multi\"\r\n" + "\r\n" + "value2\r\n" + "-----1234--\r\n"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
@@ -92,7 +92,7 @@ public class ServletFileUploadTest {
             "Content-Disposition: form-data; name=\"multi\"\r\n" + "\r\n" + "value1\r\n" + "-----1234\r\n" +
             "Content-Disposition: form-data; name=\"multi\"\r\n" + "\r\n" + "value2\r\n" + "-----1234--\r\n"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
@@ -111,7 +111,7 @@ public class ServletFileUploadTest {
             "Content-Disposition: form-data; name=\"multi\"\r\n" + "\r\n" + "value1\r\n" + "-----1234\r\n" +
             "Content-Disposition: form-data; name=\"multi\"\r\n" + "\r\n" + "value2\r\n" + "-----1234--\r\n"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
@@ -136,7 +136,7 @@ public class ServletFileUploadTest {
             "Content-Disposition: form-data; name=\"multi\"\r\n" + "\r\n" + "value1\r\n" + "-----1234\r\n" +
             "Content-Disposition: form-data; name=\"multi\"\r\n" + "\r\n" + "value2\r\n" + "-----1234--\r\n"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
@@ -156,7 +156,7 @@ public class ServletFileUploadTest {
         let text = "-----1234\r\n" + "Content-Disposition: form-data; name=\"utf8Html\"\r\n" + "\r\n" +
             "This is the content of the file\n" + "\r\n" + "-----1234--\r\n"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
@@ -177,7 +177,7 @@ public class ServletFileUploadTest {
             "Content-Disposition: form-data; name=\"multi\"\r\n" + "\r\n" + "value1\r\n" + "-----1234\r\n" +
             "Content-Disposition: form-data; name=\"multi\"\r\n" + "\r\n" + "value2\r\n" + "-----1234--\r\n"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
@@ -196,7 +196,7 @@ public class ServletFileUploadTest {
             "Content-Disposition: form-data; name=\"multi\"\r\n" + "\r\n" + "value1\r\n" + "-----1234\r\n" +
             "Content-Disposition: form-data; name=\"multi\"\r\n" + "\r\n" + "value2\r\n" + "-----1234--\r\n"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
@@ -220,7 +220,7 @@ public class ServletFileUploadTest {
             "Content-Disposition: form-data; name=\"multi\"\r\n" + "\r\n" + "value1\r\n" + "-----1234\r\n" +
             "Content-Disposition: form-data; name=\"multi\"\r\n" + "\r\n" + "value2\r\n" + "-----1234--\r\n"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
@@ -242,7 +242,7 @@ public class ServletFileUploadTest {
             "Content-Disposition: form-data; name=\"multi\"\r\n" + "\r\n" + "value1\r\n" + "-----1234\r\n" +
             "Content-Disposition: form-data; name=\"multi\"\r\n" + "\r\n" + "value2\r\n" + "-----1234--\r\n"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
@@ -264,7 +264,7 @@ public class ServletFileUploadTest {
             "Content-Disposition: form-data; name=\"multi\"\r\n" + "\r\n" + "value1\r\n" + "-----1234\r\n" +
             "Content-Disposition: form-data; name=\"multi\"\r\n" + "\r\n" + "value2\r\n" + "-----1234--\r\n"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
@@ -283,7 +283,7 @@ public class ServletFileUploadTest {
         let text = "-----1234\r\n" + "Content-Disposition: form-data; name=\"FiLe\"; filename=\"FOO.tab\"\r\n" +
             "Content-Type: text/whatever\r\n" + "\r\n" + "This is the content of the file\n" + "\r\n" + "-----1234--\r\n"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
@@ -299,7 +299,7 @@ public class ServletFileUploadTest {
         let text = "-----1234\r\n" + "Content-Disposition: form-data; name=\"FiLe\"; filename=\"FOO.tab\"\r\n" +
             "Content-Type: text/whatever\r\n" + "\r\n" + "This is the content of the file\n" + "\r\n" + "-----1234--\r\n"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
@@ -317,7 +317,7 @@ public class ServletFileUploadTest {
         let text = "-----1234\r\n" + "Content-Disposition: form-data; name=\"file\"; filename=\"\"\r\n" + "\r\n" + "\r\n" +
             "-----1234--\r\n"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
@@ -333,7 +333,7 @@ public class ServletFileUploadTest {
         let text = "-----1234\r\n" + "Content-Disposition: form-data; name=\"file\"; filename=\"\"\r\n" + "\r\n" + "\r\n" +
             "-----1234--\r\n"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
@@ -358,7 +358,7 @@ public class ServletFileUploadTest {
             "-----1234\r\n" + "Content-Disposition: form-data; name=\"field2\"\r\n" + "\r\n" + "fieldValue2\r\n" +
             "-----1234--\r\n"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
@@ -380,7 +380,7 @@ public class ServletFileUploadTest {
             "-----1234\r\n" + "Content-Disposition: form-data; name=\"field2\"\r\n" + "\r\n" + "fieldValue2\r\n" +
             "-----1234--\r\n"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
@@ -405,7 +405,7 @@ public class ServletFileUploadTest {
             "-----1234\r\n" + "Content-Disposition: form-data; name=\"field2\"\r\n" + "\r\n" + "fieldValue2\r\n" +
             "-----1234--\r\n"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
@@ -430,7 +430,7 @@ public class ServletFileUploadTest {
             "-----1234\r\n" + "Content-Disposition: form-data; name=\"field2\"\r\n" + "\r\n" + "fieldValue2\r\n" +
             "-----1234--\r\n"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
@@ -455,7 +455,7 @@ public class ServletFileUploadTest {
             "-----1234\r\n" + "Content-Disposition: form-data; name=\"field2\"\r\n" + "\r\n" + "fieldValue2\r\n" +
             "-----1234--\r\n"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
@@ -480,7 +480,7 @@ public class ServletFileUploadTest {
             "Content-Transfer-Encoding: binary\r\n" + "\r\n" + "...contents of file2.gif...\r\n" + "--BbC04y--\r\n" +
             "--AaB03x--"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE2)
@@ -502,7 +502,7 @@ public class ServletFileUploadTest {
             "Content-Transfer-Encoding: binary\r\n" + "\r\n" + "...contents of file2.gif...\r\n" + "--BbC04y--\r\n" +
             "--AaB03x--"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE2)
@@ -528,7 +528,7 @@ public class ServletFileUploadTest {
             "Content-Transfer-Encoding: binary\r\n" + "\r\n" + "...contents of file2.gif...\r\n" + "--BbC04y--\r\n" +
             "--AaB03x--"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE2)
@@ -553,7 +553,7 @@ public class ServletFileUploadTest {
             "Content-Transfer-Encoding: binary\r\n" + "\r\n" + "...contents of file2.gif...\r\n" + "--BbC04y--\r\n" +
             "--AaB03x--"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE2)
@@ -575,7 +575,7 @@ public class ServletFileUploadTest {
             "Content-Disposition: form-data;\r\n" + "     name=\"multi\"\r\n" + "\r\n" + "value1\r\n" + "-----1234\r\n" +
             "Content-Disposition: form-data; name=\"multi\"\r\n" + "\r\n" + "value2\r\n" + "-----1234--\r\n"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
@@ -594,7 +594,7 @@ public class ServletFileUploadTest {
             "Content-Disposition: form-data;\r\n" + "     name=\"multi\"\r\n" + "\r\n" + "value1\r\n" + "-----1234\r\n" +
             "Content-Disposition: form-data; name=\"multi\"\r\n" + "\r\n" + "value2\r\n" + "-----1234--\r\n"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
@@ -618,7 +618,7 @@ public class ServletFileUploadTest {
             "Content-Disposition: form-data;\r\n" + "     name=\"multi\"\r\n" + "\r\n" + "value1\r\n" + "-----1234\r\n" +
             "Content-Disposition: form-data; name=\"multi\"\r\n" + "\r\n" + "value2\r\n" + "-----1234--\r\n"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
@@ -640,7 +640,7 @@ public class ServletFileUploadTest {
             "Content-Disposition: form-data;\r\n" + "     name=\"multi\"\r\n" + "\r\n" + "value1\r\n" + "-----1234\r\n" +
             "Content-Disposition: form-data; name=\"multi\"\r\n" + "\r\n" + "value2\r\n" + "-----1234--\r\n"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
@@ -662,7 +662,7 @@ public class ServletFileUploadTest {
             "Content-Disposition: form-data;\r\n" + "     name=\"multi\"\r\n" + "\r\n" + "value1\r\n" + "-----1234\r\n" +
             "Content-Disposition: form-data; name=\"multi\"\r\n" + "\r\n" + "value2\r\n" + "-----1234--\r\n"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
@@ -687,7 +687,7 @@ public class ServletFileUploadTest {
             "Content-Disposition: form-data; name=\"multi\"\r\n" + headerNames[3] + ": " + headerValues[3] + "\r\n" +
             "\r\n" + "value2\r\n" + "-----1234--\r\n"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
@@ -709,7 +709,7 @@ public class ServletFileUploadTest {
             "Content-Disposition: form-data; name=\"multi\"\r\n" + headerNames[3] + ": " + headerValues[3] + "\r\n" +
             "\r\n" + "value2\r\n" + "-----1234--\r\n"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
@@ -733,7 +733,7 @@ public class ServletFileUploadTest {
             "Content-Disposition: form-data; name=\"multi\"\r\n" + headerNames[3] + ": " + headerValues[3] + "\r\n" +
             "\r\n" + "value2\r\n" + "-----1234--\r\n"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
@@ -757,7 +757,7 @@ public class ServletFileUploadTest {
             "Content-Disposition: form-data; name=\"multi\"\r\n" + headerNames[3] + ": " + headerValues[3] + "\r\n" +
             "\r\n" + "value2\r\n" + "-----1234--\r\n"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
@@ -781,7 +781,7 @@ public class ServletFileUploadTest {
             "Content-Disposition: form-data; name=\"multi\"\r\n" + headerNames[3] + ": " + headerValues[3] + "\r\n" +
             "\r\n" + "value2\r\n" + "-----1234--\r\n"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
@@ -813,7 +813,7 @@ public class ServletFileUploadTest {
             "Content-disposition: attachment; filename=\"file1.txt\"\r\n" + "Content-Type: text/plain\r\n" + "\r\n" +
             "... contents of file1.txt ...\r\n" + "-----9876--\r\n" + "-----1234--\r\n"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
@@ -832,7 +832,7 @@ public class ServletFileUploadTest {
             "Content-disposition: attachment; filename=\"file1.txt\"\r\n" + "Content-Type: text/plain\r\n" + "\r\n" +
             "... contents of file1.txt ...\r\n" + "-----9876--\r\n" + "-----1234--\r\n"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
@@ -854,7 +854,7 @@ public class ServletFileUploadTest {
             "Content-disposition: attachment; filename=\"file1.txt\"\r\n" + "Content-Type: text/plain\r\n" + "\r\n" +
             "... contents of file1.txt ...\r\n" + "-----9876--\r\n" + "-----1234--\r\n"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
@@ -877,7 +877,7 @@ public class ServletFileUploadTest {
             "Content-disposition: attachment; filename=\"file1.txt\"\r\n" + "Content-Type: text/plain\r\n" + "\r\n" +
             "... contents of file1.txt ...\r\n" + "-----9876--\r\n" + "-----1234--\r\n"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
@@ -895,7 +895,7 @@ public class ServletFileUploadTest {
             "Content-disposition: attachment; filename=\"file1.txt\"\r\n" + "Content-Type: text/plain\r\n" + "\r\n" +
             "... contents of file1.txt ...\r\n" + "-----9876--\r\n" + "-----1234--\r\n"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
@@ -919,7 +919,7 @@ public class ServletFileUploadTest {
             "Content-Disposition: form-data;\r\n" + "     name=\"multi\"\r\n" + "\r\n" + "value1\r\n" + "-----1234\r\n" +
             "Content-Disposition: form-data; name=\"multi\"\r\n" + "\r\n" + "value2\r\n" + "-----1234--\r\n"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
@@ -961,7 +961,7 @@ public class ServletFileUploadTest {
         let text = "-----1234\r\n" + "Content-Disposition: form-data; name=\"utf8Html\"\r\n" + "\r\n" +
             "This is the content of the file\n" + "\r\n" + "-----1234--\r\n"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
@@ -989,7 +989,7 @@ public class ServletFileUploadTest {
             "\r\n" + "----------------------------163374768478388063820863--\r\n"
 
         let bytes: Array<UInt8> = text3.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE_NEW)
@@ -1015,7 +1015,7 @@ public class ServletFileUploadTest {
             "----------------------------163374768478388063820863--\r\n"
 
         let bytes: Array<UInt8> = text4.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE_NEW)
@@ -1041,7 +1041,7 @@ public class ServletFileUploadTest {
             "----------------------------163374768478388063820863--\r\n"
 
         let bytes: Array<UInt8> = text5.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE_NEW)
@@ -1062,7 +1062,7 @@ public class ServletFileUploadTest {
             "----------------------------163374768478388063820863--\r\n"
 
         let bytes: Array<UInt8> = text6.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE_NEW)

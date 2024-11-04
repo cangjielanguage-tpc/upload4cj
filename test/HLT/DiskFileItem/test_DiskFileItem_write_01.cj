@@ -20,7 +20,7 @@ public class TestDiskFileItem {
     func testDiskFileItemGetString01(): Unit {
         let dfs = DiskFileItem("a1" , "text/html; charset=utf16" , false, "testfile" , 129 , Option<Directory>.None)
         var flag= 1
-         if(!File.exists("./testtemp1")){
+         if(!exists("./testtemp1")){
             File.create("./testtemp1")
         }
         let file = File(Path("./testtemp1"),OpenOption.Open(false, false))

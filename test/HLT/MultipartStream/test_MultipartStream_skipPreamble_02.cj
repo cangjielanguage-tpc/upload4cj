@@ -18,7 +18,7 @@ public class TestMultipartStream{
     ***/
     @TestCase
     func testMultipartStreamSkipPreamble02(): Unit {
-        var input = ByteArrayStream()
+        var input = ByteBuffer()
         input.write(text.toArray())
 
         let boundary: Option<Array<UInt8>> = boundaryString.toArray()

@@ -20,7 +20,7 @@ public class TestFileUploadBase {
     func testFileUploadBaseGetItemIterator02(): Unit {
         var flag = 1
         var fu = FileUpload()
-        let req = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(ByteArrayStream()).build()
+        let req = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(ByteBuffer()).build()
         let CONTENT_TYPE: String = "text/form-data; boundary=---1234"
         req.headers.add("Content-Type", CONTENT_TYPE)
         try {

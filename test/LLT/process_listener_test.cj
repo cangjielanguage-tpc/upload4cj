@@ -16,7 +16,7 @@ func test1(): Unit {
     let CONTENT_TYPE: String = "multipart/form-data; boundary=---1234"
 
     let NUM_ITEMS: Int64 = 3
-    var baos = ByteArrayStream()
+    var baos = ByteBuffer()
 
     for (i in 0..3) {
         let header: String = "-----1234\r\nContent-Disposition: form-data; name=\"field\"\r\n\r\n"

@@ -60,7 +60,7 @@ public class SubThresholdingOutputStream<:ThresholdingOutputStream & InputStream
         return result;
     }
     protected func getStream(): OutputStream{
-        let byte=ByteArrayStream()
+        let byte=ByteBuffer()
         byte.write("origin".toArray())
         return byte
     }

@@ -19,7 +19,7 @@ public class TestDiskFileItem {
     @TestCase
     func testDiskFileItemIsInMemory02(): Unit {
         let dirPath:Path = Path("./dirfactory")
-        if(!Directory.exists(dirPath)) {
+        if(!exists(dirPath)) {
             Directory.create(dirPath)
         }
         var dir = Directory(dirPath)

@@ -14,44 +14,44 @@ public class TestStreams{
 
     @TestCase
     func testStreamsCopy0201(): Unit {
-        let in_byteArrayStream=ByteArrayStream()
-        in_byteArrayStream.write(content)
-        let out_byteArrayStream=ByteArrayStream()
-        let inputStream=Option<InputStream>.Some(in_byteArrayStream)
-        let outputStream=Option<OutputStream>.Some(out_byteArrayStream)
+        let in_ByteBuffer=ByteBuffer()
+        in_ByteBuffer.write(content)
+        let out_ByteBuffer=ByteBuffer()
+        let inputStream=Option<InputStream>.Some(in_ByteBuffer)
+        let outputStream=Option<OutputStream>.Some(out_ByteBuffer)
         let closeOutputStream=true
         let re=Streams.copy(inputStream,outputStream,closeOutputStream)
         @Assert(re,10)
-        let re_arr=(outputStream.getOrThrow() as ByteArrayStream).getOrThrow().readToEnd()
+        let re_arr=readToEnd((outputStream.getOrThrow() as ByteBuffer).getOrThrow())
         @Assert(re_arr,content)
     }
 
     @TestCase
     func testStreamsCopy0202(): Unit {
-        let in_byteArrayStream=ByteArrayStream()
-        let out_byteArrayStream=ByteArrayStream()
-        out_byteArrayStream.write(content)
-        let inputStream=Option<InputStream>.Some(in_byteArrayStream)
-        let outputStream=Option<OutputStream>.Some(out_byteArrayStream)
+        let in_ByteBuffer=ByteBuffer()
+        let out_ByteBuffer=ByteBuffer()
+        out_ByteBuffer.write(content)
+        let inputStream=Option<InputStream>.Some(in_ByteBuffer)
+        let outputStream=Option<OutputStream>.Some(out_ByteBuffer)
         let closeOutputStream=true
         let re=Streams.copy(inputStream,outputStream,closeOutputStream)
         @Assert(re,0)
-        let re_arr=(outputStream.getOrThrow() as ByteArrayStream).getOrThrow().readToEnd()
+        let re_arr=readToEnd((outputStream.getOrThrow() as ByteBuffer).getOrThrow())
         @Assert(re_arr,content)
     }
 
     @TestCase
     func testStreamsCopy0203(): Unit {
-        let in_byteArrayStream=ByteArrayStream()
-        in_byteArrayStream.write(content)
-        let out_byteArrayStream=ByteArrayStream()
-        out_byteArrayStream.write(content)
-        let inputStream=Option<InputStream>.Some(in_byteArrayStream)
-        let outputStream=Option<OutputStream>.Some(out_byteArrayStream)
+        let in_ByteBuffer=ByteBuffer()
+        in_ByteBuffer.write(content)
+        let out_ByteBuffer=ByteBuffer()
+        out_ByteBuffer.write(content)
+        let inputStream=Option<InputStream>.Some(in_ByteBuffer)
+        let outputStream=Option<OutputStream>.Some(out_ByteBuffer)
         let closeOutputStream=true
         let re=Streams.copy(inputStream,outputStream,closeOutputStream)
         @Assert(re,10)
-        let re_arr=(outputStream.getOrThrow() as ByteArrayStream).getOrThrow().readToEnd()
+        let re_arr=readToEnd((outputStream.getOrThrow() as ByteBuffer).getOrThrow())
         let exp_content="88888888888888888888".toArray()
         @Assert(re_arr,exp_content)
     }

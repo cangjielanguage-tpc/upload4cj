@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Huawei Technologies Co., Ltd. 2023-2024. All rights resvered.
+ * Copyright (c) Huawei Technologies Co., Ltd. 2023-2024. All rights reserved.
  */
 
 package upload4cj
@@ -9,7 +9,7 @@ package upload4cj
  * an HTTP servlet
  */
 public class DeferredFileOutputStream <: ThresholdingOutputStream {
-    private var memoryOutputStream: ?ByteArrayStream = Option<ByteArrayStream>.None
+    private var memoryOutputStream: ?ByteBuffer = Option<ByteBuffer>.None
     private var currentOutputStream: OutputStream
     private var outputFile: Option<File> = Option<File>.None
     private var mTempFile: Option<File>
@@ -45,7 +45,7 @@ public class DeferredFileOutputStream <: ThresholdingOutputStream {
         this.closed = false
         this.mTempFile = tempFile
         this.mRepository = repository
-        this.memoryOutputStream = ByteArrayStream()
+        this.memoryOutputStream = ByteBuffer()
         this.currentOutputStream = this.memoryOutputStream.getOrThrow()
         this.prefix = prefix
         this.suffix = suffix
@@ -108,7 +108,7 @@ public class DeferredFileOutputStream <: ThresholdingOutputStream {
                 pathDir = j.info.path
             } else {
                 mtx.lock()
-                if (!Directory.exists(pathDir)) {
+                if (!exists(pathDir)) {
                     tempDir = Directory.create(pathDir)
                 }
                 mtx.unlock()
@@ -150,7 +150,7 @@ public class DeferredFileOutputStream <: ThresholdingOutputStream {
         this.outputFile = createOutputFile()
         this.outputFile.getOrThrow().write(this.memoryOutputStream.getOrThrow().bytes())
         this.currentOutputStream = outputFile.getOrThrow()
-        this.memoryOutputStream = Option<ByteArrayStream>.None
+        this.memoryOutputStream = Option<ByteBuffer>.None
         return
     }
 }
