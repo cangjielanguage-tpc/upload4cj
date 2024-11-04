@@ -20,16 +20,16 @@ public class TestMultipartStream{
     ***/
     @TestCase
     func testMultipartStreamReadBodyData03(): Unit {
-        let input=ByteArrayStream()
+        let input=ByteBuffer()
         input.write(text.toArray())
         var boundary_arr=boundaryString.toArray()
         var boundary=Option<Array<UInt8>>.Some(boundary_arr)
         let bufSize=100
         let pNotifier=Option<ProgressNotifier>.None
         let multipartStream=MultipartStream(input,boundary,bufSize,pNotifier)
-        let output_s=ByteArrayStream()
+        let output_s=ByteBuffer()
         let output=Option<OutputStream>.Some(output_s)
         multipartStream.readBodyData(output)
-        @Assert(output_s.readToEnd(),exp_bodydata.toArray())
+        @Assert(readToEnd(output_s),exp_bodydata.toArray())
     }
 }

@@ -30,7 +30,7 @@ main(){
                     "This is the content of the file\n" +
                     "\r\n" +
                     "-----1234--\r\n"
-        var body_in=ByteArrayStream()
+        var body_in=ByteBuffer()
         body_in.write(content.toArray())
         let fileItemFactory=DiskFileItemFactory()
         let servletFileUpload=ServletFileUpload(fileItemFactory)
@@ -52,7 +52,7 @@ main(){
                     "This is the content of the file\n" +
                     "\r\n" +
                     "-----1234--\r\n"
-        var body_in=ByteArrayStream()
+        var body_in=ByteBuffer()
         body_in.write(content.toArray())
         let fileItemFactory=DiskFileItemFactory()
         let servletFileUpload=ServletFileUpload(fileItemFactory)
@@ -77,7 +77,7 @@ main(){
                         "\r\n" +
                         "-----1234\r\n"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         let req = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req.headers.add("Content-Type", CONTENT_TYPE)
@@ -115,7 +115,7 @@ main(){
                     "This is the content of the file\n" +
                     "\r\n" +
                     "-----1234--\r\n"
-        var body_in=ByteArrayStream()
+        var body_in=ByteBuffer()
         body_in.write(content.toArray())
         let servletFileUpload=ServletFileUpload()
         let request = HttpRequestBuilder().method("GET").url("http://www.baidu.com").body(body_in).build()
@@ -136,7 +136,7 @@ main(){
         let text ="contentTEXT\r\ntest"
         let CONTENT_TYPE: String = "multipart/form-data; boundary=---1234"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         let req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type", CONTENT_TYPE)
@@ -155,7 +155,7 @@ main(){
         let CONTENT_TYPE: String = "multipart/form-data; boundary=---1234"
         var text ="-----1234"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         let req = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req.headers.add("Content-Type", CONTENT_TYPE)
@@ -174,7 +174,7 @@ main(){
         var fu = FileUpload()
         var text ="-----1234"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         let req = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         try {

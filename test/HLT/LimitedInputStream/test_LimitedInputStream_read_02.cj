@@ -11,9 +11,9 @@ public class TestLimitedInputStream{
     @TestCase
     func testLimitedInputStreamRead03(): Unit {
         var ori_array:Array<UInt8>=[1,2,3,4,5,6,7,8,8,9,8,8,8,8]
-        let byteArrayStream=ByteArrayStream()
-        byteArrayStream.write(ori_array)
-        let subLimitedInputStream=SubLimitedInputStream(byteArrayStream,ori_array.size)
+        let ByteBuffer=ByteBuffer()
+        ByteBuffer.write(ori_array)
+        let subLimitedInputStream=SubLimitedInputStream(ByteBuffer,ori_array.size)
         var re_array:Array<UInt8>=[0,0,0,0,0,0,0,0,0,0,0,0,0,0]
         let re_int=subLimitedInputStream.read(re_array)
         @Assert(re_int,ori_array.size)

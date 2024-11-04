@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Huawei Technologies Co., Ltd. 2023-2024. All rights resvered.
+ * Copyright (c) Huawei Technologies Co., Ltd. 2023-2024. All rights reserved.
  */
 
 package upload4cj
@@ -15,7 +15,7 @@ class QuotedPrintableDecoder {
         var length: Int64 = data.size
         var endOffset: Int64 = off + length
 
-        var out: ByteArrayStream = ByteArrayStream()
+        var out: ByteBuffer = ByteBuffer()
 
         while (off < endOffset) {
             var ch: UInt8 = data[off]
@@ -48,7 +48,7 @@ class QuotedPrintableDecoder {
         }
         var str = ""
         unsafe{
-            str = String.fromUtf8Unchecked(out.readToEnd())
+            str = String.fromUtf8Unchecked(readToEnd(out))
         }
         return str
     }

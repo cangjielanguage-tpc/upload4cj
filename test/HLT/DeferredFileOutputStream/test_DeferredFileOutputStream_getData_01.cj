@@ -18,7 +18,7 @@ public class TestDeferredFileOutputStream {
     ***/
     @TestCase
     func testDeferredFileOutputStreamGetData01(): Unit {
-        if(!File.exists("./testtemp1")){
+        if(!exists("./testtemp1")){
             File.create("./testtemp1")
         }
         let file = File(Path("./testtemp1"),OpenOption.Open(false, false))

@@ -8,7 +8,7 @@ import std.io.*
 
 public func fuzzFunc_MultipartStream_Init(dp:DataProvider):Int32 {
     try{
-        MultipartStream(ByteArrayStream(),Option<Array<UInt8>>.None,dp.consumeInt64(),Option<ProgressNotifier>.None)
+        MultipartStream(ByteBuffer(),Option<Array<UInt8>>.None,dp.consumeInt64(),Option<ProgressNotifier>.None)
     }catch(e:Exception){}
     return 0
 }

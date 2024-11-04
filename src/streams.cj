@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Huawei Technologies Co., Ltd. 2023-2024. All rights resvered.
+ * Copyright (c) Huawei Technologies Co., Ltd. 2023-2024. All rights reserved.
  */
 
 package upload4cj
@@ -63,9 +63,14 @@ public class Streams {
                 }
             }
 
-            if (let Some(k:ItemInputStream) <- input) {
-                k.close()
+            if (let Some(i) <- input) {
+                var stream = i as ItemInputStream
+                if(let Some(j) <- stream){
+                    j.close()
+                }    
             }
+
+
             return total
         } finally {
             input = Option<InputStream>.None

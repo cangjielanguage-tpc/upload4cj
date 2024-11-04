@@ -13,7 +13,7 @@ public class TestStreams{
     ***/
     @TestCase
     func testServletRequestContextToString01(): Unit {
-        let body_in=ByteArrayStream()
+        let body_in=ByteBuffer()
         let body_arr=Array<UInt8>(100,repeat:9)
         body_in.write(body_arr)
         var request = HttpRequestBuilder().method("GET").url("http://www.baidu.com").body(body_in).build()

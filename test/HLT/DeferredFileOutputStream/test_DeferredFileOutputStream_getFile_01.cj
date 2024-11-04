@@ -18,13 +18,13 @@ public class TestDeferredFileOutputStream {
     ***/
     @TestCase
     func testDeferredFileOutputStreamGetFile01(): Unit {
-        if(!File.exists("./testtemp1")){
+        if(!exists("./testtemp1")){
             File.create("./testtemp1")
         }
         let file = File(Path("./testtemp1"),OpenOption.Open(true, true))
         var flag = 0
         let dirPath:Path = Path("./dirfactory")
-        if(!Directory.exists(dirPath)) {
+        if(!exists(dirPath)) {
             Directory.create(dirPath)
         }
         var dir = Directory(dirPath)

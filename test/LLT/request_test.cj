@@ -17,7 +17,7 @@ main() {
 
 
     func test1(): Unit {
-        let sendBody = ByteArrayStream()
+        let sendBody = ByteBuffer()
         sendBody.write("foo=bar&foo=bar2&bar=baz".toArray())
         let sizeCon = "foo=bar&foo=bar2&bar=baz".toArray().size
         var req = HttpRequestBuilder().method("POST").url("http://dummy.faketssssld/").body(sendBody).build()
@@ -30,7 +30,7 @@ main() {
      }
 
     func test2(): Unit {
-        let s1: ByteArrayStream = ByteArrayStream()
+        let s1: ByteBuffer = ByteBuffer()
         s1.write("a=teacher&b=student".toArray())
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(s1).build()
         req1.headers.add("Content-Type","application/x-www-form-urlencoded")
@@ -46,7 +46,7 @@ main() {
      }
 
     func test4(): Unit {
-        let s2: ByteArrayStream = ByteArrayStream()
+        let s2: ByteBuffer = ByteBuffer()
         s2.write("a=teacher&b=student&c=director&c=headteacher".toArray())
         var req3 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(s2).build()
         req3.headers.add("Content-Type","application/x-www-form-urlencoded")

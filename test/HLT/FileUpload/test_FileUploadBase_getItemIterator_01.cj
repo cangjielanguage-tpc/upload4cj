@@ -22,7 +22,7 @@ public class TestFileUploadBase {
         var fu = FileUpload()
         var text ="-----1234"
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         let req = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         let CONTENT_TYPE: String = "multipart/form-data; boundary=---1234"

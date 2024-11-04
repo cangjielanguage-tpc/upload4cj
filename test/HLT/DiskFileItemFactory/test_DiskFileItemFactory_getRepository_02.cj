@@ -19,14 +19,14 @@ public class TestDiskFileItemFactory {
     @TestCase
     func testDiskFileItemFactory02(): Unit {
         let dirPath:Path = Path("./dirfactory")
-        if(!Directory.exists(dirPath)) {
+        if(!exists(dirPath)) {
             Directory.create(dirPath)
         }
         var dir = Directory(dirPath)
         let dff = DiskFileItemFactory(128, dir)
         let info = dff.getRepository().getOrThrow().info
-        let res = info.path.toCanonical().toString()
-        let origin = dirPath.toCanonical().toString()
+        let res =  canonicalize(info.path).toString()
+        let origin = canonicalize(dirPath).toString()
         @Assert(res, origin)
     }
 }

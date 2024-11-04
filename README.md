@@ -5,7 +5,7 @@
 <p align="center">
 <img alt="" src="https://img.shields.io/badge/release-v0.0.1-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/build-pass-brightgreen" style="display: inline-block;" />
-<img alt="" src="https://img.shields.io/badge/cjc-v0.55.3-brightgreen" style="display: inline-block;" />
+<img alt="" src="https://img.shields.io/badge/cjc-v0.56.4-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/cjcov-90.9%25-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/project-open-brightgreen" style="display: inline-block;" />
 </p>
@@ -147,7 +147,7 @@ public class Test_ReadMe{
             "-----1234--\r\n"
 
         let bytes: Array<UInt8> = text.toUtf8Array()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/")
                    .body(output).build()
@@ -214,7 +214,7 @@ public class Test_ReadMe{
             "-----1234--\r\n"
 
         let bytes: Array<UInt8> = text.toUtf8Array()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/")
                    .body(output).build()

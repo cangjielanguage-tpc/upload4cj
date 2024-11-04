@@ -11,7 +11,7 @@ public class TestMultipartStream{
     ***/
     @TestCase
     func testMultipartStreamReadBoundary02(): Unit {
-        let input=ByteArrayStream()
+        let input=ByteBuffer()
         var boundary_arr="888888888".toArray()
         var boundary=Option<Array<UInt8>>.Some(boundary_arr)
         let bufSize=100

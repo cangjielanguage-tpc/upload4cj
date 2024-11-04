@@ -37,7 +37,7 @@ public class Test_FeatureApi{
             "-----1234--\r\n"
 
         let bytes: Array<UInt8> = text.toArray()
-        var output = ByteArrayStream()
+        var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/")
                    .body(output).build()
@@ -74,7 +74,7 @@ public class Test_FeatureApi{
 					  "-----1234--\r\n"
 
 		let bytes:Array<UInt8> = text.toArray()
-		var output = ByteArrayStream()
+		var output = ByteBuffer()
 		output.write(bytes)
 		var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
 		req1.headers.add("Content-Type",CONTENT_TYPE)

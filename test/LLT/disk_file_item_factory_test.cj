@@ -50,15 +50,15 @@ public class DiskFileItemFactoryTest{
         factory.setSizeThreshold(1024)
         let dirPath:Path = Path("./dirfactory")
         var dir:Option<Directory> = Option<Directory>.None
-        if(!Directory.exists(dirPath)){
+        if(!exists(dirPath)){
             dir = Directory.create(dirPath)
         }
         factory.setRepository(dir)
         let dirget:Directory = factory.getRepository().getOrThrow()
-        let isexists:Bool = Directory.exists(dirget.info.path)
+        let isexists:Bool = exists(dirget.info.path)
         @Assert(isexists,true)
 
-        Directory.delete(dirget.info.path)
+        remove(dirget.info.path)
 
         println("Pass3")
 

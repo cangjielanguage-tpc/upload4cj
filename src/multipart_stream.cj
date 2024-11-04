@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Huawei Technologies Co., Ltd. 2023-2024. All rights resvered.
+ * Copyright (c) Huawei Technologies Co., Ltd. 2023-2024. All rights reserved.
  */
 
 package upload4cj
@@ -223,7 +223,7 @@ public class MultipartStream {
         var b: UInt8
 
         // to support multi-byte characters
-        var baos = ByteArrayStream()
+        var baos = ByteBuffer()
         var size: Int64 = 0
         let arrayUint = ArrayList<UInt8>()
         while (i < HEADER_SEPARATOR.size) {
@@ -258,17 +258,17 @@ public class MultipartStream {
             try {
                 // bytes -> String
                   unsafe{
-                    return String.fromUtf8Unchecked(baos.readToEnd())
+                    return String.fromUtf8Unchecked(readToEnd(baos))
                   }
             } catch (e: ReadWriteException) {
                 // Fall back to platform default if specified encoding is not
                 // supported.
                 unsafe{
-                    return String.fromUtf8Unchecked(baos.readToEnd())
+                    return String.fromUtf8Unchecked(readToEnd(baos))
                   }            }
         } else {
                 unsafe{
-                    return String.fromUtf8Unchecked(baos.readToEnd())
+                    return String.fromUtf8Unchecked(readToEnd(baos))
                   }
         }
     }

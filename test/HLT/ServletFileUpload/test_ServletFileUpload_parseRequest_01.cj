@@ -19,7 +19,7 @@ public class TestServletFileUpload{
                     "This is the content of the file\n" +
                     "\r\n" +
                     "-----1234--\r\n"
-        var body_in=ByteArrayStream()
+        var body_in=ByteBuffer()
         body_in.write(content.toArray())
         let servletFileUpload=ServletFileUpload()
         let request = HttpRequestBuilder().method("GET").url("http://www.baidu.com").body(body_in).build()

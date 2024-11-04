@@ -108,9 +108,9 @@ public class DiskFileItemTest {
             }
             @Assert(isFileExists,true)
 
-            @Assert(File.exists(file.getOrThrow().info.path),true)
+            @Assert(exists(file.getOrThrow().info.path),true)
 
-            @Assert(file.getOrThrow().info.length,testFieldValueBytes.size)
+            @Assert(file.getOrThrow().info.size,testFieldValueBytes.size)
 
             @Assert(file.getOrThrow().info.parentDirectory.getOrThrow().path.toString(),dir.info.path.toString())
             println(i.toString())

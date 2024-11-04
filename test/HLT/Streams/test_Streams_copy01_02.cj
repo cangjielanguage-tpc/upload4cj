@@ -12,10 +12,10 @@ public class TestStreams{
     ***/
     @TestCase
     func testStreamsCopy010201(): Unit {
-        let in_byteArrayStream=ByteArrayStream()
-        let out_byteArrayStream=ByteArrayStream()
-        let inputStream=Option<InputStream>.Some(in_byteArrayStream)
-        let outputStream=Option<OutputStream>.Some(out_byteArrayStream)
+        let in_ByteBuffer=ByteBuffer()
+        let out_ByteBuffer=ByteBuffer()
+        let inputStream=Option<InputStream>.Some(in_ByteBuffer)
+        let outputStream=Option<OutputStream>.Some(out_ByteBuffer)
         let buffer=Array<UInt8>()
         let closeOutputStream=true
         let re=Streams.copy(inputStream,outputStream,closeOutputStream,buffer)
@@ -23,10 +23,10 @@ public class TestStreams{
     }
     @TestCase
     func testStreamsCopy010202(): Unit {
-        let in_byteArrayStream=ByteArrayStream()
-        let out_byteArrayStream=ByteArrayStream()
-        let inputStream=Option<InputStream>.Some(in_byteArrayStream)
-        let outputStream=Option<OutputStream>.Some(out_byteArrayStream)
+        let in_ByteBuffer=ByteBuffer()
+        let out_ByteBuffer=ByteBuffer()
+        let inputStream=Option<InputStream>.Some(in_ByteBuffer)
+        let outputStream=Option<OutputStream>.Some(out_ByteBuffer)
         let buffer=Array<UInt8>(200,repeat:UInt8(0))
         let closeOutputStream=false
         let re=Streams.copy(inputStream,outputStream,closeOutputStream,buffer)

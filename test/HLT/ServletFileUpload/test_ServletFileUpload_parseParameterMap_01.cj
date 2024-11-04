@@ -18,7 +18,7 @@ public class TestServletFileUpload{
                     "This is the content of the file\n" +
                     "\r\n" +
                     "-----1234--\r\n"
-        var body_in=ByteArrayStream()
+        var body_in=ByteBuffer()
         body_in.write(content.toArray())
         let fileItemFactory=DiskFileItemFactory()
         let servletFileUpload=ServletFileUpload(fileItemFactory)
