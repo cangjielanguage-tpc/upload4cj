@@ -49,16 +49,15 @@ public class DiskFileItemFactoryTest{
         factory.setDefaultCharset("UTF-8")
         factory.setSizeThreshold(1024)
         let dirPath:Path = Path("./dirfactory")
-        var dir:Option<Directory> = Option<Directory>.None
         if(!exists(dirPath)){
-            dir = Directory.create(dirPath)
+            Directory.create(dirPath)
         }
-        factory.setRepository(dir)
-        let dirget:Directory = factory.getRepository().getOrThrow()
-        let isexists:Bool = exists(dirget.info.path)
+        factory.setRepository(dirPath)
+        let dirget:Path = factory.getRepository().getOrThrow()
+        let isexists:Bool = exists(dirget)
         @Assert(isexists,true)
 
-        remove(dirget.info.path)
+        remove(dirget)
 
         println("Pass3")
 

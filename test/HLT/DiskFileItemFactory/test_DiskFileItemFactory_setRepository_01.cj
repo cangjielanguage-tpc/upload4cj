@@ -13,7 +13,7 @@ import net.http.*
 public class TestDiskFileItemFactory {
     /***
         public init()
-        public func setRepository(tempRepository:Option<Directory>):Unit
+        public func setRepository(tempRepository:Option<Path>):Unit
         测试场景: 空构造，设置的Repository成功
     ***/
     @TestCase
@@ -24,12 +24,11 @@ public class TestDiskFileItemFactory {
         if(!exists(dirPath)) {
             Directory.create(dirPath)
         }
-        var dir = Directory(dirPath)
 
-        dff.setRepository(dir)
+        dff.setRepository(dirPath)
 
-        let info = dff.getRepository().getOrThrow().info
-        let res =  canonicalize(info.path).toString()
+        let info = dff.getRepository().getOrThrow()
+        let res =  canonicalize(info).toString()
         let origin = canonicalize(dirPath).toString()
         @Assert(res, origin)
     }

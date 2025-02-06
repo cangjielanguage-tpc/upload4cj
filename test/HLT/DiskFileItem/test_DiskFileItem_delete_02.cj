@@ -12,7 +12,7 @@ import net.http.*
 @Test
 public class TestDiskFileItem {
     /***
-        public init(fieldName: String, contentType: String, isFormField: Bool, fileName: String, sizeThreshold: Int64, repository: Option<Directory>)
+        public init(fieldName: String, contentType: String, isFormField: Bool, fileName: String, sizeThreshold: Int64, repository: Option<Path>)
         public override func delete()
         测试场景: isOutputFile 为 true 正常 deleie
     ***/
@@ -22,8 +22,7 @@ public class TestDiskFileItem {
         if(!exists(dirPath)) {
             Directory.create(dirPath)
         }
-        var dir = Directory(dirPath)
-        let dfs = DiskFileItem("a1" , "text/html; charset=utf16" , false, "testfile" , 129 ,dir)
+        let dfs = DiskFileItem("a1" , "text/html; charset=utf16" , false, "testfile" , 129 ,dirPath)
         var flag= 0
         try {
             dfs.delete()

@@ -3,9 +3,9 @@
 </div>
 
 <p align="center">
-<img alt="" src="https://img.shields.io/badge/release-v0.0.1-brightgreen" style="display: inline-block;" />
+<img alt="" src="https://img.shields.io/badge/release-v1.0.0-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/build-pass-brightgreen" style="display: inline-block;" />
-<img alt="" src="https://img.shields.io/badge/cjc-v0.56.4-brightgreen" style="display: inline-block;" />
+<img alt="" src="https://img.shields.io/badge/cjc-v0.58.3-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/cjcov-90.9%25-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/project-open-brightgreen" style="display: inline-block;" />
 </p>
@@ -34,46 +34,14 @@ upload4cj是用于处理浏览器或者其他客户端上传上来的单个或�
 .
 ├── doc
 ├── src
-│   ├── upload4cj
-│            ├──deferredFile_output_stream.cj
-│            ├──disk_file_item_factory.cj
-│            ├──disk_file_item.cj
-│            ├──file_item_factory.cj
-│            ├──file_item_headers_impl.cj
-│            ├──file_item_headers_support.cj
-│            ├──file_item_headers.cj
-│            ├──file_item_iterator_impl.cj
-│            ├──file_item_iterator.cj
-│            ├──file_item_stream_impl.cj
-│            ├──file_item_stream.cj
-│            ├──file_item.cj
-│            ├──file_upload_base.cj
-│            ├──file_upload_exception.cj
-│            ├──file_upload.cj
-│            ├──inter_input_stream.cj
-│            ├──item_input_stream.cj
-│            ├──limited_input_stream_impl.cj
-│            ├──limited_input_stream.cj
-│            ├──mime_utility.cj
-│            ├──multipart_stream.cj
-│            ├──parameter_parser.cj
-│            ├──progress_listener.cj
-│            ├──progress_notifier.cj
-│            ├──quoted_printable_decoder.cj
-│            ├──request_context.cj
-│            ├──servlet_file_upload.cj
-│            ├──servlet_request_context.cj
-│            ├──streams.cj
-│            └──thresholding_output_stream.cj
+│   └── upload4cj
 └── test
 │   ├── DOC
 │   ├── FUZZ
 │   ├── HLT
 │   └── LLT
 ├── CHANGELOG.md
-├── gitee_gate.cfg
-├── LICENSE.txt
-├── module.json
+├── LICENSE
 ├── README.md
 ├── README.OpenSource
 ```
@@ -146,7 +114,7 @@ public class Test_ReadMe{
             "-----9876--\r\n" +
             "-----1234--\r\n"
 
-        let bytes: Array<UInt8> = text.toUtf8Array()
+        let bytes: Array<UInt8> = text.toArray()
         var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/")
@@ -213,7 +181,7 @@ public class Test_ReadMe{
             "value2\r\n" +
             "-----1234--\r\n"
 
-        let bytes: Array<UInt8> = text.toUtf8Array()
+        let bytes: Array<UInt8> = text.toArray()
         var output = ByteBuffer()
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/")

@@ -86,11 +86,11 @@ public class DiskFileUploadTest{
         output.write(bytes)
         var req1 = HttpRequestBuilder().method("POST").url("http://127.0.0.1/").body(output).build()
         req1.headers.add("Content-Type",CONTENT_TYPE)
-        let upload:ServletFileUpload = ServletFileUpload(DiskFileItemFactory(0,Option<Directory>.None))
+        let upload:ServletFileUpload = ServletFileUpload(DiskFileItemFactory(0,Option<Path>.None))
         let items:ArrayList<FileItem> = upload.parseRequest(req1).getOrThrow()
         let item0:FileItem = items.get(0).getOrThrow()
         let filePath:Path = Path("./uploadtest2temp")
-        let file = File(filePath,OpenOption.Create(true))
+        let file = File.create(filePath)
         if(!exists(file.info.path)){
             File.create(file.info.path)
         }

@@ -12,7 +12,7 @@ import net.http.*
 @Test
 public class TestDeferredFileOutputStream {
     /***
-        public init(threshold: Int64, tempFile: Option<File>,repository:Option<Directory>)
+        public init(threshold: Int64, tempFile: Option<File>,repository:Option<Path>)
         public func getFile(): File
         测试场景: 返回的File等于构造传入的File
     ***/
@@ -21,14 +21,13 @@ public class TestDeferredFileOutputStream {
         if(!exists("./testtemp1")){
             File.create("./testtemp1")
         }
-        let file = File(Path("./testtemp1"),OpenOption.Open(true, true))
+        let file = File(Path("./testtemp1"),OpenMode.ReadWrite)
         var flag = 0
         let dirPath:Path = Path("./dirfactory")
         if(!exists(dirPath)) {
             Directory.create(dirPath)
         }
-        var dir = Directory(dirPath)
-        let dfos:DeferredFileOutputStream = DeferredFileOutputStream(16, file,dir)
+        let dfos:DeferredFileOutputStream = DeferredFileOutputStream(16, file,dirPath)
          dfos.write(("01234567890123456789").toArray())
         var res: File = dfos.getFile().getOrThrow()
         if (!refEq(file, res)) {

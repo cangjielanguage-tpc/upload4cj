@@ -7,7 +7,7 @@ import std.unittest.testmacro.*
 import std.fs.*
 import std.io.*
 import std.collection.*
-
+import std.posix.*
 
 main(){
     let diskFileItemTest = DiskFileItemTest()
@@ -30,7 +30,7 @@ public class DiskFileItemTest {
 
     @TestCase
     public func test1(): Unit {
-        let factory:FileItemFactory = createFactory(Option<Directory>.None)
+        let factory:FileItemFactory = createFactory(Option<Path>.None)
         let textFieldName:String = "textField"
         let item:FileItem = factory.createItem(textFieldName,textContentType,true,"")
 
@@ -44,7 +44,7 @@ public class DiskFileItemTest {
 
     @TestCase
     public func test2(): Unit {
-        let factory:FileItemFactory = createFactory(Option<Directory>.None)
+        let factory:FileItemFactory = createFactory(Option<Path>.None)
         let fileFieldName:String = "fileField"
         let fileName:String = "originalFileName";
 
@@ -59,7 +59,7 @@ public class DiskFileItemTest {
 
     @TestCase
     public func test3(): Unit {
-        let factory:FileItemFactory = createFactory(Option<Directory>.None)
+        let factory:FileItemFactory = createFactory(Option<Path>.None)
         let textFieldName:String = "textField"
         let textFieldValue:String = "0123456789"
         let testFieldValueBytes:Array<UInt8> = textFieldValue.toArray()
@@ -79,8 +79,9 @@ public class DiskFileItemTest {
 
     @TestCase
     public func test4(): Unit {
-
-        let dir = Directory.create("tmpDir")
+        var path: String = getcwd()
+        var dir = Path(path + "/tmpDir")
+        Directory.create(dir)
         let factory:FileItemFactory = createFactory(dir)
         let textFieldName:String = "textField"
         let textFieldValue:String = "01234567890123456789"
@@ -112,7 +113,7 @@ public class DiskFileItemTest {
 
             @Assert(file.getOrThrow().info.size,testFieldValueBytes.size)
 
-            @Assert(file.getOrThrow().info.parentDirectory.getOrThrow().path.toString(),dir.info.path.toString())
+            @Assert(file.getOrThrow().info.parentDirectory.getOrThrow().path.toString(),dir.toString())
             println(i.toString())
             println("Pass4-1")
         }
@@ -122,7 +123,7 @@ public class DiskFileItemTest {
 
     }
 
-    public func createFactory(repository:Option<Directory>):FileItemFactory{
+    public func createFactory(repository:Option<Path>):FileItemFactory{
         return DiskFileItemFactory(threshold,repository)
     }
 
@@ -142,7 +143,7 @@ public class DiskFileItemTest {
     @TestCase
     public func test5(): Unit {
 
-        let factory:FileItemFactory = createFactory(Option<Directory>.None)
+        let factory:FileItemFactory = createFactory(Option<Path>.None)
         let teststr:String = constructString()
         let item:FileItem = factory.createItem("doesnotmatter","text/plain; charset=" + CHARSET_UTF8,true,"")
         let outstream:OutputStream = item.getOutputStream()
@@ -156,7 +157,7 @@ public class DiskFileItemTest {
 
     @TestCase
     public func test6(): Unit {
-        let factory:FileItemFactory = createFactory(Option<Directory>.None)
+        let factory:FileItemFactory = createFactory(Option<Path>.None)
         let textFieldName:String = ""
         let textFieldValue:String = "0123456789"
         let newtextContentType = "text/plain; Charset=UTF-8"
