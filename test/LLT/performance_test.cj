@@ -96,7 +96,7 @@ main(){
 
 
     func test4(): Unit {
-        let dfs = DiskFileItem("a1" , "text/html; charset=utf16" , false, "testfile" , 129 , Option<Directory>.None)
+        let dfs = DiskFileItem("a1" , "text/html; charset=utf16" , false, "testfile" , 129 , Option<Path>.None)
         var flag = 0
         dfs.getOutputStream()
         match (dfs.getStoreLocation()) {

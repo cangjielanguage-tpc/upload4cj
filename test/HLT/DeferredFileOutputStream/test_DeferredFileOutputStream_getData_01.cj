@@ -12,7 +12,7 @@ import net.http.*
 @Test
 public class TestDeferredFileOutputStream {
     /***
-        public init(threshold: Int64, tempFile: Option<File>,repository:Option<Directory>)
+        public init(threshold: Int64, tempFile: Option<File>,repository:Option<Path>)
         public func getData(): Option<Array<UInt8>>
         测试场景: getData返回值非None
     ***/
@@ -21,9 +21,9 @@ public class TestDeferredFileOutputStream {
         if(!exists("./testtemp1")){
             File.create("./testtemp1")
         }
-        let file = File(Path("./testtemp1"),OpenOption.Open(false, false))
+        let file = File(Path("./testtemp1"),OpenMode.Read)
         var flag = 0
-        let dfos:DeferredFileOutputStream = DeferredFileOutputStream(16, file, Option<Directory>.None)
+        let dfos:DeferredFileOutputStream = DeferredFileOutputStream(16, file, Option<Path>.None)
         var res = dfos.getData()
         if (let None <- res) {
             flag = 1

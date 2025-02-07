@@ -13,7 +13,7 @@ import net.http.*
 public class TestDiskFileItemFactory {
     /***
         public init()
-        public func getRepository():Option<Directory>
+        public func getRepository():Option<Path>
         测试场景: 空构造，默认返回None
     ***/
     @TestCase

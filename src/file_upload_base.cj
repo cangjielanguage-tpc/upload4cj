@@ -166,7 +166,7 @@ public abstract class FileUploadBase {
                 }
                 let fileItem: FileItem = fac.getOrThrow().createItem(item.getFieldName(), item.getContentType(),
                     item.isFormField(), fileName.getOrThrow())
-                items.append(fileItem)
+                items.add(fileItem)
                 try {
                     Streams.copy(item.openStream(), fileItem.getOutputStream(), true, buffer)
                     let outputStream = fileItem.getOutputStream()
@@ -230,11 +230,11 @@ public abstract class FileUploadBase {
             let fieldName: String = fileItem.getFieldName()
             var mappedItems: Option<ArrayList<FileItem>> = itemsMap.get(fieldName)
             if (let Some(i) <- mappedItems) {
-                i.append(fileItem)
+                i.add(fileItem)
             } else {
                 mappedItems = ArrayList<FileItem>()
-                itemsMap.put(fieldName, mappedItems.getOrThrow())
-                mappedItems.getOrThrow().append(fileItem)
+                itemsMap.add(fieldName, mappedItems.getOrThrow())
+                mappedItems.getOrThrow().add(fileItem)
             }
         }
         return itemsMap

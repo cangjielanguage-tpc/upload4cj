@@ -147,7 +147,7 @@ public class ParameterParser {
                 if (lowerCaseNames) {
                     paramName = paramName.getOrThrow().toAsciiLower()
                 }
-                params.put(paramName.getOrThrow(), paramValue)
+                params.add(paramName.getOrThrow(), paramValue)
             }
         }
         return params

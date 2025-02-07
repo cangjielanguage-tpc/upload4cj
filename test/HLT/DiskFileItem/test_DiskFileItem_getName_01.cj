@@ -12,13 +12,13 @@ import net.http.*
 @Test
 public class TestDiskFileItem {
     /***
-        public init(fieldName: String, contentType: String, isFormField: Bool, fileName: String, sizeThreshold: Int64, repository: Option<Directory>)
+        public init(fieldName: String, contentType: String, isFormField: Bool, fileName: String, sizeThreshold: Int64, repository: Option<Path>)
         public override func getName(): String
         测试场景: 测试场景: 正常返回传入的fileName
     ***/
     @TestCase
     func testDiskFileItemgetName01(): Unit {
-        let dfs = DiskFileItem("a1" , "text/html; charset=utf16" , false, "testfile" , 129 , Option<Directory>.None)
+        let dfs = DiskFileItem("a1" , "text/html; charset=utf16" , false, "testfile" , 129 , Option<Path>.None)
         let res = dfs.getName()
         @Assert(res, "testfile")
     }

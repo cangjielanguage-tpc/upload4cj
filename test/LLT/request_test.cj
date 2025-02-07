@@ -6,6 +6,7 @@ import net.http.*
 import std.io.*
 import std.unittest.*
 import std.unittest.testmacro.*
+import std.collection.*
 
 main() {
     test1()

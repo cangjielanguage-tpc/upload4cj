@@ -12,18 +12,18 @@ import net.http.*
 @Test
 public class TestDiskFileItem {
     /***
-        public init(fieldName: String, contentType: String, isFormField: Bool, fileName: String, sizeThreshold: Int64, repository: Option<Directory>)
+        public init(fieldName: String, contentType: String, isFormField: Bool, fileName: String, sizeThreshold: Int64, repository: Option<Path>)
         public override func write(file:File)
         测试场景: 同get() dfos 为空，报空异常
     ***/
     @TestCase
     func testDiskFileItemGetString01(): Unit {
-        let dfs = DiskFileItem("a1" , "text/html; charset=utf16" , false, "testfile" , 129 , Option<Directory>.None)
+        let dfs = DiskFileItem("a1" , "text/html; charset=utf16" , false, "testfile" , 129 , Option<Path>.None)
         var flag= 1
          if(!exists("./testtemp1")){
             File.create("./testtemp1")
         }
-        let file = File(Path("./testtemp1"),OpenOption.Open(false, false))
+        let file = File(Path("./testtemp1"),OpenMode.Read)
         try {
             dfs.write(file)
         } catch (e: NoneValueException) {

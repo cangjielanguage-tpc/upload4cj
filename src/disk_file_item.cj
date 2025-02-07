@@ -40,7 +40,7 @@ public class DiskFileItem <: FileItem {
 
     public var sizeThreshold: Int64
 
-    private var repository = Option<Directory>.None
+    private var repository = Option<Path>.None
 
     private var cachedContent = Option<Array<UInt8>>.None
 
@@ -60,7 +60,7 @@ public class DiskFileItem <: FileItem {
      * @param isFormField - Bool The isFormField
      * @param fileName - String The fileName
      * @param sizeThreshold - Int64 The sizeThreshold
-     * @param repository - Option<Directory> The repository
+     * @param repository - Option<Path> The repository
      */
     public init(
         fieldName: String,
@@ -68,7 +68,7 @@ public class DiskFileItem <: FileItem {
         isFormField: Bool,
         fileName: String,
         sizeThreshold: Int64,
-        repository: Option<Directory>
+        repository: Option<Path>
     ) {
         this.fieldName = fieldName
         this.contentType = contentType
@@ -203,7 +203,7 @@ public class DiskFileItem <: FileItem {
         // read file to Array<Unit8>
         try {
             //如果close了，就不能调用seek和read了所以用这种代替
-            let file = File(this.dfos.getOrThrow().getFile().getOrThrow().info.path, OpenOption.Open(true,true))
+            let file = File(this.dfos.getOrThrow().getFile().getOrThrow().info.path, OpenMode.ReadWrite)
             file.seek(SeekPosition.Begin(0))
             file.read(fileData.getOrThrow())
         } catch (ie: Exception) {

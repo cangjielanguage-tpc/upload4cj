@@ -12,13 +12,13 @@ import net.http.*
 @Test
 public class TestDiskFileItem {
     /***
-        public init(fieldName: String, contentType: String, isFormField: Bool, fileName: String, sizeThreshold: Int64, repository: Option<Directory>)
+        public init(fieldName: String, contentType: String, isFormField: Bool, fileName: String, sizeThreshold: Int64, repository: Option<Path>)
         public func getCharSet(): String
         测试场景: 测试场景: 从contenttyoe 里解析出来charset值
     ***/
     @TestCase
     func testDiskFileItemGetCharSet01(): Unit {
-        let dfs = DiskFileItem("a1" , "text/html; charset=utf16" , false, "testfile" , 129 , Option<Directory>.None)
+        let dfs = DiskFileItem("a1" , "text/html; charset=utf16" , false, "testfile" , 129 , Option<Path>.None)
         let res = dfs.getCharSet()
         @Assert(res, "utf16")
     }

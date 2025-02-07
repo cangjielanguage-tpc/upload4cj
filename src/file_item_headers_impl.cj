@@ -64,8 +64,8 @@ public class FileItemHeadersImpl <: FileItemHeaders {
         if (let Some(_) <- headerValueList) {}
         else {
             headerValueList = ArrayList<String>()
-            headerNameToValueListMap.put(nameLower, headerValueList.getOrThrow())
+            headerNameToValueListMap.add(nameLower, headerValueList.getOrThrow())
         }
-        headerValueList.getOrThrow().append(value)
+        headerValueList.getOrThrow().add(value)
     }
 }

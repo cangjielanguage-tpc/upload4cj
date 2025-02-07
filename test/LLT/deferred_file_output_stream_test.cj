@@ -34,11 +34,11 @@ public class DeferredFileOutputStreamTest{
     public func test1(): Unit {
         var sizeThreshold:Int64 = 16
         let filePath:Path = Path("./deffertemp1")
-        let file = File(filePath,OpenOption.Create(true))
+        let file = File.create(filePath)
         if(!exists(file.info.path)){
             File.create(file.info.path)
         }
-        let dfos:DeferredFileOutputStream = DeferredFileOutputStream(sizeThreshold, Option<File>.None,Option<Directory>.None)
+        let dfos:DeferredFileOutputStream = DeferredFileOutputStream(sizeThreshold, Option<File>.None,Option<Path>.None)
         let textFieldValue:String = "0123456789"
         let testFieldValueBytes:Array<UInt8> = textFieldValue.toArray()
         dfos.write(testFieldValueBytes)
@@ -53,11 +53,11 @@ public class DeferredFileOutputStreamTest{
     public func test2(): Unit {
         var sizeThreshold:Int64 = 16
         let filePath:Path = Path("./deffertemp2")
-        let file = File(filePath,OpenOption.Create(true))
+        let file = File.create(filePath)
         if(!exists(file.info.path)){
             File.create(file.info.path)
         }
-        let dfos:DeferredFileOutputStream = DeferredFileOutputStream(sizeThreshold, Option<File>.None,Option<Directory>.None)
+        let dfos:DeferredFileOutputStream = DeferredFileOutputStream(sizeThreshold, Option<File>.None,Option<Path>.None)
         let textFieldValue:String = "0123456789"
         let testFieldValueBytes:Array<UInt8> = textFieldValue.toArray()
         dfos.write(testFieldValueBytes)
@@ -73,11 +73,11 @@ public class DeferredFileOutputStreamTest{
     public func test3(): Unit {
         var sizeThreshold:Int64 = 16
         let filePath:Path = Path("./deffertemp3")
-        let file = File(filePath,OpenOption.Create(true))
+        let file = File.create(filePath)
         if(!exists(file.info.path)){
             File.create(file.info.path)
         }
-        let dfos:DeferredFileOutputStream = DeferredFileOutputStream(sizeThreshold, Option<File>.None,Option<Directory>.None)
+        let dfos:DeferredFileOutputStream = DeferredFileOutputStream(sizeThreshold, Option<File>.None,Option<Path>.None)
         let textFieldValue:String = "0123456789"
         let testFieldValueBytes:Array<UInt8> = textFieldValue.toArray()
         dfos.write(testFieldValueBytes)
@@ -92,11 +92,11 @@ public class DeferredFileOutputStreamTest{
     public func test4(): Unit {
         var sizeThreshold:Int64 = 16
         let filePath:Path = Path("./deffertemp4")
-        let file = File(filePath,OpenOption.Create(true))
+        let file = File.create(filePath)
         if(!exists(file.info.path)){
             File.create(file.info.path)
         }
-        let dfos:DeferredFileOutputStream = DeferredFileOutputStream(sizeThreshold, Option<File>.None,Option<Directory>.None)
+        let dfos:DeferredFileOutputStream = DeferredFileOutputStream(sizeThreshold, Option<File>.None,Option<Path>.None)
         let textFieldValue:String = "0123456789"
         let testFieldValueBytes:Array<UInt8> = textFieldValue.toArray()
         dfos.write(testFieldValueBytes)
@@ -111,11 +111,11 @@ public class DeferredFileOutputStreamTest{
     public func test5(): Unit {
         var sizeThreshold:Int64 = 16
         let filePath:Path = Path("./deffertemp5")
-        let file = File(filePath,OpenOption.Create(true))
+        let file = File.create(filePath)
         if(!exists(file.info.path)){
             File.create(file.info.path)
         }
-        let dfos:DeferredFileOutputStream = DeferredFileOutputStream(sizeThreshold, Option<File>.None,Option<Directory>.None)
+        let dfos:DeferredFileOutputStream = DeferredFileOutputStream(sizeThreshold, Option<File>.None,Option<Path>.None)
         let textFieldValue:String = "0123456789"
         let testFieldValueBytes:Array<UInt8> = textFieldValue.toArray()
         dfos.write(testFieldValueBytes)
@@ -130,11 +130,11 @@ public class DeferredFileOutputStreamTest{
     public func test6(): Unit {
         var sizeThreshold:Int64 = 16
         let filePath:Path = Path("./deffertemp6")
-        let file = File(filePath,OpenOption.Create(true))
+        let file = File.create(filePath)
         if(!exists(file.info.path)){
             File.create(file.info.path)
         }
-        let dfos:DeferredFileOutputStream = DeferredFileOutputStream(sizeThreshold, Option<File>.None,Option<Directory>.None)
+        let dfos:DeferredFileOutputStream = DeferredFileOutputStream(sizeThreshold, Option<File>.None,Option<Path>.None)
         let textFieldValue:String = "01234567890123456789"
         let testFieldValueBytes:Array<UInt8> = textFieldValue.toArray()
         dfos.write(testFieldValueBytes)
@@ -149,11 +149,11 @@ public class DeferredFileOutputStreamTest{
     public func test7(): Unit {
         var sizeThreshold:Int64 = 16
         let filePath:Path = Path("./deffertemp7")
-        let file = File(filePath,OpenOption.Create(true))
+        let file = File.create(filePath)
         if(!exists(file.info.path)){
             File.create(file.info.path)
         }
-        let dfos:DeferredFileOutputStream = DeferredFileOutputStream(sizeThreshold, Option<File>.None,Option<Directory>.None)
+        let dfos:DeferredFileOutputStream = DeferredFileOutputStream(sizeThreshold, Option<File>.None,Option<Path>.None)
         let textFieldValue:String = "01234567890123456789"
         let testFieldValueBytes:Array<UInt8> = textFieldValue.toArray()
         dfos.write(testFieldValueBytes)
@@ -173,11 +173,11 @@ public class DeferredFileOutputStreamTest{
     public func test8(): Unit {
         var sizeThreshold:Int64 = 16
         let filePath:Path = Path("./deffertemp8")
-        let file = File(filePath,OpenOption.Create(true))
+        let file = File.create(filePath)
         if(!exists(file.info.path)){
             File.create(file.info.path)
         }
-        let dfos:DeferredFileOutputStream = DeferredFileOutputStream(sizeThreshold, Option<File>.None,Option<Directory>.None)
+        let dfos:DeferredFileOutputStream = DeferredFileOutputStream(sizeThreshold, Option<File>.None,Option<Path>.None)
         let textFieldValue:String = "01234567890123456789"
         let testFieldValueBytes:Array<UInt8> = textFieldValue.toArray()
         dfos.write(testFieldValueBytes)
@@ -192,11 +192,11 @@ public class DeferredFileOutputStreamTest{
     public func test9(): Unit {
         var sizeThreshold:Int64 = 16
         let filePath:Path = Path("./deffertemp9")
-        let file = File(filePath,OpenOption.Create(true))
+        let file = File.create(filePath)
         if(!exists(file.info.path)){
             File.create(file.info.path)
         }
-        let dfos:DeferredFileOutputStream = DeferredFileOutputStream(sizeThreshold, Option<File>.None,Option<Directory>.None)
+        let dfos:DeferredFileOutputStream = DeferredFileOutputStream(sizeThreshold, Option<File>.None,Option<Path>.None)
         let textFieldValue:String = "01234567890123456789"
         let testFieldValueBytes:Array<UInt8> = textFieldValue.toArray()
         dfos.write(testFieldValueBytes)
@@ -211,11 +211,11 @@ public class DeferredFileOutputStreamTest{
     public func test10(): Unit {
         var sizeThreshold:Int64 = 16
         let filePath:Path = Path("./deffertemp10")
-        let file = File(filePath,OpenOption.Create(true))
+        let file = File.create(filePath)
         if(!exists(file.info.path)){
             File.create(file.info.path)
         }
-        let dfos:DeferredFileOutputStream = DeferredFileOutputStream(sizeThreshold, Option<File>.None,Option<Directory>.None)
+        let dfos:DeferredFileOutputStream = DeferredFileOutputStream(sizeThreshold, Option<File>.None,Option<Path>.None)
         let textFieldValue:String = "01234567890123456789"
         let testFieldValueBytes:Array<UInt8> = textFieldValue.toArray()
         dfos.write(testFieldValueBytes)
@@ -230,11 +230,11 @@ public class DeferredFileOutputStreamTest{
     public func test11(): Unit {
         var sizeThreshold:Int64 = 16
         let filePath:Path = Path("./deffertemp11")
-        let file = File(filePath,OpenOption.Create(true))
+        let file = File.create(filePath)
         if(!exists(file.info.path)){
             File.create(file.info.path)
         }
-        let dfos:DeferredFileOutputStream = DeferredFileOutputStream(sizeThreshold, Option<File>.None,Option<Directory>.None)
+        let dfos:DeferredFileOutputStream = DeferredFileOutputStream(sizeThreshold, Option<File>.None,Option<Path>.None)
         let textFieldValue:String = "01234567890123456789"
         let testFieldValueBytes:Array<UInt8> = textFieldValue.toArray()
         dfos.write(testFieldValueBytes)

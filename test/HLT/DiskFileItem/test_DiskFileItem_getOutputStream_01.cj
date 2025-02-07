@@ -12,13 +12,13 @@ import net.http.*
 @Test
 public class TestDiskFileItem {
     /***
-        public init(fieldName: String, contentType: String, isFormField: Bool, fileName: String, sizeThreshold: Int64, repository: Option<Directory>)
+        public init(fieldName: String, contentType: String, isFormField: Bool, fileName: String, sizeThreshold: Int64, repository: Option<Path>)
         public override func getOutputStream(): OutputStream
         测试场景: true 分支，返回 DeferredFileOutputStream非None
     ***/
     @TestCase
     func testDiskFileItemIsGetOutputStream01(): Unit {
-        let dfs = DiskFileItem("a1" , "text/html; charset=utf16" , false, "testfile" , 129 , Option<Directory>.None)
+        let dfs = DiskFileItem("a1" , "text/html; charset=utf16" , false, "testfile" , 129 , Option<Path>.None)
         var flag = 0
         try {
             dfs.getOutputStream()

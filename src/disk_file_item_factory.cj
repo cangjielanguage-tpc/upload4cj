@@ -13,7 +13,7 @@ public class DiskFileItemFactory <: FileItemFactory {
 
     private var sizeThreshold: Int64 = DEFAULT_SIZE_THRESHOLD
 
-    private var repository: Option<Directory> = Option<Directory>.None
+    private var repository: Option<Path> = Option<Path>.None
 
     private var defaultCharset: String = DiskFileItem.DEFAULT_CHARSET
 
@@ -21,16 +21,16 @@ public class DiskFileItemFactory <: FileItemFactory {
      * init
      */
     public init() {
-        this(DEFAULT_SIZE_THRESHOLD, Option<Directory>.None)
+        this(DEFAULT_SIZE_THRESHOLD, Option<Path>.None)
     }
 
     /**
      * init
      *
      * @param sizeThreshold - Int64 The threshold
-     * @param repository - Option<Directory> The data repository
+     * @param repository - Option<Path> The data repository
      */
-    public init(sizeThreshold: Int64, repository: Option<Directory>) {
+    public init(sizeThreshold: Int64, repository: Option<Path>) {
         this.sizeThreshold = sizeThreshold
         this.repository = repository
     }
@@ -38,18 +38,18 @@ public class DiskFileItemFactory <: FileItemFactory {
     /**
      * get the data repository
      *
-     * @return Option<Directory> - The data repository
+     * @return Option<Path> - The data repository
      */
-    public func getRepository(): Option<Directory> {
+    public func getRepository(): Option<Path> {
         return repository
     }
 
     /**
      * set the data repository
      *
-     * @param tempRepository - Option<Directory> The data repository
+     * @param tempRepository - Option<Path> The data repository
      */
-    public func setRepository(tempRepository: Option<Directory>): Unit {
+    public func setRepository(tempRepository: Option<Path>): Unit {
         this.repository = tempRepository
     }
 

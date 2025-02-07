@@ -244,7 +244,7 @@ public class MultipartStream {
             } else {
                 i = 0
             }
-            arrayUint.append(b)
+            arrayUint.add(b)
         }
         baos.write(arrayUint.toArray())
 

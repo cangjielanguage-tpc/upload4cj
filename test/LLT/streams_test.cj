@@ -23,7 +23,7 @@ public class StreamsTest{
     @TestCase
     public func test1(): Unit {
          let filePathInput:Path = Path("./streamtestinputtemp")
-         let fileIn = File(filePathInput,OpenOption.Create(true))
+         let fileIn = File(filePathInput,OpenMode.ReadWrite)
          if(!exists(fileIn.info.path)){
             File.create(fileIn.info.path)
          }
@@ -32,7 +32,7 @@ public class StreamsTest{
          fileIn.seek(SeekPosition.Begin(0))
 
         let filePathOutput:Path = Path("./streamtestoutputtemp")
-        let fileOut = File(filePathOutput,OpenOption.Create(true))
+        let fileOut = File(filePathOutput,OpenMode.ReadWrite)
         if(!exists(fileOut.info.path)){
             File.create(fileOut.info.path)
         }

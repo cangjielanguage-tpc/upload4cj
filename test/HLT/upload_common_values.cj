@@ -10,14 +10,12 @@ protected import std.math.*
 protected import std.collection.*
 protected import net.http.*
 
-public func getRepository(path:String):Option<Directory>{
-    var repository=Option<Directory>.None
+public func getRepository(path:String):Option<Path>{
+    var repository = Option<Path>.None
     try{
-        let dic=Directory.create(path)
-        repository=Option<Directory>.Some(dic)
+        Directory.create(path)
+        repository = Path(path)
     }catch(e:FSException){
-        let dic=Directory(path)
-        repository=Option<Directory>.Some(dic)
     }
     return repository
 }

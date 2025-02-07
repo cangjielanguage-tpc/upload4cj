@@ -13,7 +13,7 @@ public class DeferredFileOutputStream <: ThresholdingOutputStream {
     private var currentOutputStream: OutputStream
     private var outputFile: Option<File> = Option<File>.None
     private var mTempFile: Option<File>
-    private var mRepository: Option<Directory>
+    private var mRepository: Option<Path>
     private var prefix: ?String = Option<String>.None
     private var suffix: ?String = Option<String>.None
     private var directory: ?File = Option<File>.None
@@ -27,16 +27,16 @@ public class DeferredFileOutputStream <: ThresholdingOutputStream {
      *
      * @param threshold - Int64
      * @param outputFile - Option<File>
-     * @param repository - Option<Directory>
+     * @param repository - Option<Path>
      */
-    public init(threshold: Int64, tempFile: Option<File>, repository: Option<Directory>) {
+    public init(threshold: Int64, tempFile: Option<File>, repository: Option<Path>) {
         this(threshold, tempFile, repository, Option<String>.None, Option<String>.None, Option<File>.None)
     }
 
     init(
         threshold: Int64,
         tempFile: Option<File>,
-        repository: Option<Directory>,
+        repository: Option<Path>,
         prefix: Option<String>,
         suffix: Option<String>,
         directory: Option<File>
@@ -101,15 +101,15 @@ public class DeferredFileOutputStream <: ThresholdingOutputStream {
         if (let Some(i) <- mTempFile) {
             return i
         } else {
-            var tempDir: Option<Directory> = mRepository
+            var tempDir: Option<Path> = mRepository
             let dirName = "tempDir"
             var pathDir: Path = Path(dirName)
             if (let Some(j) <- tempDir) {
-                pathDir = j.info.path
+                pathDir = j
             } else {
                 mtx.lock()
                 if (!exists(pathDir)) {
-                    tempDir = Directory.create(pathDir)
+                    Directory.create(pathDir)
                 }
                 mtx.unlock()
             }
@@ -118,7 +118,7 @@ public class DeferredFileOutputStream <: ThresholdingOutputStream {
             let md5Str = createMd5Str(createTimeStamp() + uniId)
             let tempFileName: String = "upload_" + md5Str + uniId + ".tmp"
             let path: Path = pathDir.join(tempFileName)
-            mTempFile = File(path, OpenOption.Create(true))
+            mTempFile = File.create(path)
         }
         return mTempFile.getOrThrow()
     }
