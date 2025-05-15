@@ -1,5 +1,5 @@
 /*
- * Copyright (c) Huawei Technologies Co., Ltd. 2023-2024. All rights reserved.
+ * Copyright (c) Huawei Technologies Co., Ltd. 2023-2025. All rights reserved.
  */
 
 package upload4cj
@@ -9,13 +9,13 @@ protected import std.random.*
 protected import std.sync.*
 protected import std.fs.*
 protected import std.core.*
-protected import encoding.base64.*
+protected import stdx.encoding.base64.*
 protected import std.math.*
 protected import std.unicode.*
 protected import std.collection.*
-protected import encoding.hex.*
-protected import net.http.*
-protected import crypto.digest.*
+protected import stdx.encoding.hex.*
+protected import stdx.net.http.*
+protected import stdx.crypto.digest.*
 protected import std.convert.*
 protected import std.crypto.digest.*
 protected import std.time.*

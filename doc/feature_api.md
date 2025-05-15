@@ -38,7 +38,7 @@ public abstract class FileUploadBase {
 
 ```cangjie
 import upload4cj.*
-import net.http.*
+import stdx.net.http.*
 import std.io.*
 import std.collection.*
 import std.unittest.*
@@ -101,7 +101,7 @@ public class Test_FeatureApi{
 
 ```cangjie
 import upload4cj.*
-import net.http.*
+import stdx.net.http.*
 import std.io.*
 import std.collection.*
 import std.unittest.*

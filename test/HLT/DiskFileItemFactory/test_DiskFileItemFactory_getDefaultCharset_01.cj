@@ -7,7 +7,7 @@ import upload4cj.*
 import std.fs.*
 import std.io.*
 import std.collection.*
-import net.http.*
+import stdx.net.http.*
 
 @Test
 public class TestDiskFileItemFactory {

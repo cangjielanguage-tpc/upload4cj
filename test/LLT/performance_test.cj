@@ -6,7 +6,7 @@ import upload4cj.*
 import std.fs.*
 import std.io.*
 import std.collection.*
-import net.http.*
+import stdx.net.http.*
 import std.time.*
 import std.unittest.*
 import std.unittest.testmacro.*

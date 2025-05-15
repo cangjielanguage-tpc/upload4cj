@@ -2,7 +2,7 @@
 // EXEC: ./main
 
 import upload4cj.*
-import net.http.*
+import stdx.net.http.*
 import std.io.*
 import std.collection.*
 import std.unittest.*

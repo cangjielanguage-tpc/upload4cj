@@ -4,7 +4,7 @@
 import upload4cj.*
 import std.unittest.*
 import std.unittest.testmacro.*
-import net.http.*
+import stdx.net.http.*
 import std.io.*
 
 main() {

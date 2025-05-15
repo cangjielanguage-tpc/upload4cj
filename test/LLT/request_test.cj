@@ -2,7 +2,7 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-import net.http.*
+import stdx.net.http.*
 import std.io.*
 import std.unittest.*
 import std.unittest.testmacro.*
