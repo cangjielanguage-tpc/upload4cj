@@ -8,7 +8,7 @@ protected import std.fs.*
 protected import std.io.*
 protected import std.math.*
 protected import std.collection.*
-protected import net.http.*
+protected import stdx.net.http.*
 
 public func getRepository(path:String):Option<Path>{
     var repository = Option<Path>.None

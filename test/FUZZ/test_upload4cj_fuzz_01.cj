@@ -1,7 +1,7 @@
 // 3rd_party_lib:upload4cj/build/upload4cj
 
 
-import fuzz.fuzz.*
+import stdx.fuzz.fuzz.*
 import upload4cj.*
 import std.collection.*
 import std.fs.*

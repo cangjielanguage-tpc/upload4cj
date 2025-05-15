@@ -7,7 +7,7 @@ import std.io.*
 import std.math.*
 import std.time.*
 import std.collection.*
-import net.http.*
+import stdx.net.http.*
 
 main() {
     let threadCount = 200

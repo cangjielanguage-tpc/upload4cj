@@ -2,8 +2,8 @@
 // EXEC: ./main
 import upload4cj.*
 import std.io.*
-import encoding.base64.*
-import encoding.hex.*
+import stdx.encoding.base64.*
+import stdx.encoding.hex.*
 import std.sync.*
 import std.collection.*
 import std.convert.*

@@ -6,7 +6,7 @@ import std.unittest.testmacro.*
 import std.fs.*
 import std.io.*
 import std.collection.*
-import net.http.*
+import stdx.net.http.*
 
 main() {
     let sizeTest = SizeTest()
