@@ -18,21 +18,20 @@ class ItemInputStream <: InterInputStream {
 
     private let BYTE_POSITIVE_OFFSET: Int64 = 256
 
-    private var mMultiPartStream: Option<MultipartStream>
+    private var mMultiPartStream: MultipartStream
 
-    init(multiPartStream: Option<MultipartStream>) {
+    init(multiPartStream: MultipartStream) {
         this.mMultiPartStream = multiPartStream
         findSeparator()
     }
 
     private func findSeparator(): Unit {
-        pos = mMultiPartStream.getOrThrow().findSeparator()
+        pos = mMultiPartStream.findSeparator()
         if (pos == -1) {
-            if (mMultiPartStream.getOrThrow().tail - mMultiPartStream.getOrThrow().head > mMultiPartStream.getOrThrow().
-            keepRegion) {
-                pad = mMultiPartStream.getOrThrow().keepRegion
+            if (mMultiPartStream.tail - mMultiPartStream.head > mMultiPartStream.keepRegion) {
+                pad = mMultiPartStream.keepRegion
             } else {
-                pad = mMultiPartStream.getOrThrow().tail - mMultiPartStream.getOrThrow().head
+                pad = mMultiPartStream.tail - mMultiPartStream.head
             }
         }
     }
@@ -43,9 +42,9 @@ class ItemInputStream <: InterInputStream {
 
     protected func available(): Int64 {
         if (pos == -1) {
-            return mMultiPartStream.getOrThrow().tail - mMultiPartStream.getOrThrow().head - pad
+            return mMultiPartStream.tail - mMultiPartStream.head - pad
         }
-        return pos - mMultiPartStream.getOrThrow().head
+        return pos - mMultiPartStream.head
     }
 
     /**
@@ -73,8 +72,8 @@ class ItemInputStream <: InterInputStream {
 
         res = min(res, buffer.size)
 
-        mMultiPartStream.getOrThrow().buffer.copyTo(buffer, mMultiPartStream.getOrThrow().head, 0, res)
-        mMultiPartStream.getOrThrow().head += res
+        mMultiPartStream.buffer.copyTo(buffer, mMultiPartStream.head, 0, res)
+        mMultiPartStream.head += res
         total += res
         return res
     }
@@ -120,7 +119,7 @@ class ItemInputStream <: InterInputStream {
             }
         }
         let res: Int64 = min(av, bytes)
-        mMultiPartStream.getOrThrow().head += res
+        mMultiPartStream.head += res
         return res
     }
 
@@ -128,29 +127,28 @@ class ItemInputStream <: InterInputStream {
         if (pos != -1) {
             return 0
         }
-        total = total + (mMultiPartStream.getOrThrow().tail - mMultiPartStream.getOrThrow().head - pad)
-        mMultiPartStream.getOrThrow().buffer.copyTo(
-            mMultiPartStream.getOrThrow().buffer,
-            mMultiPartStream.getOrThrow().tail - pad,
+        total = total + (mMultiPartStream.tail - mMultiPartStream.head - pad)
+        mMultiPartStream.buffer.copyTo(
+            mMultiPartStream.buffer,
+            mMultiPartStream.tail - pad,
             0,
             pad
         )
-        mMultiPartStream.getOrThrow().head = 0
-        mMultiPartStream.getOrThrow().tail = pad
+        mMultiPartStream.head = 0
+        mMultiPartStream.tail = pad
 
         while (true) {
-            var bytesRead: Int64 = mMultiPartStream.getOrThrow().input.read(mMultiPartStream.getOrThrow().buffer[mMultiPartStream.getOrThrow().tail..mMultiPartStream.
-                getOrThrow().bufSize])
+            var bytesRead: Int64 = mMultiPartStream.input.read(mMultiPartStream.buffer[mMultiPartStream.tail..mMultiPartStream.bufSize])
 
             if (bytesRead <= 0) {
                 throw MalformedStreamException("Stream ended unexpectedly");
             }
 
-            if (let Some(i) <- mMultiPartStream.getOrThrow().notifier) {
+            if (let Some(i) <- mMultiPartStream.notifier) {
                 i.noteBytesRead(bytesRead)
             }
 
-            mMultiPartStream.getOrThrow().tail = mMultiPartStream.getOrThrow().tail + bytesRead
+            mMultiPartStream.tail = mMultiPartStream.tail + bytesRead
             findSeparator()
             let av: Int64 = available()
 
