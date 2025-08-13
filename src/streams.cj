@@ -11,7 +11,7 @@ public class Streams {
     /**
      * DEFAULT_BUFFER_SIZE
      */
-    public static let DEFAULT_BUFFER_SIZE: Int64 = 8192
+    public static let DEFAULT_BUFFER_SIZE: Int64 = 1024
 
     /**
      * copy the InputStream
