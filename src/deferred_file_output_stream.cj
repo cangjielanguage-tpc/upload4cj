@@ -2,7 +2,7 @@
  * Copyright (c) Huawei Technologies Co., Ltd. 2023-2024. All rights reserved.
  */
 
-package upload4cj
+package cangjie_tpc::upload4cj
 
 /**
  * Provides access to the request information needed for a request made to

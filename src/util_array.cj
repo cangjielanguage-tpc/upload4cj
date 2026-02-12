@@ -2,7 +2,7 @@
  * Copyright (c) Huawei Technologies Co., Ltd. 2024-2024. All rights reserved.
  */
 
-package upload4cj
+package cangjie_tpc::upload4cj
 
 extend Array<Rune> {
     func equalsIgnoreCase(other: Array<Rune>): Bool {

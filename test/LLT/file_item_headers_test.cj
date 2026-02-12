@@ -1,7 +1,7 @@
 // EXEC: cjc %import-path %L %l %f
 // EXEC: ./main
 
-import upload4cj.*
+import cangjie_tpc::upload4cj.*
 import std.unittest.*
 import std.unittest.testmacro.*
 import stdx.net.http.*

@@ -3,9 +3,9 @@
 </div>
 
 <p align="center">
-<img alt="" src="https://img.shields.io/badge/release-v1.0.3-brightgreen" style="display: inline-block;" />
+<img alt="" src="https://img.shields.io/badge/release-v1.0.4-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/build-pass-brightgreen" style="display: inline-block;" />
-<img alt="" src="https://img.shields.io/badge/cjc-v1.0.0-brightgreen" style="display: inline-block;" />
+<img alt="" src="https://img.shields.io/badge/cjc-v1.1.0-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/cjcov-90.9%25-brightgreen" style="display: inline-block;" />
 <img alt="" src="https://img.shields.io/badge/project-open-brightgreen" style="display: inline-block;" />
 </p>
@@ -72,7 +72,7 @@ upload4cj是用于处理浏览器或者其他客户端上传上来的单个或�
 #### 通过parseRequest解析请求报文获取fileItem
 
 ```cangjie
-import upload4cj.*
+import cangjie_tpc::upload4cj.*
 import stdx.net.http.*
 import std.io.*
 import std.collection.*
@@ -135,7 +135,7 @@ public class Test_ReadMe{
 #### 通过parseParameterMap解析请求报文获取fileItem
 
 ```cangjie
-import upload4cj.*
+import cangjie_tpc::upload4cj.*
 import stdx.net.http.*
 import std.io.*
 import std.collection.*

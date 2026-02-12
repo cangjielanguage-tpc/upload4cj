@@ -2,7 +2,7 @@
  * Copyright (c) Huawei Technologies Co., Ltd. 2023-2025. All rights reserved.
  */
 
-package upload4cj
+package cangjie_tpc::upload4cj
 
 protected import std.io.*
 protected import std.random.*

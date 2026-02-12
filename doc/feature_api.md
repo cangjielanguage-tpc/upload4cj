@@ -37,7 +37,7 @@ public abstract class FileUploadBase {
 #### 1.1.1 示例
 
 ```cangjie
-import upload4cj.*
+import cangjie_tpc::upload4cj.*
 import stdx.net.http.*
 import std.io.*
 import std.collection.*
@@ -100,7 +100,7 @@ public class Test_FeatureApi{
 #### 1.1.2 示例
 
 ```cangjie
-import upload4cj.*
+import cangjie_tpc::upload4cj.*
 import stdx.net.http.*
 import std.io.*
 import std.collection.*
