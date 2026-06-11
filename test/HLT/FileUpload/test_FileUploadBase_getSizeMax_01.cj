@@ -3,7 +3,7 @@
 
 
 
-import upload4cj.*
+import cangjie_tpc::upload4cj.*
 import std.fs.*
 import std.io.*
 import std.collection.*

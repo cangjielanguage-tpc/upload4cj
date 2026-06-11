@@ -2,7 +2,7 @@
 
 
 import stdx.fuzz.fuzz.*
-import upload4cj.*
+import cangjie_tpc::upload4cj.*
 import std.collection.*
 
 public func fuzzFunc_Streams_copy02(dp:DataProvider):Int32 {

@@ -2,7 +2,7 @@
 
 
 import stdx.fuzz.fuzz.*
-import upload4cj.*
+import cangjie_tpc::upload4cj.*
 import std.collection.*
 
 public func fuzzFunc_MultipartStream_arrayequals(dp:DataProvider):Int32 {
