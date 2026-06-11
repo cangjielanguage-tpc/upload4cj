@@ -3,7 +3,7 @@
 
 
 
-protected import upload4cj.*
+protected import cangjie_tpc::upload4cj.*
 protected import std.fs.*
 protected import std.io.*
 protected import std.math.*

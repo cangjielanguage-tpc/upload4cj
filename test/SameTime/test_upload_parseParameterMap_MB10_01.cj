@@ -1,7 +1,7 @@
 // 3rd_party_lib:upload4cj/build/upload4cj
 // data_file: RequestBody_MB10
 
-import upload4cj.*
+import cangjie_tpc::upload4cj.*
 import std.fs.*
 import std.io.*
 import std.math.*

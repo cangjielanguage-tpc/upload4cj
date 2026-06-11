@@ -1,8 +1,4 @@
-/*
- * Copyright (c) Huawei Technologies Co., Ltd. 2023-2024. All rights reserved.
- */
-
-package upload4cj
+package cangjie_tpc::upload4cj
 
 /**
  * FileItemStreamImpl
