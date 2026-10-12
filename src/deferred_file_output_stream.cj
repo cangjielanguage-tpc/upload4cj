@@ -17,7 +17,7 @@ public class DeferredFileOutputStream <: ThresholdingOutputStream {
 
     private static let COUNTER = AtomicInt64(0)
 
-    static let mtx = ReentrantMutex()
+    static let mtx = Mutex()
     /**
      * DeferredFileOutputStream init
      *
@@ -114,7 +114,11 @@ public class DeferredFileOutputStream <: ThresholdingOutputStream {
             let md5Str = createMd5Str(createTimeStamp() + uniId)
             let tempFileName: String = "upload_" + md5Str + uniId + ".tmp"
             let path: Path = pathDir.join(tempFileName)
-            mTempFile = File.create(path)
+            if(!exists(path)){
+                mTempFile = File.create(path)
+            }else{
+                mTempFile = File(path, OpenMode.ReadWrite)
+            }
         }
         return mTempFile.getOrThrow()
     }
