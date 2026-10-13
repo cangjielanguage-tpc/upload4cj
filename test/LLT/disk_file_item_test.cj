@@ -81,7 +81,10 @@ public class DiskFileItemTest {
     public func test4(): Unit {
         var path: String = getcwd()
         var dir = Path(path + "/tmpDir")
-        Directory.create(dir)
+        removeIfExists(dir, recursive: true)
+        if (!exists(dir)) {
+            Directory.create(dir)
+        }
         let factory:FileItemFactory = createFactory(dir)
         let textFieldName:String = "textField"
         let textFieldValue:String = "01234567890123456789"
@@ -119,6 +122,7 @@ public class DiskFileItemTest {
         }
 
         item.delete()
+        removeIfExists(dir, recursive: true)
         println("Pass4-2")
 
     }
